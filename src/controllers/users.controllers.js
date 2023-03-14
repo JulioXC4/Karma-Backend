@@ -1,5 +1,5 @@
 const {User} = require('../db.js');
-const {regexPhoneNumber} = require('../utils/utils.js')
+const {regexPhoneNumber} = require('../utils/consts.js')
 
     const createUser = async (req, res) => {
 
