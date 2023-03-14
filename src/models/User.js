@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize")
+const {regexPhoneNumber} = require('../utils/utils.js')
 
 module.exports = (sequelize)=>{
     sequelize.define('User', {
@@ -33,12 +34,16 @@ module.exports = (sequelize)=>{
             }
         },
         phoneNumber: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.STRING,
             allowNull: true,
-            defaultValue: 0,
+            defaultValue: "0",
             validate: {
-                isNumeric: true 
-            }
+                isPhoneNumber: function (value) {
+                    if (!regexPhoneNumber.test(value)) {
+                        throw new Error("El número de teléfono no es válido");
+                    }
+                },
+            },
         },
         city: {
             type: DataTypes.STRING,
