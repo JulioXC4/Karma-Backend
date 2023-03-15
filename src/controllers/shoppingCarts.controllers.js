@@ -19,7 +19,7 @@ const getShoppingCarts = async (req, res) => {
 const getShoppingCart = async (req, res) => {
   
   try {
-    const { id } = req.params;
+    const { id } = req.query;
     const cartShoppingId = await ShoppingCart.findOne({
       where: {id}
     });
