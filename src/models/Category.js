@@ -13,11 +13,11 @@ module.exports = (sequelize) => {
             allowNull:false,
             validate:{
                 notNull:{
-                    msg:'El nombre de la cartegoria es requerido'
+                    msg:'El nombre de la categoria es requerido'
                 },
                 len:{
-                    args:[3,60],
-                    msg:'El nombre debe contener entre 3 a 40 caracteres'
+                    args:[3,50],
+                    msg:'El nombre debe contener entre 3 a 50 caracteres'
                 },
             }
         }

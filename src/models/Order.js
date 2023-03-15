@@ -16,6 +16,9 @@ module.exports = (sequelize) =>{
                 isDate:{
                     args:true,
                     msg:'No es una cadena de fecha'
+                },
+                notNull:{
+                    msg:'La fecha debe ser requerida'
                 }
             }
         },
@@ -28,6 +31,9 @@ module.exports = (sequelize) =>{
                     args:true,
                     msg:'Debe contener un booleano en el campo'
                 },
+                notNull:{
+                    msg:'El estado del pedido debe ser requerido'
+                }
             }
         }
     },{
