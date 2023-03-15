@@ -12,7 +12,7 @@ router.get("/getCommentsRaiting", getCommentsRaiting);
 router.post("/createCommentsRaiting", createCommentsRaiting);
 
 //PUT
-router.put("/updateCommentsRaiting", updateCommentsRaiting);
+router.put("/updateCommentsRaiting/:id", updateCommentsRaiting);
 
 
 //DELETE

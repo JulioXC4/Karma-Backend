@@ -12,9 +12,9 @@ router.get("/getShoppingCart", getShoppingCart);
 router.post("/createShoppingCart", createShoppingCart);
 
 //PUT
-router.put("/updateShoppingCart", updateShoppingCart);
+router.put("/updateShoppingCart/:id", updateShoppingCart);
 
 //DELETE
-router.delete("/deleteShoppingCart", deleteShoppingCart);
+router.delete("/deleteShoppingCart/:id", deleteShoppingCart);
 
 module.exports = router;

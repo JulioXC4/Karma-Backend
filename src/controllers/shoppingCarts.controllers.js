@@ -73,7 +73,7 @@ const  updateShoppingCart = async( req, res)=>{
       cartShopping.user_id = user_id,
       cartShopping.product_id = product_id,
   
-      await cart.save();
+      await cartShopping.save();
       res.status(200).send('Modificado con exito');
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -83,7 +83,7 @@ const  updateShoppingCart = async( req, res)=>{
 
 const deleteShoppingCart =  async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.query;
     await ShoppingCart.destroy({
       where:{
         id,
