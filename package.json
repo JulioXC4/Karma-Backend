@@ -4,7 +4,7 @@
   "description": "��#\u0000 \u0000K\u0000a\u0000r\u0000m\u0000a\u0000-\u0000B\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.js",
+    "start": "node --trace-warnings ./index.js",
     "dev": "nodemon -L index.js",
     "test": "jest --detectOpenHandles"
   },
