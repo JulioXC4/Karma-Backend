@@ -1,34 +1,29 @@
 const { DataTypes } = require("sequelize")
 
 module.exports = (sequelize)=>{
-    sequelize.define('Product', {
+    sequelize.define('Laptop', {
         id: {
             type:DataTypes.INTEGER,
             autoIncrement:true,
             allowNull:false,
             primaryKey:true,
             },
-        model: {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "Laptop"
+        },
+        ramMemory: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: ""
         },
-        brand: {
+        internalMemory: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: ""
         },
-        description: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            defaultValue: ""
-        },
-        price: {
-            type: DataTypes.FLOAT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        image: {
+        processor: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: ""
