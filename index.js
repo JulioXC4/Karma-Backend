@@ -6,7 +6,7 @@ const {PORT} = process.env
 
 conn.sync({ force: true}).then(() => {
   server.listen(PORT, () => {
-    createInitialData()
+    //createInitialData()
     console.log(`%s listening at port ${PORT}`); 
   });
 });

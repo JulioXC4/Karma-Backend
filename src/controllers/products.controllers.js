@@ -1,15 +1,19 @@
-const {Product} = require('../db.js');
+const {Product, Laptop, Tablet, conn} = require('../db.js');
 
     const createProduct = async (req, res) => {
 
         try {
 
-        const { name, description, price, image } = req.body
+        const { model, brand, description, price, image } = req.body
 
         const errors = [];
 
-        if (!name || typeof name !== 'string' || name.length < 2) {
-          errors.push('El campo "name" debe tener al menos 2 caracteres.');
+        if (!model || typeof model !== 'string' || model.length < 2) {
+          errors.push('El campo "model" debe tener al menos 2 caracteres.');
+        }
+
+        if (!brand || typeof brand !== 'string' || brand.length < 2) {
+          errors.push('El campo "brand" debe tener al menos 2 caracteres.');
         }
 
         if (!description || typeof description !== 'string' || description.length < 2) {
@@ -32,7 +36,8 @@ const {Product} = require('../db.js');
 
             const newProduct = await Product.create({
 
-                name: name, 
+                model: model, 
+                brand: brand,
                 description: description, 
                 price: price, 
                 image: image
@@ -62,7 +67,26 @@ const {Product} = require('../db.js');
 
         try {
 
-        const products = await Product.findAll()
+        const productAssociations = await Product.associations
+        const properties = Object.keys(productAssociations)
+     
+        let products = await Product.findAll({
+
+          include: properties
+        });
+
+        const filteredProducts = products.map(product => {
+          const filteredProduct = { ...product.toJSON() };
+          
+          for (const key in filteredProduct) {
+            if (filteredProduct[key] === null) {
+              delete filteredProduct[key];
+            }
+          }
+          return filteredProduct;
+        }).filter(product => {
+          return product.Laptop !== undefined || product.Tablet !== undefined;
+        });
 
         if(!products){
 
@@ -70,7 +94,7 @@ const {Product} = require('../db.js');
 
         }else{
 
-            return res.status(200).json(products);
+            return res.status(200).json(filteredProducts);
 
         }
 
@@ -86,42 +110,62 @@ const {Product} = require('../db.js');
 
       try {
 
-      const {id} = req.query
+        const { id } = req.query;
+        const product = await Product.findByPk(id);
+    
+        if (!product) {
 
-      const product = await Product.findByPk(id)
+          return res.status(400).send(`No existe el producto con la id ${id}`);
 
-      if(!product){
+        } else {
 
-          return res.status(400).send(`No existe el producto con la id ${id}`)
+          const productAssociations = await Product.associations;
+          const properties = Object.keys(productAssociations);
+          const productRelations = {};
+    
+          for (let index = 0; index < properties.length; index++) {
+            const modelName = productAssociations[properties[index]].target.name;
 
-      }else{
+            const relation = await conn.models[modelName].findAll({
+              where: { ProductId: id },
+            });
 
-          return res.status(200).json(product);
+            if (relation.length) {
+              productRelations[properties[index]] = relation;
+            }
+          }
 
-      }
+          const productWithRelations = { ...product.toJSON(), ...productRelations };
+    
+          return res.status(200).json(productWithRelations);
 
+        }
       } catch (error) {
 
-          return res.status(400).json({message: error.message})
+        return res.status(400).json({ message: error.message });
 
       }
 
-  };
+    };
 
     const updateProduct = async (req, res) => {
 
       try {
 
-        const { id, name, description, price, image } = req.body
+        const { id, model, brand, description, price, image  } = req.body
 
         const errors = [];
 
         if (!id) {
-            errors.push('El campo "id" es obligatorio.');
-          }
+          errors.push('El campo "id" es obligatorio.');
+        }
 
-        if (!name || typeof name !== 'string' || name.length < 2) {
-          errors.push('El campo "name" debe tener al menos 2 caracteres.');
+        if (!model || typeof model !== 'string' || model.length < 2) {
+          errors.push('El campo "model" debe tener al menos 2 caracteres.');
+        }
+
+        if (!brand || typeof brand !== 'string' || brand.length < 2) {
+          errors.push('El campo "brand" debe tener al menos 2 caracteres.');
         }
 
         if (!description || typeof description !== 'string' || description.length < 2) {
@@ -147,7 +191,8 @@ const {Product} = require('../db.js');
           await product.update({
 
             id: id, 
-            name: name, 
+            model: model, 
+            brand: brand,
             description: description, 
             price: price, 
             image: image
