@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize")
-const {regexPhoneNumber} = require('../utils/utils.js')
+const {regexPhoneNumber} = require('../utils/consts.js')
 
 module.exports = (sequelize)=>{
     sequelize.define('User', {
