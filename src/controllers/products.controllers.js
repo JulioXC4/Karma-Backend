@@ -1,4 +1,5 @@
 const {Product, Laptop, Tablet, conn} = require('../db.js');
+const {Op} = require('sequelize')
 
     const createProduct = async (req, res) => {
 
@@ -251,11 +252,60 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
     
     };
 
+    const getProductsByCategory = async (req, res) => {
+
+      try {
+        const {category} = req.query
+
+        const productAssociations = await Product.associations
+        const properties = Object.keys(productAssociations)
+
+        const errors = [];
+
+        if (!category || typeof category !== 'string' || category.length < 2) {
+          errors.push('El campo "category" debe tener al menos 2 caracteres, ser un string o debe estar presente en el query.');
+        }
+
+        if (errors.length > 0) {
+          return res.status(400).json({ message: 'Error al encontrar la categoria.', errors });
+        }
+
+        else {
+          
+          const categoryFound = properties.filter(element => element.includes(category))
+
+          if(categoryFound.length === 0){
+
+            return res.status(400).send("Categoria no encontrada")
+
+          }else{
+
+            const modelName = productAssociations[categoryFound].target.name
+            const products = await conn.models[modelName].findAll({
+              where: { ProductId: { [Op.ne]: null } },
+            });
+            const producstIds = products.map(obj => obj.ProductId)
+
+            const productsFiltered = await Product.findAll({where: {id: producstIds}, include: conn.models[modelName]})
+
+            return res.status(200).json(productsFiltered)
+
+          }
+
+        }
+
+      } catch (error) {
+
+        return res.status(400).json({message: error.message})
+
+      }
+    }
 
     module.exports = {
         createProduct,
         getProducts,
         getProduct,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        getProductsByCategory
     };
