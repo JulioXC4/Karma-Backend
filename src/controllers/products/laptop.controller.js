@@ -4,7 +4,7 @@ const {Laptop, Product} = require('../../db.js');
 
         try {
 
-        const { model, brand, description, price, image, ramMemory, internalMemory, processor } = req.body
+        const { model, brand, description, price, images, ramMemory, internalMemory, processor } = req.body
 
         const errors = [];
 
@@ -24,8 +24,8 @@ const {Laptop, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 5) {
-            errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+            errors.push('El campo "images" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -66,7 +66,7 @@ const {Laptop, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    image: image
+                    images: images
 
                 })
 
@@ -89,7 +89,7 @@ const {Laptop, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, image, ramMemory, internalMemory, processor } = req.body
+        const { id, model, brand, description, price, images, ramMemory, internalMemory, processor } = req.body
 
         const errors = [];
 
@@ -109,8 +109,8 @@ const {Laptop, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 5) {
-            errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+            errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -145,7 +145,7 @@ const {Laptop, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    image: image
+                    images: images
     
                 })
                 await product.save()
