@@ -1,23 +1,30 @@
-const { User, Product } = require('../db.js');
+const { default: axios } = require('axios');
 const data = require('../utils/data.json')
+const {HOST_BACK} = process.env
 
 //FUNCTIONS
 const createInitialData = async () => {
 
+    //CREATE USERS
     await Promise.all(
         data.users.map(async (user) => {
-
-            await User.create(user)
+            await axios.post(`${HOST_BACK}/user/createUser`, user)
         })
     )
 
+    //CREATE TABLETS
     await Promise.all(
-        data.products.map(async (product) => {
-
-            await Product.create(product)
+        data.products[0]["Tablets"].map(async (tablet) => {
+            await axios.post(`${HOST_BACK}/tablet/createTablet`, tablet)
         })
     )
 
+    //CREATE LAPTOPS
+    await Promise.all(
+        data.products[1]["Laptops"].map(async (laptop) => {
+            await axios.post(`${HOST_BACK}/laptop/createLaptop`, laptop)
+        })
+    )
 }
 
 module.exports= {createInitialData}

@@ -32,9 +32,20 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { User, ShoppingCart, Order, CommentsRaiting,  Product, Category, Televisor } = sequelize.models;
+
+const { User, ShoppingCart, Order, CommentsRaiting,  Product, Category, Laptop, Tablet,Televisor } = sequelize.models;
 
 // Aca vendrian las relaciones
+User.hasMany(ShoppingCart, { foreignKey: 'user_id' });
+ShoppingCart.belongsTo(User,{ foreignKey: 'user_id' })
+
+Product.hasOne(Laptop, { onDelete: 'CASCADE' });
+Laptop.belongsTo(Product, { onDelete: 'CASCADE' });
+
+Product.hasOne(Tablet, { onDelete: 'CASCADE' });
+Tablet.belongsTo(Product, { onDelete: 'CASCADE' });
+
+/*
 User.hasMany(ShoppingCart, { foreignKey: 'user_id' });
 ShoppingCart.belongsTo(User,{ foreignKey: 'user_id' })
 
@@ -46,10 +57,12 @@ ShoppingCart.belongsTo(Product,{ foreignKey: 'product_id' })
 
 Product.hasMany(CommentsRaiting,{ foreignKey: 'product_id' })
 CommentsRaiting.belongsTo(Product,{ foreignKey: 'product_id' })
-/*User.hasMany(Order)
+
+User.hasMany(Order)
 Order.belongsTo(User)*/
 /*Category.hasMany(Product)
-Product.belongsTo(Category) */
+Product.belongsTo(Category) 
+*/
 
 Product.hasOne(Televisor, { onDelete: 'CASCADE' });
 Televisor.belongsTo(Product, { onDelete: 'CASCADE' });

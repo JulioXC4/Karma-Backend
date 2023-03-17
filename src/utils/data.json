@@ -48,41 +48,101 @@
     "products": [
 
         {
-            "name": "Samsung Galaxy S22", 
-            "description": "El Samsung Galaxy S22 es un smartphone de gama alta lanzado por Samsung en febrero de 2022. Viene con una pantalla Dynamic AMOLED 2X de 6.2 pulgadas con resolución 1080 x 2400 y una frecuencia de actualización de 120Hz para una experiencia de visualización fluida. El S22 está equipado con el procesador Exynos 2200 o Snapdragon 895, dependiendo del mercado, y tiene 8GB de RAM y opciones de almacenamiento interno de 128GB o 256GB.", 
-            "price": 701, 
-            "image": "https://m.media-amazon.com/images/I/71c5rhsUkxL._AC_SL1500_.jpg"
+            "Tablets": [
+              {
+                "model": "Galaxy Tab S6 Lite",
+                "brand": "SAMSUNG",
+                "description": "El Samsung Galaxy Tab S6 Lite es una tableta Android de gama media lanzada por Samsung en 2020. Cuenta con una pantalla TFT de 10.4 pulgadas con una resolución de 2000 x 1200 píxeles y una relación de aspecto de 5:3. Está alimentado por un procesador Exynos 9611, tiene 4GB de RAM y opciones de almacenamiento interno de 64GB o 128GB, que se pueden ampliar con una tarjeta microSD.",
+                "price": 329,
+                "images": ["https://m.media-amazon.com/images/I/51svO5ZebuL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/51tgw13lRfL._AC_SL1500_.jpg"],
+                "ramMemory": "4 GB",
+                "internalMemory": "64 GB",
+                "colors": ["Gris","Negro"],
+                "mainCamera": "8 MPX",
+                "screenSize": "10.4"
+              },
+              {
+                "model": "Tab P11 Plus",
+                "brand": "Lenovo",
+                "description": "La Lenovo Tab P11 Plus es una tableta Android lanzada por Lenovo en 2021. Cuenta con una pantalla IPS de 11 pulgadas con una resolución de 2000 x 1200 píxeles y una relación de aspecto de 16:10. Está alimentada por un procesador octa-core MediaTek Helio G90T y tiene opciones de RAM de 4GB o 6GB y opciones de almacenamiento interno de 64GB o 128GB, que se pueden ampliar con una tarjeta microSD.",
+                "price": 209,
+                "images": ["https://m.media-amazon.com/images/I/716x+PohsnL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71w9ei3xPcL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61ASGQWKM9L._AC_SL1500_.jpg"],
+                "ramMemory": "6 GB",
+                "internalMemory": "64 GB",
+                "colors": ["Gris Platino","Gris","Azul"],
+                "mainCamera": "13 MPX",
+                "screenSize": "11"
+              },
+              {
+                "model": "Galaxy Tab A7 Lite",
+                "brand": "SAMSUNG",
+                "description": "El Samsung Galaxy Tab A7 Lite es una tableta de gama media lanzada en 2021. Tiene una pantalla TFT de 8.7 pulgadas con una resolución de 1340x800 píxeles y una relación de aspecto de 15:9. La tableta está alimentada por un procesador octa-core MediaTek Helio P22T y viene con 3GB de RAM y 32GB de almacenamiento interno, que se puede ampliar hasta 1 TB mediante una tarjeta microSD.",
+                "price": 134,
+                "images": ["https://m.media-amazon.com/images/I/715cy1Hw3IL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71RhibbJbAL._AC_SL1500_.jpg"],
+                "ramMemory": "3 GB",
+                "internalMemory": "32 GB",
+                "colors": ["Gris","Plata"],
+                "mainCamera": "8 MPX",
+                "screenSize": "8.7"
+              },
+              {
+                "model": "Tab M10 Plus",
+                "brand": "Lenovo",
+                "description": "La Lenovo Tab M10 Plus es una tablet de gama media con una pantalla IPS de 10.3 pulgadas con resolución Full HD. Está equipada con un procesador octa-core MediaTek Helio P22T y viene con 2GB o 4GB de RAM y opciones de almacenamiento interno de 32GB o 64GB. La tablet cuenta con una cámara trasera de 8 megapíxeles y una cámara frontal de 5 megapíxeles para videollamadas. También viene con una batería de 5000mAh, altavoces estéreo, soporte para WiFi y Bluetooth 5.0, y se ejecuta en el sistema operativo Android 9.0 Pie. Además, la Tab M10 Plus tiene una construcción de aluminio y un diseño delgado y ligero que la hace fácil de llevar contigo en tus desplazamientos.",
+                "price": 189,
+                "images": ["https://m.media-amazon.com/images/I/71fKxd1tnwL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71YswcvFYGL._AC_SL1500_.jpg"],
+                "ramMemory": "4 GB",
+                "internalMemory": "64 GB",
+                "colors": ["Gris Oscuro","Gris"],
+                "mainCamera": "8 MPX",
+                "screenSize": "10.6"
+              }
+            ]
         },
         {
-            "name": "iPhone 13 Pro Max", 
-            "description": "El iPhone 13 Pro Max es el modelo más avanzado de la serie iPhone 13 de Apple. Cuenta con una pantalla OLED Super Retina XDR de 6,7 pulgadas con resolución de 2778 x 1284 píxeles y una tasa de refresco adaptativa de 120 Hz para una experiencia de visualización fluida. El iPhone 13 Pro Max está equipado con el procesador A15 Bionic de Apple, que es extremadamente rápido y eficiente en energía, y una capacidad de almacenamiento interno de hasta 1 TB. El sistema de cámara del iPhone 13 Pro Max incluye tres cámaras traseras de 12 MP cada una, que ofrecen una calidad de imagen impresionante y características como zoom óptico y estabilización de imagen. También tiene una cámara frontal de 12 MP con tecnología TrueDepth que permite la captura de selfies de alta calidad y el desbloqueo facial mediante Face ID. El iPhone 13 Pro Max es compatible con conectividad 5G para una conexión rápida a Internet, y tiene una batería de larga duración que ofrece hasta 28 horas de tiempo de conversación y hasta 95 horas de reproducción de música. En resumen, el iPhone 13 Pro Max es un smartphone avanzado que ofrece un rendimiento potente, una experiencia de cámara excepcional y una amplia gama de funciones útiles y características de conectividad.", 
-            "price": 1150, 
-            "image": "https://m.media-amazon.com/images/I/61D84NtVgVL._AC_SL1500_.jpg"
-        },
-        {
-            "name": "Acer Aspire Vero", 
-            "description": "Acer Aspire Vero es un modelo de computadora portátil diseñado con un enfoque en la sostenibilidad ambiental. Está hecho con materiales reciclados y cuenta con una huella de carbono reducida en comparación con otros modelos de computadoras portátiles. La laptop cuenta con una pantalla de 15,6 pulgadas con resolución Full HD y viene equipada con un procesador Intel Core de 11a generación y una tarjeta gráfica NVIDIA GeForce MX350, lo que la hace capaz de manejar tareas cotidianas y algunas aplicaciones ligeras de edición de fotos y video. También cuenta con 8 GB de RAM y una unidad de almacenamiento SSD de 512 GB para un rendimiento rápido en general. Además, viene con una variedad de opciones de conectividad, incluyendo Wi-Fi 6, Bluetooth 5.0, HDMI y USB Type-C. En resumen, el Acer Aspire Vero es una computadora portátil diseñada para ser más sostenible y reducir su impacto en el medio ambiente, mientras que sigue siendo una opción de computadora portátil capaz para tareas cotidianas.", 
-            "price": 509, 
-            "image": "https://m.media-amazon.com/images/I/81XIwlF8sxL._AC_SL1500_.jpg"
-        },
-        {
-            "name": "MSI Katana GF66", 
-            "description": "MSI Katana GF66 es un modelo de computadora portátil para juegos fabricado por MSI. Tiene una pantalla de 15,6 pulgadas con resolución Full HD y una frecuencia de actualización de 144 Hz para una experiencia de juego fluida. La laptop está equipada con una tarjeta gráfica NVIDIA GeForce RTX 30 Series y un procesador Intel Core i7 de 11a generación, lo que lo hace muy capaz de ejecutar juegos de alta exigencia. También viene con 16 GB de RAM y una unidad de almacenamiento SSD de 512 GB, lo que permite un rendimiento rápido en general. La laptop tiene un diseño delgado y elegante, con un teclado retroiluminado que permite una experiencia de escritura cómoda en entornos con poca luz. Además, cuenta con varias opciones de conectividad, incluyendo Wi-Fi 6, Bluetooth 5.1, HDMI y USB Type-C. En resumen, el MSI Katana GF66 es una laptop para juegos potente y bien equipada, que ofrece un rendimiento sólido y un diseño atractivo para satisfacer las necesidades de los jugadores exigentes.", 
-            "price": 899, 
-            "image": "https://m.media-amazon.com/images/I/71nk3uDrqkL._AC_SL1500_.jpg"
-        },
-        {
-            "name": "SAMSUNG Galaxy Tab S6 Lite", 
-            "description": "El Samsung Galaxy Tab S6 Lite es una tableta Android de gama media lanzada por Samsung en 2020. Cuenta con una pantalla TFT de 10.4 pulgadas con una resolución de 2000 x 1200 píxeles y una relación de aspecto de 5:3. Está alimentado por un procesador Exynos 9611, tiene 4GB de RAM y opciones de almacenamiento interno de 64GB o 128GB, que se pueden ampliar con una tarjeta microSD.", 
-            "price": 329, 
-            "image": "https://m.media-amazon.com/images/I/718B6zl+b6L._AC_SL1500_.jpg"
-        },
-        {
-            "name": "Lenovo - Tab P11 Plus", 
-            "description": "La Lenovo Tab P11 Plus es una tableta Android lanzada por Lenovo en 2021. Cuenta con una pantalla IPS de 11 pulgadas con una resolución de 2000 x 1200 píxeles y una relación de aspecto de 16:10. Está alimentada por un procesador octa-core MediaTek Helio G90T y tiene opciones de RAM de 4GB o 6GB y opciones de almacenamiento interno de 64GB o 128GB, que se pueden ampliar con una tarjeta microSD.", 
-            "price": 209, 
-            "image": "https://m.media-amazon.com/images/I/617Q3DbKyPL._AC_SL1500_.jpg"
-        }
+            "Laptops": [
+                {
+                    "model": "Aspire Vero", 
+                    "brand": "Acer",
+                    "description": "Acer Aspire Vero es un modelo de computadora portátil diseñado con un enfoque en la sostenibilidad ambiental. Está hecho con materiales reciclados y cuenta con una huella de carbono reducida en comparación con otros modelos de computadoras portátiles. La laptop cuenta con una pantalla de 15,6 pulgadas con resolución Full HD y viene equipada con un procesador Intel Core de 11a generación y una tarjeta gráfica NVIDIA GeForce MX350, lo que la hace capaz de manejar tareas cotidianas y algunas aplicaciones ligeras de edición de fotos y video. También cuenta con 8 GB de RAM y una unidad de almacenamiento SSD de 512 GB para un rendimiento rápido en general. Además, viene con una variedad de opciones de conectividad, incluyendo Wi-Fi 6, Bluetooth 5.0, HDMI y USB Type-C. En resumen, el Acer Aspire Vero es una computadora portátil diseñada para ser más sostenible y reducir su impacto en el medio ambiente, mientras que sigue siendo una opción de computadora portátil capaz para tareas cotidianas.", 
+                    "price": 509, 
+                    "images": ["https://m.media-amazon.com/images/I/81XIwlF8sxL._AC_SL1500_.jpg"],
+                    "ramMemory": "8 GB", 
+                    "internalMemory": "512 GB SSD", 
+                    "processor": "Intel Core i5-1155G7"
+                },
+                {
+                    "model": "Katana GF66", 
+                    "brand": "MSI",
+                    "description": "MSI Katana GF66 es un modelo de computadora portátil para juegos fabricado por MSI. Tiene una pantalla de 15,6 pulgadas con resolución Full HD y una frecuencia de actualización de 144 Hz para una experiencia de juego fluida. La laptop está equipada con una tarjeta gráfica NVIDIA GeForce RTX 30 Series y un procesador Intel Core i7 de 11a generación, lo que lo hace muy capaz de ejecutar juegos de alta exigencia. También viene con 16 GB de RAM y una unidad de almacenamiento SSD de 512 GB, lo que permite un rendimiento rápido en general. La laptop tiene un diseño delgado y elegante, con un teclado retroiluminado que permite una experiencia de escritura cómoda en entornos con poca luz. Además, cuenta con varias opciones de conectividad, incluyendo Wi-Fi 6, Bluetooth 5.1, HDMI y USB Type-C. En resumen, el MSI Katana GF66 es una laptop para juegos potente y bien equipada, que ofrece un rendimiento sólido y un diseño atractivo para satisfacer las necesidades de los jugadores exigentes.", 
+                    "price": 899, 
+                    "images": ["https://m.media-amazon.com/images/I/71nk3uDrqkL._AC_SL1500_.jpg"],
+                    "ramMemory": "16 GB", 
+                    "internalMemory": "512 GB NVMe SSD", 
+                    "processor": "Intel Core i7-12650H"
+                },
+                {
+                    "model": "IdeaPad 3", 
+                    "brand": "Lenovo",
+                    "description": "El Lenovo IdeaPad 3 es un portátil de gama media con una pantalla de 15,6 pulgadas y resolución HD o Full HD, dependiendo de la configuración. Está equipado con un procesador Intel o AMD, según el modelo, y viene con opciones de RAM de hasta 8 GB y almacenamiento interno de hasta 512 GB en SSD o 1TB en disco duro. La laptop cuenta con una cámara web integrada, altavoces estéreo y soporte para WiFi y Bluetooth 5.0. También viene con una variedad de puertos, incluyendo USB Type-C, USB 3.0, HDMI y un lector de tarjetas SD. El Lenovo IdeaPad 3 tiene un diseño elegante y delgado, y ofrece una buena relación calidad-precio para tareas cotidianas como navegar por Internet, trabajar en documentos y ver películas.", 
+                    "price": 608, 
+                    "images": ["https://m.media-amazon.com/images/I/814jxBiulZL._AC_SL1500_.jpg"],
+                    "ramMemory": "8 GB", 
+                    "internalMemory": "512GB SSD", 
+                    "processor": "AMD Ryzen 7 5700U"
+                },
+                {
+                    "model": "Galaxy Book 2", 
+                    "brand": "SAMSUNG",
+                    "description": "El Samsung Galaxy Book2 es un portátil 2 en 1 de alta gama que viene con una pantalla táctil Super AMOLED de 12 pulgadas con resolución Full HD. Está equipado con un procesador Snapdragon 850 de Qualcomm y viene con 4 GB de RAM y 128 GB de almacenamiento interno en SSD. La laptop ejecuta Windows 10 en modo S, lo que significa que sólo puedes instalar aplicaciones desde la Microsoft Store. También cuenta con una batería de larga duración que ofrece hasta 20 horas de uso continuo, soporte para LTE y WiFi, una cámara trasera de 8 megapíxeles y una cámara frontal de 5 megapíxeles. Además, el Samsung Galaxy Book2 viene con un lápiz óptico incluido, lo que lo convierte en una excelente opción para aquellos que necesitan una portátil versátil para tomar notas, dibujar o trabajar en tareas creativas.", 
+                    "price": 809, 
+                    "images": ["https://m.media-amazon.com/images/I/71clvTgmMbL._AC_SL1500_.jpg"],
+                    "ramMemory": "16 GB", 
+                    "internalMemory": "512 GB SSD", 
+                    "processor": "Intel Core i7-1255U"
+                }
+            ]
+        }   
     ]
 
 }
