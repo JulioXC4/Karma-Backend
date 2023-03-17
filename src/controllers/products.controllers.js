@@ -70,15 +70,14 @@ const {Op} = require('sequelize')
 
         const productAssociations = await Product.associations
         const properties = Object.keys(productAssociations)
-     
+
         let products = await Product.findAll({
 
           include: properties
         });
-
         const filteredProducts = products.map(product => {
           const filteredProduct = { ...product.toJSON() };
-          
+
           for (const key in filteredProduct) {
             if (filteredProduct[key] === null) {
               delete filteredProduct[key];
@@ -86,7 +85,7 @@ const {Op} = require('sequelize')
           }
           return filteredProduct;
         }).filter(product => {
-          return product.Laptop !== undefined || product.Tablet !== undefined;
+          return product.Laptop !== undefined || product.Tablet !== undefined || product.Televisor !== undefined;
         });
 
         if(!products){
@@ -126,7 +125,6 @@ const {Op} = require('sequelize')
     
           for (let index = 0; index < properties.length; index++) {
             const modelName = productAssociations[properties[index]].target.name;
-
             const relation = await conn.models[modelName].findAll({
               where: { ProductId: id },
             });
