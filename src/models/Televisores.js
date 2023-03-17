@@ -3,10 +3,10 @@ const {DataTypes} = require('sequelize')
 module.exports= (sequelize) =>{
     sequelize.define('Televisores',{
         id:{
-            type: DataTypes.STRING,
-            defaultValue:"",
-            allowNull: false,
-            primaryKey: true
+            type:DataTypes.INTEGER,
+            autoIncrement:true,
+            allowNull:false,
+            primaryKey:true,
         },
         name:{
             type: DataTypes.STRING,
@@ -17,11 +17,9 @@ module.exports= (sequelize) =>{
                 },
                 len:{
                     args:[3,200],
-                    msg:'El nombre debe contener entre 3 a 200 caracteres'
+                    msg:'El nombre debe TV contener entre 3 a 200 caracteres'
                 },
-                isString:{
-                    msg:'Debe ser un string'
-                }
+                
             }
         },
         typeResolution:{
@@ -33,11 +31,8 @@ module.exports= (sequelize) =>{
                 },
                 len:{
                     args:[3,50],
-                    msg:'El nombre debe contener entre 3 a 50 caracteres'
+                    msg:'El tipo de resolution debe contener entre 3 a 50 caracteres'
                 },
-                isString:{
-                    msg:'Debe ser un string'
-                }
             }
         },
         systemOperating:{
@@ -49,11 +44,8 @@ module.exports= (sequelize) =>{
                 },
                 len:{
                     args:[3,150],
-                    msg:'El nombre debe contener entre 3 a 150 caracteres'
+                    msg:'El nombre SO debe contener entre 3 a 150 caracteres'
                 },
-                isString:{
-                    msg:'Debe ser un string'
-                }
             }
         },
         tamañoPantalla:{
@@ -67,8 +59,10 @@ module.exports= (sequelize) =>{
             },
             get(){
                 let valor = this.getDataValue('tamañoPantalla')
-                return valor+`" (${parseInt(valor)*2.54} cm)`
+                return `${valor} pulgadas (${parseInt(valor)*2.54} cm)`
             }
         }
+    },{
+        timestamps:false
     });
 }
