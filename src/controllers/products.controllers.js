@@ -69,15 +69,14 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
 
         const productAssociations = await Product.associations
         const properties = Object.keys(productAssociations)
-     
+
         let products = await Product.findAll({
 
           include: properties
         });
-
         const filteredProducts = products.map(product => {
           const filteredProduct = { ...product.toJSON() };
-          
+
           for (const key in filteredProduct) {
             if (filteredProduct[key] === null) {
               delete filteredProduct[key];
@@ -85,7 +84,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
           }
           return filteredProduct;
         }).filter(product => {
-          return product.Laptop !== undefined || product.Tablet !== undefined;
+          return product.Laptop !== undefined || product.Tablet !== undefined || product.Televisor !== undefined;
         });
 
         if(!products){
@@ -125,7 +124,6 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
     
           for (let index = 0; index < properties.length; index++) {
             const modelName = productAssociations[properties[index]].target.name;
-
             const relation = await conn.models[modelName].findAll({
               where: { ProductId: id },
             });
