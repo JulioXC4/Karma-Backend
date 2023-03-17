@@ -275,7 +275,7 @@ const {Op} = require('sequelize')
           const categoryFound = properties.filter(element => element.includes(category))
 
           if(categoryFound.length === 0){
-
+            //no encuentra la categoria
             return res.status(400).send("Categoria no encontrada")
 
           }else{
