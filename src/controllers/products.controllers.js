@@ -4,7 +4,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
 
         try {
 
-        const { model, brand, description, price, image } = req.body
+        const { model, brand, description, price, images } = req.body
 
         const errors = [];
 
@@ -24,8 +24,8 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
           errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 2) {
-          errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+          errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (errors.length > 0) {
@@ -40,7 +40,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
                 brand: brand,
                 description: description, 
                 price: price, 
-                image: image
+                images: images
     
                 })
     
@@ -152,7 +152,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
 
       try {
 
-        const { id, model, brand, description, price, image  } = req.body
+        const { id, model, brand, description, price, images  } = req.body
 
         const errors = [];
 
@@ -176,8 +176,8 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
           errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 2) {
-          errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+          errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (errors.length > 0) {
@@ -195,7 +195,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
             brand: brand,
             description: description, 
             price: price, 
-            image: image
+            images: images
 
             })
 

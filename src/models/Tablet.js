@@ -23,10 +23,10 @@ module.exports = (sequelize)=>{
             allowNull: false,
             defaultValue: ""
         },
-        color: {
-            type: DataTypes.STRING,
+        colors: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false,
-            defaultValue: ""
+            defaultValue: []
         },
         mainCamera: {
             type: DataTypes.STRING,

@@ -4,7 +4,7 @@ const {Tablet, Product} = require('../../db.js');
 
         try {
 
-        const { model, brand, description, price, image, ramMemory, internalMemory, color, mainCamera, screenSize } = req.body
+        const { model, brand, description, price, images, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
 
         const errors = [];
 
@@ -24,8 +24,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 5) {
-            errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+            errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -36,8 +36,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "internalMemory" debe tener al menos 2 caracteres.');
         }
 
-        if (!color || typeof color !== 'string' || color.length < 2) {
-            errors.push('El campo "color" debe tener al menos 2 caracteres.');
+        if (!colors || !Array.isArray(colors) || colors.length === 0 ) {
+            errors.push('El campo "colors" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (!mainCamera || typeof mainCamera !== 'string' || mainCamera.length < 2) {
@@ -58,7 +58,7 @@ const {Tablet, Product} = require('../../db.js');
 
                 ramMemory: ramMemory, 
                 internalMemory: internalMemory, 
-                color: color, 
+                colors: colors, 
                 mainCamera: mainCamera, 
                 screenSize: screenSize
     
@@ -76,7 +76,7 @@ const {Tablet, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    image: image
+                    images: images
 
                 })
 
@@ -99,7 +99,7 @@ const {Tablet, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, image, ramMemory, internalMemory, color, mainCamera, screenSize } = req.body
+        const { id, model, brand, description, price, images, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
 
         const errors = [];
 
@@ -119,8 +119,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 5) {
-            errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+            errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -131,8 +131,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "internalMemory" debe tener al menos 2 caracteres.');
         }
 
-        if (!color || typeof color !== 'string' || color.length < 2) {
-            errors.push('El campo "color" debe tener al menos 2 caracteres.');
+        if (!colors || !Array.isArray(colors) || colors.length === 0 ) {
+            errors.push('El campo "colors" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (!mainCamera || typeof mainCamera !== 'string' || mainCamera.length < 2) {
@@ -163,7 +163,7 @@ const {Tablet, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    image: image
+                    images: images
     
                 })
                 await product.save()
@@ -177,7 +177,7 @@ const {Tablet, Product} = require('../../db.js');
 
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
-                    color: color, 
+                    colors: colors, 
                     mainCamera: mainCamera, 
                     screenSize: screenSize
         
