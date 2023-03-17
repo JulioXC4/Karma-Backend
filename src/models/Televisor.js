@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize')
 
 module.exports= (sequelize) =>{
-    sequelize.define('Televisores',{
+    sequelize.define('Televisor',{
         id:{
             type:DataTypes.INTEGER,
             autoIncrement:true,
@@ -19,7 +19,12 @@ module.exports= (sequelize) =>{
                     args:[3,200],
                     msg:'El nombre debe TV contener entre 3 a 200 caracteres'
                 },
-                
+                isString(value,next){
+                    if (typeof value === 'string') {
+                        return next()
+                    }
+                    return next(new Error("El name en TV debe ser un string"))
+                }
             }
         },
         typeResolution:{
@@ -33,6 +38,12 @@ module.exports= (sequelize) =>{
                     args:[3,50],
                     msg:'El tipo de resolution debe contener entre 3 a 50 caracteres'
                 },
+                isString(value,next){
+                    if (typeof value === 'string') {
+                        return next()
+                    }
+                    return next(new Error("El tipo de resolucion debe ser un string"))
+                }
             }
         },
         systemOperating:{
@@ -46,6 +57,12 @@ module.exports= (sequelize) =>{
                     args:[3,150],
                     msg:'El nombre SO debe contener entre 3 a 150 caracteres'
                 },
+                isString(value,next){
+                    if (typeof value === 'string') {
+                        return next()
+                    }
+                    return next(new Error("El SO debe ser un string"))
+                }
             }
         },
         tamañoPantalla:{
