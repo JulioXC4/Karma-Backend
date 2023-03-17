@@ -1,10 +1,11 @@
 const {Product, Laptop, Tablet, conn} = require('../db.js');
+const {Op} = require('sequelize')
 
     const createProduct = async (req, res) => {
 
         try {
 
-        const { model, brand, description, price, image } = req.body
+        const { model, brand, description, price, images } = req.body
 
         const errors = [];
 
@@ -24,8 +25,8 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
           errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 2) {
-          errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+          errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (errors.length > 0) {
@@ -40,7 +41,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
                 brand: brand,
                 description: description, 
                 price: price, 
-                image: image
+                images: images
     
                 })
     
@@ -69,15 +70,14 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
 
         const productAssociations = await Product.associations
         const properties = Object.keys(productAssociations)
-     
+
         let products = await Product.findAll({
 
           include: properties
         });
-
         const filteredProducts = products.map(product => {
           const filteredProduct = { ...product.toJSON() };
-          
+
           for (const key in filteredProduct) {
             if (filteredProduct[key] === null) {
               delete filteredProduct[key];
@@ -85,7 +85,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
           }
           return filteredProduct;
         }).filter(product => {
-          return product.Laptop !== undefined || product.Tablet !== undefined;
+          return product.Laptop !== undefined || product.Tablet !== undefined || product.Televisor !== undefined;
         });
 
         if(!products){
@@ -125,7 +125,6 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
     
           for (let index = 0; index < properties.length; index++) {
             const modelName = productAssociations[properties[index]].target.name;
-
             const relation = await conn.models[modelName].findAll({
               where: { ProductId: id },
             });
@@ -152,7 +151,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
 
       try {
 
-        const { id, model, brand, description, price, image  } = req.body
+        const { id, model, brand, description, price, images  } = req.body
 
         const errors = [];
 
@@ -176,8 +175,8 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
           errors.push('El campo "price" no es válido.');
         }
 
-        if (!image || typeof image !== 'string' || image.length < 2) {
-          errors.push('El campo "image" debe tener al menos 2 caracteres.');
+        if (!images || !Array.isArray(images) || images.length === 0) {
+          errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
         if (errors.length > 0) {
@@ -195,7 +194,7 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
             brand: brand,
             description: description, 
             price: price, 
-            image: image
+            images: images
 
             })
 
@@ -251,11 +250,60 @@ const {Product, Laptop, Tablet, conn} = require('../db.js');
     
     };
 
+    const getProductsByCategory = async (req, res) => {
+
+      try {
+        const {category} = req.query
+
+        const productAssociations = await Product.associations
+        const properties = Object.keys(productAssociations)
+
+        const errors = [];
+
+        if (!category || typeof category !== 'string' || category.length < 2) {
+          errors.push('El campo "category" debe tener al menos 2 caracteres, ser un string o debe estar presente en el query.');
+        }
+
+        if (errors.length > 0) {
+          return res.status(400).json({ message: 'Error al encontrar la categoria.', errors });
+        }
+
+        else {
+          
+          const categoryFound = properties.filter(element => element.includes(category))
+
+          if(categoryFound.length === 0){
+            //no encuentra la categoria
+            return res.status(400).send("Categoria no encontrada")
+
+          }else{
+
+            const modelName = productAssociations[categoryFound].target.name
+            const products = await conn.models[modelName].findAll({
+              where: { ProductId: { [Op.ne]: null } },
+            });
+            const producstIds = products.map(obj => obj.ProductId)
+
+            const productsFiltered = await Product.findAll({where: {id: producstIds}, include: conn.models[modelName]})
+
+            return res.status(200).json(productsFiltered)
+
+          }
+
+        }
+
+      } catch (error) {
+
+        return res.status(400).json({message: error.message})
+
+      }
+    }
 
     module.exports = {
         createProduct,
         getProducts,
         getProduct,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        getProductsByCategory
     };
