@@ -142,7 +142,67 @@
                     "processor": "Intel Core i7-1255U"
                 }
             ]
-        }   
+        },
+        {
+            "Televisor": [
+                {
+                    "model":"F-QN65S95BA-01",
+                    "brand":"SAMSUNG",
+                    "description":"Descubre una capa extra de brillo enriquecida con mil millones de tonos de color y un brillo de pantalla OLED potenciado por QD (Quantum Dots). Experimenta todo lo que ves transformado a 4K por 20 redes neuronales impulsadas por la IA con el ProcesadorNeural Quantum 4K.Verdadero sonido de 5.1.2 canales: Con 5 canales, 1 subwoofer y 2 altavoces superiores para un total de 11 altavoces.Con la tecnología OLED, obtén un rico contraste y los negros más profundos, todo ello con 8,3 millones de píxeles autoiluminados",
+                    "price":2499,
+                    "images":[
+                                "https://images.samsung.com/is/image/samsung/p6pim/pe/f-qn65s95ba-01/gallery/pe-vd-combo-tv-s95b-and-soundbar-hwq800b-f-qn65s95ba-01-535307671?$1300_1038_PNG$",
+                                "https://images.samsung.com/is/image/samsung/p6pim/pe/f-qn65s95ba-01/gallery/pe-vd-combo-tv-s95b-and-soundbar-hwq800b-f-qn65s95ba-01-535307668?$684_547_PNG$",
+                                "https://images.samsung.com/is/image/samsung/p6pim/pe/f-qn65s95ba-01/gallery/pe-vd-combo-tv-s95b-and-soundbar-hwq800b-f-qn65s95ba-01-535307673?$684_547_PNG$"
+                            ],
+                    "nameTV":"Samsung Smart TV",
+                    "typeResolution":"4K OLED",
+                    "systemOperating":"Android",
+                    "tamañoPantalla":65
+                },
+                {
+                    "model":"QN85QN900BGXPE",
+                    "brand":"SAMSUNG",
+                    "description":"Tecnología Quantum Matrix Pro: más luz y contraste en 8K con Mini LED, reproduciendo más de 1000 millones de colores.Procesador Neural Quantum 8K con IA: imagen mejorada con Inteligencia Artificial y 20 redes neuronales.Diseño Pantalla Infinita: Belleza absoluta minimalista",
+                    "price":27899,
+                    "images":[
+                                "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402866?$1300_1038_PNG$",
+                                "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402839?$684_547_PNG$",
+                                "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402841?$684_547_PNG$"
+                            ],
+                    "nameTV":"Televisor Samsung Smart TV Neo",
+                    "typeResolution":"8K QLED",
+                    "systemOperating":"Android",
+                    "tamañoPantalla":85
+                },
+                {
+                    "model":"LT-32KB274",
+                    "brand":"JVC",
+                    "description":"Entrada HDMI: Sí. Color Negro. Sintonizador Digital. Potencia de los Parlantes 100-240V~50/60Hz.Entrada Auricular: Sí.Entradas USB: Sí.Entradas A/V: Sí.Entradas VGA: Sí.Control Remoto Incluido.",
+                    "price":390,
+                    "images":[
+                                "https://i.linio.com/p/3570f038c20734269fa7257b5a7269d7-product.jpg"
+                            ],
+                    "nameTV":"Televisor JVC",
+                    "typeResolution":"HD LED",
+                    "systemOperating":"Android",
+                    "tamañoPantalla":32
+                },
+                {
+                    "model":"50UQ7500PSF",
+                    "brand":"LG",
+                    "description":"Procesado 4K Procesador Inteligente Quinta generación v5.HDRActiveHDRResolución3840x 2160.Selección automática de género.NOHDR10 Pro:Sí",
+                    "price":1999,
+                    "images":[
+                                "https://www.lg.com/pe/images/tvs/md07562601/gallery/D-1.jpg"
+                            ],
+                    "nameTV":"Televisor LG ThinQ AI UQ75 Smart TV",
+                    "typeResolution":"4K UHD",
+                    "systemOperating":"WebOS",
+                    "tamañoPantalla":50
+                }
+            ]
+        }  
     ]
 
 }

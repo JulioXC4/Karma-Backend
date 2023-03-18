@@ -25,6 +25,13 @@ const createInitialData = async () => {
             await axios.post(`${HOST_BACK}/laptop/createLaptop`, laptop)
         })
     )
+
+    //CREATE TELEVISORES
+    await Promise.all(
+        data.products[2]["Televisor"].map(async(tv) =>{
+            await axios.post(`${HOST_BACK}/tv/createTelevisor`, tv)
+        })
+    )
 }
 
 module.exports= {createInitialData}
