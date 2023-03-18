@@ -142,7 +142,59 @@
                     "processor": "Intel Core i7-1255U"
                 }
             ]
+        },
+        {
+            "CellPhone": [
+                {
+                    "model": "SAMSUNG GALAXY S23 ULTRA", 
+                    "brand": "SAMSUNG G",
+                    "description": "El Samsung Galaxy S23 Ultra se destaca por su poderoso procesador Snapdragon 8 Gen 2 y su batería de 5.000 mAh de capacidad ", 
+                    "price": 2000, 
+                    "images": ["https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011164.webp","https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011178_3.webp"],
+                    "name":"SAMSUNG GALAXY S23 ULTRA",
+                    "ram":"12 GB",
+                    "internalMemory":"512 GB",
+                    "mainCamera":"200 MP",
+                    "colors":["Beige","Negro"]
+                },
+                {
+                    "model": " Galaxy Z Fold3", 
+                    "brand": "SAMSUNG ",
+                    "description": "El Galaxy Fold más fino y manejable hasta el momento, con pantallas grandes, tanto por dentro como por fuera. Plegado, es un teléfono inteligente de primera calidad de 6,2 pulgadas ", 
+                    "price": 2000, 
+                    "images": ["https://images.samsung.com/is/image/samsung/my/galaxy-note20/gallery/my-galaxy-z-fold2-f916-sm-f916bznaxme-frontmysticbronze-273584304?$650_519_PNG$","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Fru_xV0yPn-fEZEOR2edWOBaHififXSrMokyLNHAuSCrej80uP-2Jq5XMdbJCZ1N_T0&usqp=CAU"],
+                    "name":"SAMSUNG Galaxy Z Fold3",
+                    "ram":"12 GB",
+                    "internalMemory":"256 GB",
+                    "mainCamera":"12 MP",
+                    "colors":["verde","Negro","Silver"]
+                },
+                {
+                    "model": "POCO X5 PRO 5G", 
+                    "brand": "XIAOMI",
+                    "description": "El POCO X5 PRO 5G con un procesador de 6 nanómetros, con una pantalla que hasta la fecha se reservaba para la gama alta", 
+                    "price": 750, 
+                    "images": ["https://i.blogs.es/86a836/img_20230206_112113_788/1024_2000.jpeg","https://i.blogs.es/10ed78/img_20230206_112113_724/1366_2000.jpeg"],
+                    "name":"XIAOMI POCO X5 PRO 5G",
+                    "ram":"8 GB",
+                    "internalMemory":"216 MP",
+                    "mainCamera":"16 GB",
+                    "colors":["Azul","Negro","Amarillo"]
+                },
+                {
+                    "model": "Apple iPhone 14 Pro Max", 
+                    "brand": "Apple",
+                    "description": "El  Apple iPhone tiene una Pantalla Super Retina XDR de 6.7 pulgadas con ProMotion que brinda una respuesta más rápida y fluida.(2)", 
+                    "price": 1066, 
+                    "images": ["https://www.apple.com/v/iphone-14-pro/d/images/specs/hero_iphone_14_pro__fnda92wv13m2_large.jpg","https://www.apple.com/la/iphone-14-pro/images/key-features/features/dynamic-island/dd_dynamic_island_notify_v__gdxu3q8ym82u_large.jpg"],
+                    "name":"Apple iPhone 14 Pro Max",
+                    "ram":"12 GB",
+                    "internalMemory":"512 GB",
+                    "mainCamera":"12 MP",
+                    "colors":["Azul","Grafito","Oro","Plata"]
+                }
+                
+            ]
         }   
     ]
-
 }
