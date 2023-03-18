@@ -1,22 +1,22 @@
 const { DataTypes } = require("sequelize")
 
 module.exports = (sequelize)=>{
-    sequelize.define('Model', {
+    sequelize.define('ShoppingCart', {
         id: {
             type:DataTypes.INTEGER,
             autoIncrement:true,
             allowNull:false,
             primaryKey:true,
             },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: ""
+        amount: {
+            type: DataTypes.INTEGER,
+           
         },
+        
 
-          },
-          {
-            timestamps: false
-          }
-      );
+    },
+    {
+        timestamps: false
+    }
+    );
 }
