@@ -34,8 +34,8 @@ const createInitialData = async () => {
 
     //CREATE TELEVISORES
     await Promise.all(
-        data.products[3]["Televisor"].map(async(tv) =>{
-            await axios.post(`${HOST_BACK}/tv/createTelevisor`, tv)
+        data.products[3]["Television"].map(async(tv) =>{
+            await axios.post(`${HOST_BACK}/tv/createTelevision`, tv)
         })
     )
 }

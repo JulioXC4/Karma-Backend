@@ -196,7 +196,7 @@
                 
             ]
         },
-        {  "Televisor": [
+        {  "Television": [
                 {
                     "model":"F-QN65S95BA-01",
                     "brand":"SAMSUNG",
@@ -210,7 +210,7 @@
                     "nameTV":"Samsung Smart TV",
                     "typeResolution":"4K OLED",
                     "systemOperating":"Android",
-                    "tamañoPantalla":65
+                    "screenSize":65
                 },
                 {
                     "model":"QN85QN900BGXPE",
@@ -225,7 +225,7 @@
                     "nameTV":"Televisor Samsung Smart TV Neo",
                     "typeResolution":"8K QLED",
                     "systemOperating":"Android",
-                    "tamañoPantalla":85
+                    "screenSize":85
                 },
                 {
                     "model":"LT-32KB274",
@@ -238,7 +238,7 @@
                     "nameTV":"Televisor JVC",
                     "typeResolution":"HD LED",
                     "systemOperating":"Android",
-                    "tamañoPantalla":32
+                    "screenSize":32
                 },
                 {
                     "model":"50UQ7500PSF",
@@ -251,7 +251,7 @@
                     "nameTV":"Televisor LG ThinQ AI UQ75 Smart TV",
                     "typeResolution":"4K UHD",
                     "systemOperating":"WebOS",
-                    "tamañoPantalla":50
+                    "screenSize":50
                 }
             ]
         }  
