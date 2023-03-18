@@ -85,7 +85,7 @@ const {Op} = require('sequelize')
           }
           return filteredProduct;
         }).filter(product => {
-          return product.Laptop !== undefined || product.Tablet !== undefined || product.Televisor !== undefined || product.CellPhone;
+          return product.Laptop !== undefined || product.Tablet !== undefined || product.Television !== undefined || product.CellPhone;
         });
 
         if(!products){

@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize')
 
 module.exports= (sequelize) =>{
-    sequelize.define('Televisor',{
+    sequelize.define('Television',{
         id:{
             type:DataTypes.INTEGER,
             autoIncrement:true,
@@ -65,7 +65,7 @@ module.exports= (sequelize) =>{
                 }
             }
         },
-        tamañoPantalla:{
+        screenSize:{
             type:DataTypes.INTEGER,
             allowNull:false,
             validate:{
@@ -75,7 +75,7 @@ module.exports= (sequelize) =>{
                 }
             },
             get(){
-                let valor = this.getDataValue('tamañoPantalla')
+                let valor = this.getDataValue('screenSize')
                 return `${valor} pulgadas (${parseInt(valor)*2.54} cm)`
             }
         }
