@@ -67,10 +67,6 @@ module.exports = (sequelize) => {
           notEmpty: {
             msg: "La cámara principal no puede estar vacía"
           },
-          matches: {
-            args: /^(\d+)MP$/,
-            msg: "La cámara principal debe tener el formato 'númeroMP'"
-          }
         }
       },
       
@@ -82,9 +78,6 @@ module.exports = (sequelize) => {
           notEmpty: {
             msg: "El tamaño de pantalla es obligatorio"
           },
-          isNumeric: {
-            msg: "El tamaño de pantalla debe ser un número"
-          }
         }
       },
     },
