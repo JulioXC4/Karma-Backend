@@ -299,11 +299,53 @@ const {Op} = require('sequelize')
       }
     }
 
+    const getProductsByInput = async (req, res) => {
+
+      try {
+        const {input} = req.query
+
+        const lowCharacterInput = input.toLowerCase()
+
+        if(!input || typeof input !== 'string' || input.length < 2){
+
+          return res.status(400).send("Parametros incompletos o informacion invalida")
+
+        }else{
+
+            const products = await Product.findAll({
+              where: {
+                [Op.or]: [
+                  conn.where(conn.fn('LOWER', conn.col('model')), 'LIKE', `%${lowCharacterInput}%`),
+                  conn.where(conn.fn('LOWER', conn.col('brand')), 'LIKE', `%${lowCharacterInput}%`)
+                ]
+              }
+            })
+
+            if(products.length === 0){
+
+              return res.status(404).send("No existen productos con ese nombre")
+
+            } else {
+
+              return res.status(200).send(products)
+            }
+
+        }
+
+      } catch (error) {
+
+        return res.status(400).json({message: error.message})
+
+      }
+
+    }
+
     module.exports = {
         createProduct,
         getProducts,
         getProduct,
         updateProduct,
         deleteProduct,
-        getProductsByCategory
+        getProductsByCategory,
+        getProductsByInput
     };
