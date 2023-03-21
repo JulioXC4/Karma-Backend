@@ -4,7 +4,9 @@
 
         {
             "id": "Usuario|1", 
-            "name": "Mariano", 
+            "name": "Mariano",
+            "email": "mariano@gmail.com",
+            "picture": "url img user 1",
             "lastName": "Nieto", 
             "birthdate": "1999/02/04", 
             "phoneNumber": 915327277, 
@@ -15,6 +17,8 @@
         {
             "id": "Usuario|2", 
             "name": "Luna", 
+            "email": "Luna@gmail.com",
+            "picture": "url img user 2",
             "lastName": "Crespo", 
             "birthdate": "1985/05/08", 
             "phoneNumber": 907538905, 
@@ -25,6 +29,8 @@
         {
             "id": "Usuario|3", 
             "name": "Victor Manuel", 
+            "email": "VictorManuel@gmail.com",
+            "picture": "url img user 3",
             "lastName": "Rosado", 
             "birthdate": "2005/05/18", 
             "phoneNumber": 925168985, 
@@ -34,7 +40,9 @@
         },
         {
             "id": "Usuario|4", 
-            "name": "Gertrudis", 
+            "name": "Gertrudis",
+            "email": "Gertrudis@gmail.com",
+            "picture": "url img user 4", 
             "lastName": "Codina", 
             "birthdate": "2000/11/23", 
             "phoneNumber": 999344572, 
