@@ -5,7 +5,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
         try {
 
-        const { id, name, lastName, birthdate, phoneNumber, city, country, address } = req.body
+        const { id, name, email, picture, lastName, birthdate, phoneNumber, city, country, address } = req.body
 
         const errors = [];
 
@@ -15,6 +15,14 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
         if (!name || typeof name !== 'string' || name.length < 2) {
           errors.push('El campo "name" debe tener al menos 2 caracteres.');
+        }
+
+        if (!email || typeof email !== 'string' || email.length < 2) {
+          errors.push('El campo "email" debe tener al menos 2 caracteres.');
+        }
+
+        if (!picture || typeof picture !== 'string' || picture.length < 2) {
+          errors.push('El campo "picture" debe tener al menos 2 caracteres.');
         }
 
         if (!lastName || typeof lastName !== 'string' || lastName.length < 2) {
@@ -50,7 +58,9 @@ const {regexPhoneNumber} = require('../utils/consts.js')
             const newUser = await User.create({
 
                 id: id, 
-                name: name, 
+                name: name,
+                email: email,
+                picture: picture, 
                 lastName: lastName, 
                 birthdate: birthdate, 
                 phoneNumber: phoneNumber, 
@@ -139,7 +149,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
       try {
 
-      const { id, name, lastName, birthdate, phoneNumber, city, country, address } = req.body
+      const { id, name, email, picture, lastName, birthdate, phoneNumber, city, country, address } = req.body
 
       const errors = [];
 
@@ -149,6 +159,14 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
       if (!name || typeof name !== 'string' || name.length < 2) {
         errors.push('El campo "name" debe tener al menos 2 caracteres.');
+      }
+
+      if (!email || typeof email !== 'string' || email.length < 2) {
+        errors.push('El campo "email" debe tener al menos 2 caracteres.');
+      }
+
+      if (!picture || typeof picture !== 'string' || picture.length < 2) {
+        errors.push('El campo "picture" debe tener al menos 2 caracteres.');
       }
 
       if (!lastName || typeof lastName !== 'string' || lastName.length < 2) {
@@ -185,8 +203,9 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
           await user.update({
 
-              id: id, 
-              name: name, 
+              name: name,
+              email: email,
+              picture: picture, 
               lastName: lastName, 
               birthdate: birthdate, 
               phoneNumber: phoneNumber, 
@@ -246,6 +265,39 @@ const {regexPhoneNumber} = require('../utils/consts.js')
     
     };
 
+    const userAuth0Register = async (req, res) => {
+
+      try {
+
+        const {id, email, picture} = req.query
+
+        const userExists = User.findByPk(id)
+        
+        if (!userExists){
+
+          await User.create({
+  
+            id: id, 
+            email: email,
+            picture: picture, 
+          
+          })
+
+          return res.status(200).send(`El usuario con la id ${id} fue creado correctamente`)
+
+        } else {
+
+            return res.status(400).send(`El usuario con la id ${id} ya existe`)
+
+        }
+
+      } catch (error) {
+
+        return res.status(500).json({message: error.message})
+
+      }
+
+    }
 
     module.exports = {
         createUser,

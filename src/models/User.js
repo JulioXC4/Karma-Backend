@@ -17,6 +17,22 @@ module.exports = (sequelize)=>{
                 len: [4, 255]
             }
         },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "",
+            validate: {
+                len: [4, 255]
+            }
+        },
+        picture: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "",
+            validate: {
+                len: [4, 255]
+            }
+        },
         lastName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -27,7 +43,7 @@ module.exports = (sequelize)=>{
         },
         birthdate: {
             type: DataTypes.DATE,
-            allowNull: false,
+            allowNull: true,
             defaultValue: sequelize.literal("NOW()"),
             validate: {
                 isDate: true 
