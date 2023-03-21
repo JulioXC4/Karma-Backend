@@ -269,17 +269,42 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
       try {
 
-        const {id, email, picture} = req.query
+        const {id, email, picture} = req.body
+
+        const errors = [];
+
+        if (!id) {
+          errors.push('El campo "id" es obligatorio.');
+        }
+
+        if (!email || typeof email !== 'string' || email.length < 2) {
+          errors.push('El campo "email" debe tener al menos 2 caracteres.');
+        }
+
+        if (!picture || typeof picture !== 'string' || picture.length < 2) {
+          errors.push('El campo "picture" debe tener al menos 2 caracteres.');
+        }
+
+        if (errors.length > 0) {
+          return res.status(400).json({ message: 'Error al crear usuario.', errors });
+        }
 
         const userExists = User.findByPk(id)
         
-        if (!userExists){
+        if (userExists.length !== 0){
 
           await User.create({
   
             id: id, 
             email: email,
-            picture: picture, 
+            picture: picture,
+            name: "none",
+            lastName: "none", 
+            birthdate: null, 
+            phoneNumber: null, 
+            city: "none", 
+            country: "none", 
+            address: "none" 
           
           })
 
@@ -304,5 +329,6 @@ const {regexPhoneNumber} = require('../utils/consts.js')
         getUsers,
         getUser,
         updateUser,
-        deleteUser
+        deleteUser,
+        userAuth0Register
     };
