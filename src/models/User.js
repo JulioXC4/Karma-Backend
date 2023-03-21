@@ -9,14 +9,6 @@ module.exports = (sequelize)=>{
             allowNull: false,
             primaryKey: true
             },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: "",
-            validate: {
-                len: [4, 255]
-            }
-        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -26,6 +18,14 @@ module.exports = (sequelize)=>{
             }
         },
         picture: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "",
+            validate: {
+                len: [4, 255]
+            }
+        },
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "",
@@ -55,7 +55,7 @@ module.exports = (sequelize)=>{
             defaultValue: "0",
             validate: {
                 isPhoneNumber: function (value) {
-                    if (!regexPhoneNumber.test(value)) {
+                    if (value !== null && !regexPhoneNumber.test(value)) {
                         throw new Error("El número de teléfono no es válido");
                     }
                 },
