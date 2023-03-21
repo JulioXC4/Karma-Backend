@@ -152,7 +152,7 @@
                     "price": 2000, 
                     "images": ["https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011164.webp","https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011178_3.webp"],
                     "name":"SAMSUNG GALAXY S23 ULTRA",
-                    "ram":"12 GB",
+                    "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
                     "mainCamera":"200 MP",
                     "colors":["Beige","Negro"]
@@ -164,7 +164,7 @@
                     "price": 2000, 
                     "images": ["https://images.samsung.com/is/image/samsung/my/galaxy-note20/gallery/my-galaxy-z-fold2-f916-sm-f916bznaxme-frontmysticbronze-273584304?$650_519_PNG$","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Fru_xV0yPn-fEZEOR2edWOBaHififXSrMokyLNHAuSCrej80uP-2Jq5XMdbJCZ1N_T0&usqp=CAU"],
                     "name":"SAMSUNG Galaxy Z Fold3",
-                    "ram":"12 GB",
+                    "ramMemory":"12 GB",
                     "internalMemory":"256 GB",
                     "mainCamera":"12 MP",
                     "colors":["verde","Negro","Silver"]
@@ -176,7 +176,7 @@
                     "price": 750, 
                     "images": ["https://i.blogs.es/86a836/img_20230206_112113_788/1024_2000.jpeg","https://i.blogs.es/10ed78/img_20230206_112113_724/1366_2000.jpeg"],
                     "name":"XIAOMI POCO X5 PRO 5G",
-                    "ram":"8 GB",
+                    "ramMemory":"8 GB",
                     "internalMemory":"16 GB",
                     "mainCamera":"216 MP",
                     "colors":["Azul","Negro","Amarillo"]
@@ -188,7 +188,7 @@
                     "price": 1066, 
                     "images": ["https://www.apple.com/v/iphone-14-pro/d/images/specs/hero_iphone_14_pro__fnda92wv13m2_large.jpg","https://www.apple.com/la/iphone-14-pro/images/key-features/features/dynamic-island/dd_dynamic_island_notify_v__gdxu3q8ym82u_large.jpg"],
                     "name":"Apple iPhone 14 Pro Max",
-                    "ram":"12 GB",
+                    "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
                     "mainCamera":"12 MP",
                     "colors":["Azul","Grafito","Oro","Plata"]

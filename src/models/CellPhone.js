@@ -17,7 +17,7 @@ module.exports = (sequelize)=>{
                 },
             }
         },
-        ram: {
+        ramMemory: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
