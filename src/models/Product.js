@@ -33,6 +33,11 @@ module.exports = (sequelize)=>{
             allowNull: false,
             defaultValue: []
         },
+        averageRating: {
+            type: DataTypes.FLOAT,
+            allowNull: true,
+            defaultValue: 0
+          }, 
 
     },
     {

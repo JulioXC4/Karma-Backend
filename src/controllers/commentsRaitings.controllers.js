@@ -25,57 +25,118 @@ const getCommentsRaitings=  async (req, res) => {
   }
   };
   
- 
   const createCommentsRaiting = async (req, res) => {
+
+    const badWords = ['palabra1', 'palabra2', 'palabra3']; // lista de palabras prohibidas
+      try {
+          const { comments, raiting, user_id, product_id } = req.body;
+  
+          const user = await User.findByPk(user_id);
+          const product = await Product.findByPk(product_id);
+  
+          if (!user || !product) {
+              return res.status(404).send('El usuario o el producto no existe');
+          }
+  
+          if (!comments) {
+              return res.status(400).send('El campo de "comments" es obligatorio');
+          }
+  
+          // Verificar si el comentario contiene palabras prohibidas
+          const containsBadWords = badWords.some(word => comments.includes(word));
+  
+          if (containsBadWords) {
+              return res.status(400).send('El comentario contiene palabras prohibidas');
+          }
+  
+          // Crear un nuevo objeto de comentarios y calificación (rating)
+          const newCommentRaiting = await CommentsRaiting.create({
+              comments,
+              raiting,
+              user_id,
+              product_id,
+              reviewed: false // indicar que el comentario no ha sido revisado
+          });
+  
+          // Calcular el rating promedio del producto
+        const existingCommentRaitings = await CommentsRaiting.findAll({ where: { product_id } });
+        const totalRaiting = existingCommentRaitings.reduce((sum, { raiting }) => sum + raiting, 0);
+        const averageRaiting = totalRaiting / existingCommentRaitings.length;
+        
+        product.raiting = averageRaiting;
+        await product.save();
+        
+  
+          return res.status(200).json({
+              message: 'Comentarios y calificación agregados con éxito y esperando revisión del administrador',
+              newCommentRaiting,
+              productRating: product.product_rating
+          });
+      } catch (error) {
+          console.error(error);
+          return res.status(500).send('Error interno del servidor');
+      }
+  };
+  
+  const updateCommentsRaiting = async (req, res) => {
+    const { id } = req.params;
+    const { comments, raiting, estado } = req.body; // agregar estado a la solicitud
+    const user = req.user;
+    const badWords = ['palabra1', 'palabra2', 'palabra3']; 
+  
     try {
-      const { comments, raiting, user_id, product_id } = req.body;
-      const user = await User.findByPk(user_id);
-      const product = await Product.findByPk(product_id);
+      const commentRaiting = await CommentsRaiting.findByPk(id);
   
-      if (!user || !product) {
-        return res.status(404).send('El usuario o el producto no existe');
+      if (!commentRaiting) {
+        return res.status(404).send("No se encontró el registro de comentarios y calificación");
       }
   
-      if (!comments) {
-        return res.status(400).send('El campo de "comments" es obligatorio');
+      // Verificar el rol del usuario autenticado
+      if (user && user.role !== 'admin') {
+        return res.status(401).send("No tiene permiso para actualizar comentarios y calificaciones");
       }
   
-      const newCommentsRatings = await CommentsRaiting.create({
-        comments: comments,
-        raiting: raiting,
-        user_id: user_id,
-        product_id: product_id,
+      if (comments) {
+        // Verificar si el comentario contiene palabras prohibidas
+        const containsBadWords = badWords.some(word => comments.includes(word));
+  
+        if (containsBadWords) {
+          return res.status(400).send('El comentario contiene palabras prohibidas');
+        }
+  
+        commentRaiting.comments = comments;
+      }
+  
+      if (raiting) {
+        commentRaiting.raiting = raiting;
+      }
+  
+      if (estado) { // actualizar el estado del comentario si se proporciona en la solicitud
+        commentRaiting.estado = estado;
+      }
+  
+      await commentRaiting.save();
+  
+      // Calcular el rating promedio del producto
+      const existingCommentRaitings = await CommentsRaiting.findAll({ where: { product_id: commentRaiting.product_id } });
+      const totalRaiting = existingCommentRaitings.reduce((sum, { raiting }) => sum + raiting, 0);
+      const averageRaiting = totalRaiting / existingCommentRaitings.length;
+      
+      const product = await Product.findByPk(commentRaiting.product_id);
+      product.raiting = averageRaiting;
+      await product.save();
+  
+      return res.status(200).json({
+        message: "Registro de comentarios y calificación actualizado con éxito",
+        commentRaiting,
+        productRating: product.raiting,
       });
-  
-      res.json(newCommentsRatings);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      console.error(error);
+      return res.status(500).send("Error interno del servidor");
     }
   };
   
-    const updateCommentsRaiting = async (req, res) => {
-      try {
-        const { id } = req.params;
-        const { comments, raiting, user_id, product_id } = req.body;
-        
-        const commentsRaiting = await CommentsRaiting.findByPk(id);
-        if (!commentsRaiting) {
-          return res.status(404).send("No existe");
-        }
-        
-        await commentsRaiting.update({
-          comments: comments,
-          raiting: raiting,
-          user_id: user_id,
-          product_id: product_id,
-        });
-        await commentsRaiting.save()
-        res.status(200).send('Actualizado correctamente');
-      } catch (error) {
-       
-        res.status(400).json({ message: error.message });
-      }
-    };
     
     const deleteCommentsRaiting =  async (req, res) => {
       const { id } = req.query;
