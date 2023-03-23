@@ -75,7 +75,7 @@
                 "description": "La Lenovo Tab P11 Plus es una tableta Android lanzada por Lenovo en 2021. Cuenta con una pantalla IPS de 11 pulgadas con una resolución de 2000 x 1200 píxeles y una relación de aspecto de 16:10. Está alimentada por un procesador octa-core MediaTek Helio G90T y tiene opciones de RAM de 4GB o 6GB y opciones de almacenamiento interno de 64GB o 128GB, que se pueden ampliar con una tarjeta microSD.",
                 "price": 209,
                 "images": ["https://m.media-amazon.com/images/I/716x+PohsnL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71w9ei3xPcL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61ASGQWKM9L._AC_SL1500_.jpg"],
-                "ramMemory": "6 GB",
+                "ramMemory": "4 GB",
                 "internalMemory": "64 GB",
                 "colors": ["Gris Platino","Gris","Azul"],
                 "mainCamera": "13 MPX",
@@ -103,7 +103,55 @@
                 "internalMemory": "64 GB",
                 "colors": ["Gris Oscuro","Gris"],
                 "mainCamera": "8 MPX",
-                "screenSize": "10.6"
+                "screenSize": "10.3"
+              },
+              {
+                "model": "iPad Air 2",
+                "brand": "Apple",
+                "description": "El iPad Air 2 es una tableta electrónica fabricada por Apple Inc. Fue lanzada al mercado en octubre de 2014 como sucesora del iPad Air original. Tiene una pantalla de 9,7 pulgadas con una resolución de 2048x1536 píxeles y una densidad de píxeles de 264 ppp. Está equipada con un procesador A8X de tres núcleos y un coprocesador de movimiento M8, que ofrece un rendimiento mejorado en comparación con el iPad Air original.",
+                "price": 149,
+                "images": ["https://m.media-amazon.com/images/I/71kXAFOBhCL._AC_SL1500_.jpg"],
+                "ramMemory": "2 GB",
+                "internalMemory": "16 GB",
+                "colors": ["Gris"],
+                "mainCamera": "8 MPX",
+                "screenSize": "9.7"
+              },
+              {
+                "model": "Galaxy Tab A8",
+                "brand": "SAMSUNG",
+                "description": "El Samsung Galaxy Tab A8 es una tableta de gama media lanzada por Samsung en el año 2021. Cuenta con una pantalla TFT de 8.4 pulgadas con una resolución de 1200 x 1920 píxeles y una relación de aspecto de 16:10. Está alimentada por un procesador octa-core Exynos 7904 con 3 GB de RAM y 32 GB de almacenamiento interno, que se puede ampliar hasta 1 TB mediante una tarjeta microSD.",
+                "price": 177,
+                "images": ["https://m.media-amazon.com/images/I/415TupYINrL._AC_SL1200_.jpg","https://m.media-amazon.com/images/I/61fV4UeHeLL._AC_SL1200_.jpg"],
+                "ramMemory": "3 GB",
+                "internalMemory": "32 GB",
+                "colors": ["Blanco"],
+                "mainCamera": "5 MPX",
+                "screenSize": "8.4"
+              },
+              {
+                "model": "Surface Pro 9",
+                "brand": "Microsoft",
+                "description": "El Microsoft Surface Pro 9 es una tableta 2 en 1 de gama alta lanzada por Microsoft en 2022. Cuenta con una pantalla táctil PixelSense de 13 pulgadas con una resolución de 2880 x 1920 píxeles y una relación de aspecto de 16:9. Está alimentada por procesadores Intel Core de décima generación, que van desde un Core i3 hasta un Core i7, y puede tener hasta 16 GB de RAM y 1 TB de almacenamiento SSD.",
+                "price": 994,
+                "images": ["https://m.media-amazon.com/images/I/51qmNla8aTL._AC_SL1080_.jpg","https://m.media-amazon.com/images/I/514MPZXij7L._AC_SL1080_.jpg","https://m.media-amazon.com/images/I/613Wlkk32IL._AC_SL1080_.jpg"],
+                "ramMemory": "8 GB",
+                "internalMemory": "256 GB",
+                "colors": ["Negro"],
+                "mainCamera": "10 MPX",
+                "screenSize": "13"
+              },
+              {
+                "model": "Surface Pro 4",
+                "brand": "Microsoft",
+                "description": "El Microsoft Surface Pro 4 es una tableta 2 en 1 lanzada por Microsoft en 2015. Cuenta con una pantalla táctil PixelSense de 12.3 pulgadas con una resolución de 2736 x 1824 píxeles y una relación de aspecto de 3:2. Está alimentada por procesadores Intel Core de sexta generación, que van desde un Core m3 hasta un Core i7, y puede tener hasta 16 GB de RAM y 1 TB de almacenamiento SSD.",
+                "price": 365,
+                "images": ["https://m.media-amazon.com/images/I/61-HxRmqP6L._AC_SL1200_.jpg"],
+                "ramMemory": "8 GB",
+                "internalMemory": "256 GB",
+                "colors": ["Plata"],
+                "mainCamera": "8 MPX",
+                "screenSize": "12.3"
               }
             ]
         },
@@ -148,6 +196,46 @@
                     "ramMemory": "16 GB", 
                     "internalMemory": "512 GB SSD", 
                     "processor": "Intel Core i7-1255U"
+                },
+                {
+                    "model": "XPS 13 9310 Plus", 
+                    "brand": "Dell",
+                    "description": "La Dell XPS 13 9310 es una computadora portátil que cuenta con una pantalla InfinityEdge de 13.4 pulgadas con resolución FHD+ o 4K, procesadores Intel Core de 11ª generación, hasta 16 GB de RAM y hasta 2 TB de almacenamiento SSD. También tiene una batería de larga duración, una cámara web HD y una variedad de puertos, incluyendo Thunderbolt 4 y USB-C. La Dell XPS 13 9310 es una computadora portátil premium para usuarios que buscan un rendimiento potente, una pantalla de alta calidad y una duración de batería sólida.", 
+                    "price": 999, 
+                    "images": ["https://m.media-amazon.com/images/I/81aI36Tc0XS._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71lh7szyqnS._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71oBZHQ0ElS._AC_SL1500_.jpg"],
+                    "ramMemory": "16 GB", 
+                    "internalMemory": "512 GB SSD", 
+                    "processor": "Intel Core i7-1185G7"
+                },
+                {
+                    "model": "XPS 13 9305", 
+                    "brand": "Dell",
+                    "description": "El Dell XPS 13 9305 es una computadora portátil de gama alta lanzada por Dell en 2021. Cuenta con una pantalla Full HD de 13.3 pulgadas con tecnología InfinityEdge, que brinda una experiencia de visualización impresionante gracias a su borde casi invisible. Está alimentado por procesadores Intel Core i5 de 11ª generación y viene con 8 GB de RAM y 256 GB de almacenamiento SSD.", 
+                    "price": 799, 
+                    "images": ["https://m.media-amazon.com/images/I/61Zw6i1tunL._AC_SL1249_.jpg","https://m.media-amazon.com/images/I/51UkJZYI8CL._AC_SL1224_.jpg","https://m.media-amazon.com/images/I/610fHHDdhOL._AC_SL1395_.jpg"],
+                    "ramMemory": "8 GB", 
+                    "internalMemory": "256 GB SSD", 
+                    "processor": "Intel Core i5-1135G7"
+                },
+                {
+                    "model": "M15 R4", 
+                    "brand": "Alienware",
+                    "description": "El Alienware m15 R4 es una computadora portátil de alta gama diseñada para juegos lanzada por Alienware en 2021. Cuenta con una pantalla Full HD de 15.6 pulgadas o una pantalla 4K de 60Hz o 144Hz con tecnología de seguimiento ocular Tobii, que puede mejorar la precisión y velocidad en juegos. El m15 R4 está alimentado por procesadores Intel Core i7 o i9 de décima generación y puede tener hasta 32 GB de RAM y hasta 4 TB de almacenamiento SSD.", 
+                    "price": 2199, 
+                    "images": ["https://m.media-amazon.com/images/I/71Jp27bTQoL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/718r8bl1QbL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61x+yaABHGL._AC_SL1500_.jpg"],
+                    "ramMemory": "16 GB", 
+                    "internalMemory": "512 GB SSD", 
+                    "processor": "Intel Core i7-10870H"
+                },
+                {
+                    "model": "ROG Strix Scar 15", 
+                    "brand": "ASUS",
+                    "description": "El ASUS ROG Strix Scar 15 es una computadora portátil de alta gama diseñada para juegos lanzada por ASUS en 2021. Cuenta con una pantalla Full HD de 15.6 pulgadas con una alta frecuencia de actualización de hasta 300Hz, lo que permite una experiencia de juego suave y fluida con una gran capacidad de respuesta. Está alimentado por procesadores Intel Core i7 o i9 de décima o undécima generación y puede tener hasta 32 GB de RAM y hasta 2 TB de almacenamiento SSD.", 
+                    "price": 2199, 
+                    "images": ["https://m.media-amazon.com/images/I/71sgAr9atBS._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/91wC9gHDXhL._AC_SL1500_.jpg"],
+                    "ramMemory": "16 GB", 
+                    "internalMemory": "1 TB SSD", 
+                    "processor": "AMD Ryzen 9 5900HX"
                 }
             ]
         },
@@ -230,7 +318,7 @@
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402839?$684_547_PNG$",
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402841?$684_547_PNG$"
                             ],
-                    "nameTV":"Televisor Samsung Smart TV Neo",
+                    "nameTV":"Samsung Smart TV Neo",
                     "typeResolution":"8K QLED",
                     "systemOperating":"Android",
                     "screenSize":85
@@ -243,7 +331,7 @@
                     "images":[
                                 "https://i.linio.com/p/3570f038c20734269fa7257b5a7269d7-product.jpg"
                             ],
-                    "nameTV":"Televisor JVC",
+                    "nameTV":"JVC LT-32KB274",
                     "typeResolution":"HD LED",
                     "systemOperating":"Android",
                     "screenSize":32
@@ -256,7 +344,7 @@
                     "images":[
                                 "https://www.lg.com/pe/images/tvs/md07562601/gallery/D-1.jpg"
                             ],
-                    "nameTV":"Televisor LG ThinQ AI UQ75 Smart TV",
+                    "nameTV":"LG ThinQ AI UQ75 Smart TV",
                     "typeResolution":"4K UHD",
                     "systemOperating":"WebOS",
                     "screenSize":50
