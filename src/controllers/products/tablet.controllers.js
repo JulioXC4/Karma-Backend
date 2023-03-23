@@ -56,6 +56,7 @@ const {Tablet, Product} = require('../../db.js');
 
             const newTablet = await Tablet.create({
 
+                name: `${brand} ${model}`,
                 ramMemory: ramMemory, 
                 internalMemory: internalMemory, 
                 colors: colors, 
@@ -175,6 +176,7 @@ const {Tablet, Product} = require('../../db.js');
     
                 await tablet.update({
 
+                    name: `${brand} ${model}`,
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
                     colors: colors, 
