@@ -16,8 +16,17 @@ module.exports = (sequelize)=>{
         raiting: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            validate: {
+              min: 1,
+              max: 5,
+            }
         },
-
+        reviewed: {
+            type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+          },
+        
     },
     {
         timestamps: false
