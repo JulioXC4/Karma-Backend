@@ -9,7 +9,7 @@
             "picture": "url img user 1",
             "lastName": "Nieto", 
             "birthdate": "1999/02/04", 
-            "phoneNumber": 915327277, 
+            "phoneNumber": "+51 915327277", 
             "city": "Lima", 
             "country": "Perú", 
             "address": "Av. Equis 751"
@@ -21,7 +21,7 @@
             "picture": "url img user 2",
             "lastName": "Crespo", 
             "birthdate": "1985/05/08", 
-            "phoneNumber": 907538905, 
+            "phoneNumber": "+54 07538905", 
             "city": "Buenos Aires", 
             "country": "Argentina", 
             "address": "Av. Equis 188"
@@ -33,7 +33,7 @@
             "picture": "url img user 3",
             "lastName": "Rosado", 
             "birthdate": "2005/05/18", 
-            "phoneNumber": 925168985, 
+            "phoneNumber": "+57 925168985", 
             "city": "Bogota", 
             "country": "Colombia", 
             "address": "Av. Equis 164"
@@ -45,7 +45,7 @@
             "picture": "url img user 4", 
             "lastName": "Codina", 
             "birthdate": "2000/11/23", 
-            "phoneNumber": 999344572, 
+            "phoneNumber": "+58 999344572", 
             "city": "Caracas", 
             "country": "Venezuela", 
             "address": "Av. Equis 234"
