@@ -177,7 +177,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
         errors.push('El campo "birthdate" es obligatorio.');
       }
 
-      if (!phoneNumber || !regexPhoneNumber.test(phoneNumber.toString())) {
+      if (!phoneNumber) {
         errors.push('El campo "phoneNumber" no es válido.');
       }
 
@@ -230,7 +230,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
       } catch (error) {
 
-          return res.status(500).json({ message: "Error interno del servidor" });
+          return res.status(500).json({ message: error });
 
       }
 
