@@ -5,7 +5,7 @@ const productRoutes = require('./product.js');
 const categoryRoutes = require('./category.js');
 const orderRoutes = require('./order.js');
 const shoppingCartRoutes = require ('./shoppingCart.js');
-const commentsRaitingRoutes = require ('./commentsRaiting.js');
+const commentsRatingRoutes = require ('./commentsRating.js');
 const laptopRoutes = require('./laptop.js')
 const tabletRoutes = require('./tablet.js')
 const tvRoutes = require('./tv.js')
@@ -19,7 +19,7 @@ app.use('/product', productRoutes);
 app.use('/category', categoryRoutes);
 app.use('/order', orderRoutes);
 app.use('/shoppingCart',shoppingCartRoutes);
-app.use('/commentsRaiting',commentsRaitingRoutes);
+app.use('/commentsRating',commentsRatingRoutes);
 app.use('/laptop', laptopRoutes);
 app.use('/tablet', tabletRoutes);
 app.use('/tv',tvRoutes)
