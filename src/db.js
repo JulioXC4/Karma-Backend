@@ -48,7 +48,7 @@ Tablet.belongsTo(Product, { onDelete: 'CASCADE' });
 Product.hasOne(CellPhone, { onDelete: 'CASCADE' });
 CellPhone.belongsTo(Product, { onDelete: 'CASCADE' });
 
-/*
+
 User.hasMany(ShoppingCart, { foreignKey: 'user_id' });
 ShoppingCart.belongsTo(User,{ foreignKey: 'user_id' })
 
@@ -62,7 +62,7 @@ Product.hasMany(CommentsRaiting,{ foreignKey: 'product_id' })
 CommentsRaiting.belongsTo(Product,{ foreignKey: 'product_id' })
 
 User.hasMany(Order)
-Order.belongsTo(User)*/
+Order.belongsTo(User)
 /*Category.hasMany(Product)
 Product.belongsTo(Category) 
 */

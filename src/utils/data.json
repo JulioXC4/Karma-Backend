@@ -288,6 +288,54 @@
                     "internalMemory":"512 GB",
                     "mainCamera":"12 MP",
                     "colors":["Azul","Grafito","Oro","Plata"]
+                },
+                {
+                    "model": "Xiaomi 13 Pro", 
+                    "brand": "XIAOMI",
+                    "description": "El Xiaomi 13 Pro, la obra maestra que hace realidad tus obras maestras, es la última personificación de nuestro concepto de calidad de imagen. Las lentes profesionales, una estética visual emotiva y una verdadera experiencia Leica dan forma a un dispositivo que tiende un puente entre las imágenes legendarias del siglo pasado y tus obras maestras modernas. ", 
+                    "price": 1300, 
+                    "images": ["https://i02.appmifile.com/525_operatorx_operatorx_xm/22/02/2023/a83af85dd46f847a59a5ffecd1186d16.jpg?q=100","https://i02.appmifile.com/mi-com-product/fly-birds/pc/xiaomi-13-pro/11c12604270aaefa2dee9e7ceb20050f.jpg?f=webp"],
+                    "name":"Xiaomi 13 Pro",
+                    "ramMemory":"12 GB",
+                    "internalMemory":"512 GB",
+                    "mainCamera":"32 MP",
+                    "colors":["Blanco","Negro"]
+                },
+                {
+                    "model": "Apple iPhone 13 Pro Max", 
+                    "brand": "Apple",
+                    "description": "El iPhone 13 Pro Max, la gama de iPhone más profesional, presentan nuevo hardware de cámara, una pantalla inteligente con ProMotion, el mejor rendimiento gráfico jamás visto en un iPhone y una autonomía impresionante.", 
+                    "price": 1066, 
+                    "images": ["https://www.apple.com/newsroom/images/product/iphone/geo/Apple_iPhone-13-Pro_iPhone-13-Pro-Max_GEO_09142021_inline.jpg.medium.jpg","https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_New-Camera-System_09142021_Full-Bleed-Image.jpg.medium.jpg","https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_A15-Bionic_09142021_big_carousel.jpg.medium.jpg"],
+                    "name":"Apple iPhone 13 Pro Max",
+                    "ramMemory":"12 GB",
+                    "internalMemory":"512 GB",
+                    "mainCamera":"12 MP",
+                    "colors":["Azul alpino","Grafito","Oro","Plata","verde alpino"]
+                },
+                {
+                    "model": "Pixel 7 Pro", 
+                    "brand": "Google",
+                    "description": "El nuevo y potente procesador de Pixel está diseñado a medida con la inteligencia artificial de Google y hace que el Pixel 7 Pro sea más rápido, eficiente y seguro. También te ofrece funciones que te ayudan aún más, así como la mejor calidad de foto y vídeo. ", 
+                    "price": 800, 
+                    "images": ["https://tse4.mm.bing.net/th?id=OIP.60WpWvTx1w_DhOj_dY3sOAHaEo&pid=Api&P=0","https://tse3.mm.bing.net/th?id=OIP.ifGR5eeNGI69fVCd4QCRTQHaEL&pid=Api&P=0"],
+                    "name":"Google Pixel 7 Pro",
+                    "ramMemory":"12 GB",
+                    "internalMemory":"128 GB",
+                    "mainCamera":"50 MP",
+                    "colors":["Verde liquen","Nieve","Obsidiana"]
+                },
+                {
+                    "model": "HUAWEI P40 Pro", 
+                    "brand": "HUAWEI",
+                    "description": "Habla por ti mismo con la cámara cuádruple Leica Ultra Vision capturando fotos y videos en cualquier momento y en cualquier lugar que desees.El diseño innovador mejora su entretenimiento visual y comodidad ergonómica. Explora ahora y el futuro con HUAWEI P40 Pro.", 
+                    "price": 1500, 
+                    "images": ["https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p40-pro/images/design/design-intro-e.webp","https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p40-pro/images/design/colors/3-right-e.webp"],
+                    "name":"HUAWEI P40 Pro",
+                    "ramMemory":"8 GB",
+                    "internalMemory":"256 GB",
+                    "mainCamera":"50 MP",
+                    "colors":["Escarcha plateada","Negro","Blanco hielo","Rubor dorado","Azul marino profundo"]
                 }
                 
             ]

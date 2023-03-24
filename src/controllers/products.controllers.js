@@ -5,7 +5,7 @@ const {Op} = require('sequelize')
 
         try {
 
-        const { model, brand, description, price, images } = req.body
+        const { model, brand, description, price, images, averageRating } = req.body
 
         const errors = [];
 
@@ -41,7 +41,8 @@ const {Op} = require('sequelize')
                 brand: brand,
                 description: description, 
                 price: price, 
-                images: images
+                images: images,
+                averageRating:averageRating
     
                 })
     
