@@ -35,10 +35,10 @@ const getShoppingCart = async (req, res) => {
 
   const createShoppingCart = async (req, res) => {
       try {
-        const { user_id, product_id, amount } = req.body;
+        const { userId, productId, amount } = req.body;
         
-        const user = await User.findByPk(user_id);
-        const product = await Product.findByPk(product_id);
+        const user = await User.findByPk(userId);
+        const product = await Product.findByPk(productId);
         
     
         if (!user || !product) {
@@ -47,8 +47,8 @@ const getShoppingCart = async (req, res) => {
     
         const newCart = await ShoppingCart.create({
           amount:amount,
-          user_id:user_id,
-          product_id:product_id,
+          userId:userId,
+          productId:productId,
         });
         res.json(newCart);
       } catch (error) {
@@ -63,15 +63,15 @@ const  updateShoppingCart = async( req, res)=>{
   
     try {
       const { id } = req.params;
-  const { user_id,product_id, amount } = req.body;
+  const { userId,productId, amount } = req.body;
      
       const cartShopping = await ShoppingCart.findByPk(id);
       if (!cartShopping) {
         return res.status(404).json({ message: 'Carrito de compras no encontrado' });
       }
       cartShopping.amount = amount,
-      cartShopping.user_id = user_id,
-      cartShopping.product_id = product_id,
+      cartShopping.userId = userId,
+      cartShopping.productId = productId,
   
       await cartShopping.save();
       res.status(200).send('Modificado con exito');
