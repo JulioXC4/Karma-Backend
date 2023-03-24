@@ -29,10 +29,10 @@ const getCommentsRatings=  async (req, res) => {
 
     const badWords = ['palabra1', 'palabra2', 'palabra3']; // lista de palabras prohibidas
       try {
-          const { comments, rating, userId, productId,state = 'pendiente' } = req.body;
+          const { comments, rating, UserId, ProductId,state = 'pendiente' } = req.body;
   
-          const user = await User.findByPk(userId);
-          const product = await Product.findByPk(productId);
+          const user = await User.findByPk(UserId);
+          const product = await Product.findByPk(ProductId);
   
           if (!user || !product) {
               return res.status(404).send('El usuario o el producto no existe');
@@ -54,24 +54,24 @@ const getCommentsRatings=  async (req, res) => {
               comments,
               rating,
               state,
-              userId,
-              productId,
+              UserId,
+              ProductId,
               reviewed: false // indicar que el comentario no ha sido revisado
           });
   
           // Calcular el rating promedio del producto
-        const existingCommentRatings = await CommentsRating.findAll({ where: { productId } });
+        const existingCommentRatings = await CommentsRating.findAll({ where: { ProductId } });
         const totalRating = existingCommentRatings.reduce((sum, { rating }) => sum + rating, 0);
         const averageRating = totalRating / existingCommentRatings.length;
         
-        product.rating = averageRating;
+        product.averageRating = averageRating;
         await product.save();
         
   
           return res.status(200).json({
               message: 'Comentarios y calificación agregados con éxito y esperando revisión del administrador',
               newCommentRating,
-              productRating: product.product_rating
+              productRating: product.averageRating
           });
       } catch (error) {
           console.error(error);
@@ -119,18 +119,18 @@ const getCommentsRatings=  async (req, res) => {
       await commentRating.save();
   
       // Calcular el rating promedio del producto
-      const existingCommentRatings = await CommentsRating.findAll({ where: { productId: commentRating.productId } });
+      const existingCommentRatings = await CommentsRating.findAll({ where: { ProductId: commentRating.ProductId } });
       const totalRating = existingCommentRatings.reduce((sum, { rating }) => sum + rating, 0);
       const averageRating = totalRating / existingCommentRatings.length;
       
-      const product = await Product.findByPk(commentRating.productId);
-      product.rating = averageRating;
+      const product = await Product.findByPk(commentRating.ProductId);
+      product.averageRating = averageRating;
       await product.save();
   
       return res.status(200).json({
         message: "Registro de comentarios y calificación actualizado con éxito",
         commentRating,
-        productRating: product.rating,
+        productRating: product.averageRating,
       });
     } catch (error) {
       console.error(error);

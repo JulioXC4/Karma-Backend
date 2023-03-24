@@ -36,8 +36,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { User, ShoppingCart, Order, CommentsRating,  Product, Category, Laptop, Tablet,Television ,CellPhone} = sequelize.models;
 
 // Aca vendrian las relaciones
-User.hasMany(ShoppingCart, { foreignKey: 'userId' });
-ShoppingCart.belongsTo(User,{ foreignKey: 'userId' })
+User.hasMany(ShoppingCart);
+ShoppingCart.belongsTo(User);
 
 Product.hasOne(Laptop, { onDelete: 'CASCADE' });
 Laptop.belongsTo(Product, { onDelete: 'CASCADE' });
@@ -49,17 +49,17 @@ Product.hasOne(CellPhone, { onDelete: 'CASCADE' });
 CellPhone.belongsTo(Product, { onDelete: 'CASCADE' });
 
 
-User.hasMany(ShoppingCart, { foreignKey: 'userId' });
-ShoppingCart.belongsTo(User,{ foreignKey: 'userId' })
+User.hasMany(ShoppingCart);
+ShoppingCart.belongsTo(User)
 
-User.hasMany(CommentsRating,{ foreignKey: 'userId' })
-CommentsRating.belongsTo(User,{ foreignKey: 'userId' })
+User.hasMany(CommentsRating)
+CommentsRating.belongsTo(User)
 
-Product.hasMany(ShoppingCart,{ foreignKey: 'productId' })
-ShoppingCart.belongsTo(Product,{ foreignKey: 'productId' })
+Product.hasMany(ShoppingCart)
+ShoppingCart.belongsTo(Product)
 
-Product.hasMany(CommentsRating,{ foreignKey: 'productId' })
-CommentsRating.belongsTo(Product,{ foreignKey: 'productId' })
+Product.hasMany(CommentsRating)
+CommentsRating.belongsTo(Product)
 
 User.hasMany(Order)
 Order.belongsTo(User)
