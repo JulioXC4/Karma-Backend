@@ -300,8 +300,8 @@ const {regexPhoneNumber} = require('../utils/consts.js')
             picture: picture,
             name: "none",
             lastName: "none", 
-            birthdate: null, 
-            phoneNumber: null, 
+            birthdate: "none", 
+            phoneNumber: "none", 
             city: "none", 
             country: "none", 
             address: "none" 
