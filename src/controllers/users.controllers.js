@@ -236,7 +236,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
     };
 
-
+//test commit
     const deleteUser = async (req, res) => {
     
       try {
