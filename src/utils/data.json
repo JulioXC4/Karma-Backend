@@ -411,7 +411,7 @@
                     "screenSize":55
                 },
                 {
-                    "model":"XR-65A80J ",
+                    "model":"XR-65A80J",
                     "brand":"Sony",
                     "description":"Descubrí la perfecta armonía entre experiencia visual y sonora de la mano de Sony.Con el Smart TV XR-65A80J vas a acceder a las aplicaciones en las que se encuentran tus contenidos favoritos. Además, podés navegar por Internet, interactuar en redes sociales y divertirte con videojuegos.",
                     "price":2600,
@@ -419,7 +419,7 @@
                                 "https://img.youtube.com/vi/80B2SGjSuD0/hqdefault.jpg","https://arsonyb2c.vtexassets.com/arquivos/ids/357760-1200-auto?v=637695438728200000&width=1200&height=auto&aspect=true"
                             ],
                     "nameTV":"Smart TV Sony A80J",
-                    "typeResolution":"4K ",
+                    "typeResolution":"4K",
                     "systemOperating":"Android TV",
                     "screenSize":65
                 },
@@ -431,20 +431,20 @@
                     "images":[
                                 "https://images.philips.com/is/image/PhilipsConsumer/F400099135-FIL-global-001?wid=305&hei=173&$jpglarge$","https://images.philips.com/is/image/PhilipsConsumer/55PUD7406_77-MI1-global-001?$jpglarge$&wid=960"
                             ],
-                    "nameTV":"Smart TV Philips ",
-                    "typeResolution":"4K ",
+                    "nameTV":"Smart TV Philips",
+                    "typeResolution":"4K",
                     "systemOperating":"Android 10",
                     "screenSize":55
                 },{
-                    "model":"65PUD7906 ",
+                    "model":"65PUD7906",
                     "brand":"Philips",
                     "description":"El compromiso de Philips es brindar nuevas e innovadoras tecnologías.Con el Smart TV 65PUD7906 vas a acceder a las aplicaciones en las que se encuentran tus contenidos favoritos. Además, podés navegar por Internet, interactuar en redes sociales y divertirte con videojuegos.",
                     "price":670,
                     "images":[
                                 "https://images.philips.com/is/image/PhilipsConsumer/65PUD7906_77-MI1-global-001?$jpglarge$&wid=960","https://images.philips.com/is/image/PhilipsConsumer/F400099135-FIL-global-001?wid=305&hei=173&$jpglarge$"
                             ],
-                    "nameTV":"Smart TV Philips ",
-                    "typeResolution":"4K ",
+                    "nameTV":"Smart TV Philips",
+                    "typeResolution":"4K",
                     "systemOperating":"Android TV",
                     "screenSize":65
                 }
