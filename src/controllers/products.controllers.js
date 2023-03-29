@@ -1,11 +1,11 @@
-const {Product, Laptop, Tablet, conn} = require('../db.js');
+const {User, Product, Laptop, Tablet, conn} = require('../db.js');
 const {Op} = require('sequelize')
 
     const createProduct = async (req, res) => {
 
         try {
 
-        const { model, brand, description, price, images, averageRating } = req.body
+        const { model, brand, description, price, images, stock } = req.body
 
         const errors = [];
 
@@ -29,6 +29,10 @@ const {Op} = require('sequelize')
           errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
+        if (!stock || typeof stock !== 'number' || stock <= 0) {
+          errors.push('El campo "stock" no es válido.');
+        }
+
         if (errors.length > 0) {
           return res.status(400).json({ message: 'Error al crear producto.', errors });
         }
@@ -42,8 +46,7 @@ const {Op} = require('sequelize')
                 description: description, 
                 price: price, 
                 images: images,
-                averageRating:averageRating
-    
+                stock: stock
                 })
     
             if(!newProduct){
@@ -152,7 +155,7 @@ const {Op} = require('sequelize')
 
       try {
 
-        const { id, model, brand, description, price, images  } = req.body
+        const { id, model, brand, description, price, images, stock  } = req.body
 
         const errors = [];
 
@@ -180,6 +183,10 @@ const {Op} = require('sequelize')
           errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
+        if (!stock || typeof stock !== 'number' || stock <= 0) {
+          errors.push('El campo "stock" no es válido.');
+        }
+
         if (errors.length > 0) {
           return res.status(400).json({ message: 'Error al crear producto.', errors });
         }
@@ -195,8 +202,8 @@ const {Op} = require('sequelize')
             brand: brand,
             description: description, 
             price: price, 
-            images: images
-
+            images: images,
+            stock: stock
             })
 
           await product.save()
@@ -274,7 +281,7 @@ const {Op} = require('sequelize')
           const categoryFound = properties.filter(element => element.includes(category))
 
           if(categoryFound.length === 0){
-            //no encuentra la categoria
+
             return res.status(400).send("Categoria no encontrada")
 
           }else{
@@ -353,6 +360,39 @@ const {Op} = require('sequelize')
       }
     }
 
+    const getProductsFromUserShoppingCart = async (req, res) => {
+
+      try {
+        const {id} = req.query
+
+        if(!id){
+          return res.status(400).send("Debe ingresar la id del usuario por query")
+        }
+        else {
+          const user = await User.findByPk(id)
+
+          if(!user){
+
+            return res.status(404).send(`El usuario con la id ${id} no existe`)
+
+          }else{
+            const userShoppingList = await user.getShoppingCarts({
+              include: {
+                model: Product
+              }
+            })
+            
+            return res.status(200).json(userShoppingList)
+          }
+        }
+      } catch (error) {
+
+        return res.status(400).json({message: error.message})
+
+      }
+
+    }
+
     module.exports = {
         createProduct,
         getProducts,
@@ -360,5 +400,6 @@ const {Op} = require('sequelize')
         updateProduct,
         deleteProduct,
         getProductsByCategory,
-        getProductsByInput
+        getProductsByInput,
+        getProductsFromUserShoppingCart
     };
