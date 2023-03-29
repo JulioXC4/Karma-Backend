@@ -33,6 +33,16 @@ module.exports = (sequelize)=>{
             allowNull: false,
             defaultValue: []
         },
+        stock: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 1
+        },
+        averageRating: {
+            type: DataTypes.FLOAT,
+            allowNull: true,
+            defaultValue: 0
+        }, 
 
     },
     {

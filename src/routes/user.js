@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const { createUser, getUsers, getUser, updateUser, deleteUser } = require('../controllers/users.controllers.js');
+const { createUser, getUsers, getUser, updateUser, deleteUser, userAuth0Register } = require('../controllers/users.controllers.js');
 
 const router = Router();
 
@@ -8,8 +8,10 @@ const router = Router();
 router.get("/getUsers", getUsers);
 router.get("/getUser", getUser);
 
+
 //POST
 router.post("/createUser", createUser);
+router.post("/userAuth0Register", userAuth0Register);
 
 //PUT
 router.put("/updateUser", updateUser);

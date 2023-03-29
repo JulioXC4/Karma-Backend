@@ -12,45 +12,52 @@ module.exports = (sequelize)=>{
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-            notEmpty: true
+                notEmpty: {
+                    msg: "El nombre no puede estar vacío"
+                },
             }
         },
-        ram: {
+        ramMemory: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-            notEmpty: true
+                notEmpty: {
+                    msg: "La cantidad de memoria RAM no puede estar vacía"
+                },
             }
         },
         internalMemory: {
             type: DataTypes.STRING,
             allowNull: false,
+            defaultValue: "",
             validate: {
-            notEmpty: true
+                notEmpty: {
+                    msg: "La cantidad de memoria RAM no puede estar vacía"
+                },
             }
         },
         mainCamera: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-            notEmpty: true
+              notEmpty: {
+                msg: "La cámara principal no puede estar vacía"
+              },
+            
             }
         },
         colors: {
             type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false,
             defaultValue: [],
+            validate: {
+                notEmpty: {
+                    msg: "Debe indicar al menos un color"
+                },
+            }
         },
     },
     {
         timestamps: false
     }
 )}
-
-/* mainCamera: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-            notEmpty: true
-            }
-        },*/

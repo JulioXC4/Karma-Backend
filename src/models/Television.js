@@ -35,7 +35,7 @@ module.exports= (sequelize) =>{
                     msg:'El tipo de resolucion es requerido'
                 },
                 len:{
-                    args:[3,50],
+                    args:[1,50],
                     msg:'El tipo de resolution debe contener entre 3 a 50 caracteres'
                 },
                 isString(value,next){

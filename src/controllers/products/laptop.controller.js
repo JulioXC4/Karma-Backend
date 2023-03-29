@@ -48,6 +48,7 @@ const {Laptop, Product} = require('../../db.js');
 
             const newLaptop = await Laptop.create({
 
+                name: `${brand} ${model}`,
                 ramMemory: ramMemory, 
                 internalMemory: internalMemory, 
                 processor: processor
@@ -157,6 +158,7 @@ const {Laptop, Product} = require('../../db.js');
     
                 await laptop.update({
 
+                    name: `${brand} ${model}`,
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
                     processor: processor
