@@ -154,6 +154,22 @@ const getCommentsRatings=  async (req, res) => {
         res.status(400).json({message: error.message  });
       }
     };
+
+    const findCommentsByProductId = async (req, res) => {
+      try {
+        const { ProductId } = req.query;
+        
+        const comments = await CommentsRating.findAll({ where: { ProductId } });
+    
+        if (!comments || comments.length === 0) {
+          return res.status(404).send(`No existen comentarios para el producto con ProductId ${ProductId}`);
+        }
+        return res.status(200).json(comments);
+      } catch (error) {
+        return res.status(400).json({ message: error.message });
+      }
+      
+      };
     
 
 
@@ -163,10 +179,6 @@ const getCommentsRatings=  async (req, res) => {
     createCommentsRating,
     updateCommentsRating ,
     deleteCommentsRating,
+    findCommentsByProductId,
     
-
-
-  
-  
-  
   }

@@ -1,12 +1,13 @@
 const { Router } = require('express');
 
-const{getCommentsRatings,getCommentsRating,createCommentsRating,updateCommentsRating,deleteCommentsRating} = require ('../controllers/commentsRatings.controllers.js');
+const{getCommentsRatings,getCommentsRating,createCommentsRating,updateCommentsRating,findCommentsByProductId, deleteCommentsRating} = require ('../controllers/commentsRatings.controllers.js');
 
 const router = Router();
 
 //GET
 router.get("/getCommentsRatings", getCommentsRatings);
 router.get("/getCommentsRating", getCommentsRating);
+router.get("/comments", findCommentsByProductId);
 
 //POST
 router.post("/createCommentsRating", createCommentsRating);
