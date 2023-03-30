@@ -66,6 +66,9 @@ Order.belongsTo(User)
 Product.hasOne(Television, { onDelete: 'CASCADE' });
 Television.belongsTo(Product, { onDelete: 'CASCADE' });
 
+Order.hasMany(ShoppingCart)
+ShoppingCart.belongsTo(Order)
+
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
