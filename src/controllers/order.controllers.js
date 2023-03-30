@@ -1,4 +1,4 @@
-const {Order} = require('../db.js')
+const {Order,ShoppingCart} = require('../db.js')
 
 const getAllOrder = async(req,res) =>{
     try {
@@ -29,11 +29,18 @@ const getOrder = async(req,res) =>{
 
 const createOrder = async(req,res) =>{
     try {
-        const {datePurchase,orderStatus} = req.body
+        const {datePurchase,orderStatus,idShoppingCart} = req.body
+        const ShopCart = await ShoppingCart.findByPk(idShoppingCart)
         const newOrder = await Order.create({
             datePurchase,
-            orderStatus
+            orderStatus,
+            UserId:ShopCart.UserId
         })
+
+        await ShopCart.update({
+            OrderId:newOrder.id
+        })
+
         return res.status(200).json(newOrder)
     } catch (error) {
         res.status(400).json({message: error.message})
