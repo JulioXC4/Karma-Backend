@@ -316,12 +316,20 @@ const {Op} = require('sequelize')
         const productAssociations = await Product.associations
         const productAssociationsKeys = Object.keys(productAssociations)
 
+        const excludedModels = ['ShoppingCarts','CommentsRatings']
+
+        //Funcion excluir modelos
+        excludedModels.map((model) => {
+          const index = productAssociationsKeys.indexOf(model)
+          productAssociationsKeys.splice(index, 1); 
+        })
+
         if(!input || typeof input !== 'string' || input.length < 2){
 
           return res.status(400).send("Parametros incompletos o informacion invalida")
 
         }else{
-
+          console.log(productAssociationsKeys)
           const products = await Product.findAll({
 
             where: {
@@ -329,6 +337,7 @@ const {Op} = require('sequelize')
                 conn.where(conn.fn('LOWER', conn.col('model')), 'LIKE', `%${lowCharacterInput}%`),
                 conn.where(conn.fn('LOWER', conn.col('brand')), 'LIKE', `%${lowCharacterInput}%`)
               ]
+              
             },  include: productAssociationsKeys.map(modelName => ({
                 model: conn.models[modelName],
                 required: false
@@ -366,7 +375,7 @@ const {Op} = require('sequelize')
         const {id} = req.query
 
         if(!id){
-          return res.status(400).send("Debe ingresar la id del usuario por query")
+          return res.status(400).send('Debe ingresar la id del usuario por query')
         }
         else {
           const user = await User.findByPk(id)
