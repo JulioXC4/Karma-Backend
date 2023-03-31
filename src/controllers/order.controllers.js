@@ -2,7 +2,11 @@ const {Order,ShoppingCart,User,Product} = require('../db.js')
 
 const getAllOrder = async(req,res) =>{
     try {
-        const order = await Order.findAll()
+        const order = await Order.findAll({
+            include:[{
+                model:ShoppingCart,
+            }]
+        })
         if (order.length < 1) {
             return res.status(400).send("No existen registros de Pedidos")
         } else {
@@ -16,7 +20,14 @@ const getAllOrder = async(req,res) =>{
 const getOrder = async(req,res) =>{
     try {
         const {id} = req.query
-        const order = await Order.findByPk(id)
+        const order = await Order.findByPk(id,{
+            include:[{
+                model:ShoppingCart,
+                include:[{
+                    model:Product
+                }]
+            }]
+        })
         if (!order) {
             return res.status(400).send(`No existe el pedido con la id:${id}`)
         } else {
@@ -33,7 +44,12 @@ const createOrder = async(req,res) =>{
 
         const UserCarts = await User.findByPk(idUser,{
             attributes:['id'],
-            include:[{model:ShoppingCart}]
+            include:[{
+                model:ShoppingCart,
+                where:{
+                    OrderId:null
+                }
+            }]
         })
         if (!UserCarts) {
             return res.status(400).json({error:"Debes ingresar un usuario existente"})
