@@ -10,6 +10,7 @@ const tabletRoutes = require('./tablet.js')
 const tvRoutes = require('./tv.js')
 const CellPhoneRoutes  = require('./cellPhone.js');
 const productPromoRoutes = require('./productPromotion');
+const payments  = require('./payments.js');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/laptop', laptopRoutes);
 app.use('/tablet', tabletRoutes);
 app.use('/tv',tvRoutes)
 app.use('/cellPhone',CellPhoneRoutes);
+app.use('/payments',payments);
 
 
 module.exports = app;
