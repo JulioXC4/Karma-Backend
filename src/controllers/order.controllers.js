@@ -1,4 +1,4 @@
-const {Order,ShoppingCart} = require('../db.js')
+const {Order,ShoppingCart,User,Product} = require('../db.js')
 
 const getAllOrder = async(req,res) =>{
     try {
@@ -29,19 +29,45 @@ const getOrder = async(req,res) =>{
 
 const createOrder = async(req,res) =>{
     try {
-        const {datePurchase,orderStatus,idShoppingCart} = req.body
-        const ShopCart = await ShoppingCart.findByPk(idShoppingCart)
-        const newOrder = await Order.create({
-            datePurchase,
-            orderStatus,
-            UserId:ShopCart.UserId
-        })
+        const {datePurchase,orderStatus,idUser} = req.body
 
-        await ShopCart.update({
-            OrderId:newOrder.id
+        const UserCarts = await User.findByPk(idUser,{
+            attributes:['id'],
+            include:[{model:ShoppingCart}]
         })
+        if (!UserCarts) {
+            return res.status(400).json({error:"Debes ingresar un usuario existente"})
+        }
+        if (UserCarts.ShoppingCarts.length < 1) {
+            return res.status(400).json({error:"El usuario no tiene carritos de compra"})
+        }
 
-        return res.status(200).json(newOrder)
+        let idOrder=0;
+        
+        for (let i = 0; i < UserCarts.ShoppingCarts.length; i++) {
+            let idShop=UserCarts.ShoppingCarts[i].id
+            const ShopCart = await ShoppingCart.findByPk(idShop)
+            if (!idOrder) {
+                const newOrder = await Order.create({
+                    datePurchase,
+                    orderStatus,
+                    UserId:ShopCart.UserId
+                })
+                idOrder = newOrder.id
+            }
+            const asignOrder = await Order.findByPk(idOrder)
+            await ShopCart.update({
+                OrderId:asignOrder.id
+            })
+        }
+
+        const totalOrder = await Order.findByPk(idOrder,{
+            include:[{
+                model:ShoppingCart,
+                include:[{model:Product}]
+            }]
+        })
+        res.send(totalOrder)
     } catch (error) {
         res.status(400).json({message: error.message})
     }
