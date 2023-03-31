@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const { createProduct, getProducts, getProduct, getProductsByCategory, getProductsByInput, getProductsFromUserShoppingCart, updateProduct, deleteProduct } = require('../controllers/products.controllers.js');
+const { createProduct, getProducts, getProduct, getProductsByCategory, getProductsByInput, getProductsFromUserShoppingCart, updateProduct, deleteProduct,getAllProductPromo } = require('../controllers/products.controllers.js');
 
 const router = Router();
 
@@ -10,6 +10,7 @@ router.get("/getProduct", getProduct);
 router.get("/getProductsByCategory", getProductsByCategory)
 router.get("/getProductsByInput", getProductsByInput)
 router.get("/getProductsFromUserShoppingCart", getProductsFromUserShoppingCart)
+router.get('/getproductPromo/:quantity',getAllProductPromo)
 
 //POST
 router.post("/createProduct", createProduct);

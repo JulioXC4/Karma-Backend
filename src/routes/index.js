@@ -9,7 +9,6 @@ const laptopRoutes = require('./laptop.js')
 const tabletRoutes = require('./tablet.js')
 const tvRoutes = require('./tv.js')
 const CellPhoneRoutes  = require('./cellPhone.js');
-const productPromoRoutes = require('./productPromotion');
 const payments  = require('./payments.js');
 
 const app = express();
@@ -17,7 +16,6 @@ const app = express();
 app.use('/', homeRoutes);
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
-app.use('/product', productPromoRoutes)
 app.use('/order', orderRoutes);
 app.use('/shoppingCart',shoppingCartRoutes);
 app.use('/commentsRating',commentsRatingRoutes);
