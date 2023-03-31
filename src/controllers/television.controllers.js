@@ -2,7 +2,7 @@ const {Television,Product} = require('../db')
 
 const createTelevision = async(req,res) =>{
     try {
-        const {model,brand,description,price,images,nameTV,typeResolution,systemOperating,screenSize} = req.body
+        const {model,brand,description,price,images,stock,nameTV,typeResolution,systemOperating,screenSize} = req.body
         const newTV = await Television.create({
             name:nameTV,
             typeResolution,
@@ -16,6 +16,7 @@ const createTelevision = async(req,res) =>{
             description,
             price,
             images,
+            stock
         })
     
         await newTV.setProduct(newProduct)
@@ -28,7 +29,7 @@ const createTelevision = async(req,res) =>{
 
 const updateTelevision = async(req,res) =>{
     try {
-        const {idProduct,model,brand,description,price,images,nameTV,typeResolution,systemOperating,screenSize} = req.body
+        const {idProduct,model,brand,description,price,images,stock,nameTV,typeResolution,systemOperating,screenSize} = req.body
         const product = await Product.findByPk(idProduct,{
             include:Television
         })
@@ -36,7 +37,7 @@ const updateTelevision = async(req,res) =>{
             return res.status(400).send(`No existe el producto con la id:${idProduct}`)
         } else {
             await product.update({
-                model,brand,description,price,images,
+                model,brand,description,price,images,stock
             })
             const productTV = await product.getTelevision()
             const tvID = productTV.dataValues.id

@@ -5,7 +5,7 @@ const {CellPhone, Product} = require('../db.js');
 
     const createCellPhone = async (req, res) => {
         try {
-          const { model, brand, description, price, images, name, ramMemory, internalMemory, mainCamera, colors } = req.body;
+          const { model, brand, description, price, images, stock, name, ramMemory, internalMemory, mainCamera, colors } = req.body;
           const newCellPhone = await CellPhone.create({ 
             name,
             ramMemory,
@@ -19,7 +19,8 @@ const {CellPhone, Product} = require('../db.js');
             brand,
             description, 
             price, 
-            images
+            images,
+            stock
           });
           
           await newCellPhone.setProduct(newProduct);
@@ -49,7 +50,8 @@ const {CellPhone, Product} = require('../db.js');
                     brand,
                     description, 
                     price, 
-                    images
+                    images, 
+                    stock
     
                 })
                 await product.save();
