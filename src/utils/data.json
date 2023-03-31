@@ -63,6 +63,7 @@
                 "description": "El Samsung Galaxy Tab S6 Lite es una tableta Android de gama media lanzada por Samsung en 2020. Cuenta con una pantalla TFT de 10.4 pulgadas con una resolución de 2000 x 1200 píxeles y una relación de aspecto de 5:3. Está alimentado por un procesador Exynos 9611, tiene 4GB de RAM y opciones de almacenamiento interno de 64GB o 128GB, que se pueden ampliar con una tarjeta microSD.",
                 "price": 329,
                 "images": ["https://m.media-amazon.com/images/I/51svO5ZebuL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/51tgw13lRfL._AC_SL1500_.jpg"],
+                "stock": 10,
                 "ramMemory": "4 GB",
                 "internalMemory": "64 GB",
                 "colors": ["Gris","Negro"],
@@ -75,6 +76,7 @@
                 "description": "La Lenovo Tab P11 Plus es una tableta Android lanzada por Lenovo en 2021. Cuenta con una pantalla IPS de 11 pulgadas con una resolución de 2000 x 1200 píxeles y una relación de aspecto de 16:10. Está alimentada por un procesador octa-core MediaTek Helio G90T y tiene opciones de RAM de 4GB o 6GB y opciones de almacenamiento interno de 64GB o 128GB, que se pueden ampliar con una tarjeta microSD.",
                 "price": 209,
                 "images": ["https://m.media-amazon.com/images/I/716x+PohsnL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71w9ei3xPcL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61ASGQWKM9L._AC_SL1500_.jpg"],
+                "stock": 10,
                 "ramMemory": "4 GB",
                 "internalMemory": "64 GB",
                 "colors": ["Gris Platino","Gris","Azul"],
@@ -87,6 +89,7 @@
                 "description": "El Samsung Galaxy Tab A7 Lite es una tableta de gama media lanzada en 2021. Tiene una pantalla TFT de 8.7 pulgadas con una resolución de 1340x800 píxeles y una relación de aspecto de 15:9. La tableta está alimentada por un procesador octa-core MediaTek Helio P22T y viene con 3GB de RAM y 32GB de almacenamiento interno, que se puede ampliar hasta 1 TB mediante una tarjeta microSD.",
                 "price": 134,
                 "images": ["https://m.media-amazon.com/images/I/715cy1Hw3IL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71RhibbJbAL._AC_SL1500_.jpg"],
+                "stock": 10,
                 "ramMemory": "3 GB",
                 "internalMemory": "32 GB",
                 "colors": ["Gris","Plata"],
@@ -99,6 +102,7 @@
                 "description": "La Lenovo Tab M10 Plus es una tablet de gama media con una pantalla IPS de 10.3 pulgadas con resolución Full HD. Está equipada con un procesador octa-core MediaTek Helio P22T y viene con 2GB o 4GB de RAM y opciones de almacenamiento interno de 32GB o 64GB. La tablet cuenta con una cámara trasera de 8 megapíxeles y una cámara frontal de 5 megapíxeles para videollamadas. También viene con una batería de 5000mAh, altavoces estéreo, soporte para WiFi y Bluetooth 5.0, y se ejecuta en el sistema operativo Android 9.0 Pie. Además, la Tab M10 Plus tiene una construcción de aluminio y un diseño delgado y ligero que la hace fácil de llevar contigo en tus desplazamientos.",
                 "price": 189,
                 "images": ["https://m.media-amazon.com/images/I/71fKxd1tnwL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71YswcvFYGL._AC_SL1500_.jpg"],
+                "stock": 10,
                 "ramMemory": "4 GB",
                 "internalMemory": "64 GB",
                 "colors": ["Gris Oscuro","Gris"],
@@ -111,6 +115,7 @@
                 "description": "El iPad Air 2 es una tableta electrónica fabricada por Apple Inc. Fue lanzada al mercado en octubre de 2014 como sucesora del iPad Air original. Tiene una pantalla de 9,7 pulgadas con una resolución de 2048x1536 píxeles y una densidad de píxeles de 264 ppp. Está equipada con un procesador A8X de tres núcleos y un coprocesador de movimiento M8, que ofrece un rendimiento mejorado en comparación con el iPad Air original.",
                 "price": 149,
                 "images": ["https://m.media-amazon.com/images/I/71kXAFOBhCL._AC_SL1500_.jpg"],
+                "stock": 10,
                 "ramMemory": "2 GB",
                 "internalMemory": "16 GB",
                 "colors": ["Gris"],
@@ -123,6 +128,7 @@
                 "description": "El Samsung Galaxy Tab A8 es una tableta de gama media lanzada por Samsung en el año 2021. Cuenta con una pantalla TFT de 8.4 pulgadas con una resolución de 1200 x 1920 píxeles y una relación de aspecto de 16:10. Está alimentada por un procesador octa-core Exynos 7904 con 3 GB de RAM y 32 GB de almacenamiento interno, que se puede ampliar hasta 1 TB mediante una tarjeta microSD.",
                 "price": 177,
                 "images": ["https://m.media-amazon.com/images/I/415TupYINrL._AC_SL1200_.jpg","https://m.media-amazon.com/images/I/61fV4UeHeLL._AC_SL1200_.jpg"],
+                "stock": 10,
                 "ramMemory": "3 GB",
                 "internalMemory": "32 GB",
                 "colors": ["Blanco"],
@@ -135,6 +141,7 @@
                 "description": "El Microsoft Surface Pro 9 es una tableta 2 en 1 de gama alta lanzada por Microsoft en 2022. Cuenta con una pantalla táctil PixelSense de 13 pulgadas con una resolución de 2880 x 1920 píxeles y una relación de aspecto de 16:9. Está alimentada por procesadores Intel Core de décima generación, que van desde un Core i3 hasta un Core i7, y puede tener hasta 16 GB de RAM y 1 TB de almacenamiento SSD.",
                 "price": 994,
                 "images": ["https://m.media-amazon.com/images/I/51qmNla8aTL._AC_SL1080_.jpg","https://m.media-amazon.com/images/I/514MPZXij7L._AC_SL1080_.jpg","https://m.media-amazon.com/images/I/613Wlkk32IL._AC_SL1080_.jpg"],
+                "stock": 10,
                 "ramMemory": "8 GB",
                 "internalMemory": "256 GB",
                 "colors": ["Negro"],
@@ -147,6 +154,7 @@
                 "description": "El Microsoft Surface Pro 4 es una tableta 2 en 1 lanzada por Microsoft en 2015. Cuenta con una pantalla táctil PixelSense de 12.3 pulgadas con una resolución de 2736 x 1824 píxeles y una relación de aspecto de 3:2. Está alimentada por procesadores Intel Core de sexta generación, que van desde un Core m3 hasta un Core i7, y puede tener hasta 16 GB de RAM y 1 TB de almacenamiento SSD.",
                 "price": 365,
                 "images": ["https://m.media-amazon.com/images/I/61-HxRmqP6L._AC_SL1200_.jpg"],
+                "stock": 10,
                 "ramMemory": "8 GB",
                 "internalMemory": "256 GB",
                 "colors": ["Plata"],
@@ -163,6 +171,7 @@
                     "description": "Acer Aspire Vero es un modelo de computadora portátil diseñado con un enfoque en la sostenibilidad ambiental. Está hecho con materiales reciclados y cuenta con una huella de carbono reducida en comparación con otros modelos de computadoras portátiles. La laptop cuenta con una pantalla de 15,6 pulgadas con resolución Full HD y viene equipada con un procesador Intel Core de 11a generación y una tarjeta gráfica NVIDIA GeForce MX350, lo que la hace capaz de manejar tareas cotidianas y algunas aplicaciones ligeras de edición de fotos y video. También cuenta con 8 GB de RAM y una unidad de almacenamiento SSD de 512 GB para un rendimiento rápido en general. Además, viene con una variedad de opciones de conectividad, incluyendo Wi-Fi 6, Bluetooth 5.0, HDMI y USB Type-C. En resumen, el Acer Aspire Vero es una computadora portátil diseñada para ser más sostenible y reducir su impacto en el medio ambiente, mientras que sigue siendo una opción de computadora portátil capaz para tareas cotidianas.", 
                     "price": 509, 
                     "images": ["https://m.media-amazon.com/images/I/81XIwlF8sxL._AC_SL1500_.jpg"],
+                    "stock": 10,
                     "ramMemory": "8 GB", 
                     "internalMemory": "512 GB SSD", 
                     "processor": "Intel Core i5-1155G7"
@@ -173,6 +182,7 @@
                     "description": "MSI Katana GF66 es un modelo de computadora portátil para juegos fabricado por MSI. Tiene una pantalla de 15,6 pulgadas con resolución Full HD y una frecuencia de actualización de 144 Hz para una experiencia de juego fluida. La laptop está equipada con una tarjeta gráfica NVIDIA GeForce RTX 30 Series y un procesador Intel Core i7 de 11a generación, lo que lo hace muy capaz de ejecutar juegos de alta exigencia. También viene con 16 GB de RAM y una unidad de almacenamiento SSD de 512 GB, lo que permite un rendimiento rápido en general. La laptop tiene un diseño delgado y elegante, con un teclado retroiluminado que permite una experiencia de escritura cómoda en entornos con poca luz. Además, cuenta con varias opciones de conectividad, incluyendo Wi-Fi 6, Bluetooth 5.1, HDMI y USB Type-C. En resumen, el MSI Katana GF66 es una laptop para juegos potente y bien equipada, que ofrece un rendimiento sólido y un diseño atractivo para satisfacer las necesidades de los jugadores exigentes.", 
                     "price": 899, 
                     "images": ["https://m.media-amazon.com/images/I/71nk3uDrqkL._AC_SL1500_.jpg"],
+                    "stock": 10,
                     "ramMemory": "16 GB", 
                     "internalMemory": "512 GB NVMe SSD", 
                     "processor": "Intel Core i7-12650H"
@@ -183,6 +193,7 @@
                     "description": "El Lenovo IdeaPad 3 es un portátil de gama media con una pantalla de 15,6 pulgadas y resolución HD o Full HD, dependiendo de la configuración. Está equipado con un procesador Intel o AMD, según el modelo, y viene con opciones de RAM de hasta 8 GB y almacenamiento interno de hasta 512 GB en SSD o 1TB en disco duro. La laptop cuenta con una cámara web integrada, altavoces estéreo y soporte para WiFi y Bluetooth 5.0. También viene con una variedad de puertos, incluyendo USB Type-C, USB 3.0, HDMI y un lector de tarjetas SD. El Lenovo IdeaPad 3 tiene un diseño elegante y delgado, y ofrece una buena relación calidad-precio para tareas cotidianas como navegar por Internet, trabajar en documentos y ver películas.", 
                     "price": 608, 
                     "images": ["https://m.media-amazon.com/images/I/814jxBiulZL._AC_SL1500_.jpg"],
+                    "stock": 10,
                     "ramMemory": "8 GB", 
                     "internalMemory": "512GB SSD", 
                     "processor": "AMD Ryzen 7 5700U"
@@ -193,6 +204,7 @@
                     "description": "El Samsung Galaxy Book2 es un portátil 2 en 1 de alta gama que viene con una pantalla táctil Super AMOLED de 12 pulgadas con resolución Full HD. Está equipado con un procesador Snapdragon 850 de Qualcomm y viene con 4 GB de RAM y 128 GB de almacenamiento interno en SSD. La laptop ejecuta Windows 10 en modo S, lo que significa que sólo puedes instalar aplicaciones desde la Microsoft Store. También cuenta con una batería de larga duración que ofrece hasta 20 horas de uso continuo, soporte para LTE y WiFi, una cámara trasera de 8 megapíxeles y una cámara frontal de 5 megapíxeles. Además, el Samsung Galaxy Book2 viene con un lápiz óptico incluido, lo que lo convierte en una excelente opción para aquellos que necesitan una portátil versátil para tomar notas, dibujar o trabajar en tareas creativas.", 
                     "price": 809, 
                     "images": ["https://m.media-amazon.com/images/I/71clvTgmMbL._AC_SL1500_.jpg"],
+                    "stock": 10,
                     "ramMemory": "16 GB", 
                     "internalMemory": "512 GB SSD", 
                     "processor": "Intel Core i7-1255U"
@@ -203,6 +215,7 @@
                     "description": "La Dell XPS 13 9310 es una computadora portátil que cuenta con una pantalla InfinityEdge de 13.4 pulgadas con resolución FHD+ o 4K, procesadores Intel Core de 11ª generación, hasta 16 GB de RAM y hasta 2 TB de almacenamiento SSD. También tiene una batería de larga duración, una cámara web HD y una variedad de puertos, incluyendo Thunderbolt 4 y USB-C. La Dell XPS 13 9310 es una computadora portátil premium para usuarios que buscan un rendimiento potente, una pantalla de alta calidad y una duración de batería sólida.", 
                     "price": 999, 
                     "images": ["https://m.media-amazon.com/images/I/81aI36Tc0XS._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71lh7szyqnS._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/71oBZHQ0ElS._AC_SL1500_.jpg"],
+                    "stock": 10,
                     "ramMemory": "16 GB", 
                     "internalMemory": "512 GB SSD", 
                     "processor": "Intel Core i7-1185G7"
@@ -213,6 +226,7 @@
                     "description": "El Dell XPS 13 9305 es una computadora portátil de gama alta lanzada por Dell en 2021. Cuenta con una pantalla Full HD de 13.3 pulgadas con tecnología InfinityEdge, que brinda una experiencia de visualización impresionante gracias a su borde casi invisible. Está alimentado por procesadores Intel Core i5 de 11ª generación y viene con 8 GB de RAM y 256 GB de almacenamiento SSD.", 
                     "price": 799, 
                     "images": ["https://m.media-amazon.com/images/I/61Zw6i1tunL._AC_SL1249_.jpg","https://m.media-amazon.com/images/I/51UkJZYI8CL._AC_SL1224_.jpg","https://m.media-amazon.com/images/I/610fHHDdhOL._AC_SL1395_.jpg"],
+                    "stock": 10,
                     "ramMemory": "8 GB", 
                     "internalMemory": "256 GB SSD", 
                     "processor": "Intel Core i5-1135G7"
@@ -223,6 +237,7 @@
                     "description": "El Alienware m15 R4 es una computadora portátil de alta gama diseñada para juegos lanzada por Alienware en 2021. Cuenta con una pantalla Full HD de 15.6 pulgadas o una pantalla 4K de 60Hz o 144Hz con tecnología de seguimiento ocular Tobii, que puede mejorar la precisión y velocidad en juegos. El m15 R4 está alimentado por procesadores Intel Core i7 o i9 de décima generación y puede tener hasta 32 GB de RAM y hasta 4 TB de almacenamiento SSD.", 
                     "price": 2199, 
                     "images": ["https://m.media-amazon.com/images/I/71Jp27bTQoL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/718r8bl1QbL._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/61x+yaABHGL._AC_SL1500_.jpg"],
+                    "stock": 10,
                     "ramMemory": "16 GB", 
                     "internalMemory": "512 GB SSD", 
                     "processor": "Intel Core i7-10870H"
@@ -233,6 +248,7 @@
                     "description": "El ASUS ROG Strix Scar 15 es una computadora portátil de alta gama diseñada para juegos lanzada por ASUS en 2021. Cuenta con una pantalla Full HD de 15.6 pulgadas con una alta frecuencia de actualización de hasta 300Hz, lo que permite una experiencia de juego suave y fluida con una gran capacidad de respuesta. Está alimentado por procesadores Intel Core i7 o i9 de décima o undécima generación y puede tener hasta 32 GB de RAM y hasta 2 TB de almacenamiento SSD.", 
                     "price": 2199, 
                     "images": ["https://m.media-amazon.com/images/I/71sgAr9atBS._AC_SL1500_.jpg","https://m.media-amazon.com/images/I/91wC9gHDXhL._AC_SL1500_.jpg"],
+                    "stock": 10,
                     "ramMemory": "16 GB", 
                     "internalMemory": "1 TB SSD", 
                     "processor": "AMD Ryzen 9 5900HX"
@@ -247,6 +263,7 @@
                     "description": "El Samsung Galaxy S23 Ultra se destaca por su poderoso procesador Snapdragon 8 Gen 2 y su batería de 5.000 mAh de capacidad ", 
                     "price": 2000, 
                     "images": ["https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011164.webp","https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011178_3.webp"],
+                    "stock": 10,
                     "name":"SAMSUNG GALAXY S23 ULTRA",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
@@ -259,6 +276,7 @@
                     "description": "El Galaxy Fold más fino y manejable hasta el momento, con pantallas grandes, tanto por dentro como por fuera. Plegado, es un teléfono inteligente de primera calidad de 6,2 pulgadas ", 
                     "price": 2000, 
                     "images": ["https://images.samsung.com/is/image/samsung/my/galaxy-note20/gallery/my-galaxy-z-fold2-f916-sm-f916bznaxme-frontmysticbronze-273584304?$650_519_PNG$","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Fru_xV0yPn-fEZEOR2edWOBaHififXSrMokyLNHAuSCrej80uP-2Jq5XMdbJCZ1N_T0&usqp=CAU"],
+                    "stock": 10,
                     "name":"SAMSUNG Galaxy Z Fold3",
                     "ramMemory":"12 GB",
                     "internalMemory":"256 GB",
@@ -271,6 +289,7 @@
                     "description": "El POCO X5 PRO 5G con un procesador de 6 nanómetros, con una pantalla que hasta la fecha se reservaba para la gama alta", 
                     "price": 750, 
                     "images": ["https://i.blogs.es/86a836/img_20230206_112113_788/1024_2000.jpeg","https://i.blogs.es/10ed78/img_20230206_112113_724/1366_2000.jpeg"],
+                    "stock": 10,
                     "name":"XIAOMI POCO X5 PRO 5G",
                     "ramMemory":"8 GB",
                     "internalMemory":"16 GB",
@@ -283,6 +302,7 @@
                     "description": "El  Apple iPhone tiene una Pantalla Super Retina XDR de 6.7 pulgadas con ProMotion que brinda una respuesta más rápida y fluida.(2)", 
                     "price": 1066, 
                     "images": ["https://www.apple.com/v/iphone-14-pro/d/images/specs/hero_iphone_14_pro__fnda92wv13m2_large.jpg","https://www.apple.com/la/iphone-14-pro/images/key-features/features/dynamic-island/dd_dynamic_island_notify_v__gdxu3q8ym82u_large.jpg"],
+                    "stock": 10,
                     "name":"Apple iPhone 14 Pro Max",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
@@ -295,6 +315,7 @@
                     "description": "El Xiaomi 13 Pro, la obra maestra que hace realidad tus obras maestras, es la última personificación de nuestro concepto de calidad de imagen. Las lentes profesionales, una estética visual emotiva y una verdadera experiencia Leica dan forma a un dispositivo que tiende un puente entre las imágenes legendarias del siglo pasado y tus obras maestras modernas. ", 
                     "price": 1300, 
                     "images": ["https://i02.appmifile.com/525_operatorx_operatorx_xm/22/02/2023/a83af85dd46f847a59a5ffecd1186d16.jpg?q=100","https://i02.appmifile.com/mi-com-product/fly-birds/pc/xiaomi-13-pro/11c12604270aaefa2dee9e7ceb20050f.jpg?f=webp"],
+                    "stock": 10,
                     "name":"Xiaomi 13 Pro",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
@@ -307,6 +328,7 @@
                     "description": "El iPhone 13 Pro Max, la gama de iPhone más profesional, presentan nuevo hardware de cámara, una pantalla inteligente con ProMotion, el mejor rendimiento gráfico jamás visto en un iPhone y una autonomía impresionante.", 
                     "price": 1066, 
                     "images": ["https://www.apple.com/newsroom/images/product/iphone/geo/Apple_iPhone-13-Pro_iPhone-13-Pro-Max_GEO_09142021_inline.jpg.medium.jpg","https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_New-Camera-System_09142021_Full-Bleed-Image.jpg.medium.jpg","https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_A15-Bionic_09142021_big_carousel.jpg.medium.jpg"],
+                    "stock": 10,
                     "name":"Apple iPhone 13 Pro Max",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
@@ -319,6 +341,7 @@
                     "description": "El nuevo y potente procesador de Pixel está diseñado a medida con la inteligencia artificial de Google y hace que el Pixel 7 Pro sea más rápido, eficiente y seguro. También te ofrece funciones que te ayudan aún más, así como la mejor calidad de foto y vídeo. ", 
                     "price": 800, 
                     "images": ["https://tse4.mm.bing.net/th?id=OIP.60WpWvTx1w_DhOj_dY3sOAHaEo&pid=Api&P=0","https://tse3.mm.bing.net/th?id=OIP.ifGR5eeNGI69fVCd4QCRTQHaEL&pid=Api&P=0"],
+                    "stock": 10,
                     "name":"Google Pixel 7 Pro",
                     "ramMemory":"12 GB",
                     "internalMemory":"128 GB",
@@ -331,6 +354,7 @@
                     "description": "Habla por ti mismo con la cámara cuádruple Leica Ultra Vision capturando fotos y videos en cualquier momento y en cualquier lugar que desees.El diseño innovador mejora su entretenimiento visual y comodidad ergonómica. Explora ahora y el futuro con HUAWEI P40 Pro.", 
                     "price": 1500, 
                     "images": ["https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p40-pro/images/design/design-intro-e.webp","https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p40-pro/images/design/colors/3-right-e.webp"],
+                    "stock": 10,
                     "name":"HUAWEI P40 Pro",
                     "ramMemory":"8 GB",
                     "internalMemory":"256 GB",
@@ -351,6 +375,7 @@
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/f-qn65s95ba-01/gallery/pe-vd-combo-tv-s95b-and-soundbar-hwq800b-f-qn65s95ba-01-535307668?$684_547_PNG$",
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/f-qn65s95ba-01/gallery/pe-vd-combo-tv-s95b-and-soundbar-hwq800b-f-qn65s95ba-01-535307673?$684_547_PNG$"
                             ],
+                    "stock": 10,
                     "nameTV":"Samsung Smart TV",
                     "typeResolution":"4K OLED",
                     "systemOperating":"Android",
@@ -366,6 +391,7 @@
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402839?$684_547_PNG$",
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402841?$684_547_PNG$"
                             ],
+                    "stock": 10,
                     "nameTV":"Samsung Smart TV Neo",
                     "typeResolution":"8K QLED",
                     "systemOperating":"Android",
@@ -379,6 +405,7 @@
                     "images":[
                                 "https://i.linio.com/p/3570f038c20734269fa7257b5a7269d7-product.jpg"
                             ],
+                    "stock": 10,
                     "nameTV":"JVC LT-32KB274",
                     "typeResolution":"HD LED",
                     "systemOperating":"Android",
@@ -392,6 +419,7 @@
                     "images":[
                                 "https://www.lg.com/pe/images/tvs/md07562601/gallery/D-1.jpg"
                             ],
+                    "stock": 10,
                     "nameTV":"LG ThinQ AI UQ75 Smart TV",
                     "typeResolution":"4K UHD",
                     "systemOperating":"WebOS",
@@ -405,6 +433,7 @@
                     "images":[
                                 "https://img.youtube.com/vi/jATwo4MLdFg/hqdefault.jpg","https://arsonyb2c.vtexassets.com/arquivos/ids/357805-1200-auto?v=637695490986100000&width=1200&height=auto&aspect=true"
                             ],
+                    "stock": 10,
                     "nameTV":"Smart TV Sony BRAVIA X80J",
                     "typeResolution":"4K",
                     "systemOperating":"Android TV",
@@ -418,6 +447,7 @@
                     "images":[
                                 "https://img.youtube.com/vi/80B2SGjSuD0/hqdefault.jpg","https://arsonyb2c.vtexassets.com/arquivos/ids/357760-1200-auto?v=637695438728200000&width=1200&height=auto&aspect=true"
                             ],
+                    "stock": 10,
                     "nameTV":"Smart TV Sony A80J",
                     "typeResolution":"4K",
                     "systemOperating":"Android TV",
@@ -431,6 +461,7 @@
                     "images":[
                                 "https://images.philips.com/is/image/PhilipsConsumer/F400099135-FIL-global-001?wid=305&hei=173&$jpglarge$","https://images.philips.com/is/image/PhilipsConsumer/55PUD7406_77-MI1-global-001?$jpglarge$&wid=960"
                             ],
+                    "stock": 10,
                     "nameTV":"Smart TV Philips",
                     "typeResolution":"4K",
                     "systemOperating":"Android 10",
@@ -443,6 +474,7 @@
                     "images":[
                                 "https://images.philips.com/is/image/PhilipsConsumer/65PUD7906_77-MI1-global-001?$jpglarge$&wid=960","https://images.philips.com/is/image/PhilipsConsumer/F400099135-FIL-global-001?wid=305&hei=173&$jpglarge$"
                             ],
+                    "stock": 10,
                     "nameTV":"Smart TV Philips",
                     "typeResolution":"4K",
                     "systemOperating":"Android TV",
