@@ -4,7 +4,7 @@ const {Tablet, Product} = require('../../db.js');
 
         try {
 
-        const { model, brand, description, price, images, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
+        const { model, brand, description, price, images, stock, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
 
         const errors = [];
 
@@ -26,6 +26,10 @@ const {Tablet, Product} = require('../../db.js');
 
         if (!images || !Array.isArray(images) || images.length === 0) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
+        }
+
+        if (!stock || typeof stock !== 'number' || stock <= 0 ) {
+            errors.push('El campo "stock" no es válido.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -77,7 +81,8 @@ const {Tablet, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    images: images
+                    images: images,
+                    stock: stock
 
                 })
 
@@ -100,7 +105,7 @@ const {Tablet, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, images, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
+        const { id, model, brand, description, price, images, stock, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
 
         const errors = [];
 
@@ -122,6 +127,10 @@ const {Tablet, Product} = require('../../db.js');
 
         if (!images || !Array.isArray(images) || images.length === 0) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
+        }
+
+        if (!stock || typeof stock !== 'number' || stock <= 0 ) {
+            errors.push('El campo "stock" no es válido.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -164,7 +173,8 @@ const {Tablet, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    images: images
+                    images: images,
+                    stock: stock
     
                 })
                 await product.save()

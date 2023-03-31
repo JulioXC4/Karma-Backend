@@ -57,6 +57,9 @@ const getShoppingCart = async (req, res) => {
           if(!product){
             return res.status(400).send(`No existe el producto con la id ${ProductId}`)
           }
+          if(amount > product.stock){
+            return res.status(400).send(`El producto no cuenta con esa cantidad de stock, existentes: ${product.stock}`)
+          }
 
           const userProductsInShoppingCart = await user.getShoppingCarts()
 
@@ -67,9 +70,13 @@ const getShoppingCart = async (req, res) => {
               UserId: UserId,
               ProductId: ProductId,
             }); 
-            
+
+            await product.update({
+              stock: product.stock - amount
+            })
+            await product.save()
+
             return res.status(200).json(newCart);
-            //return res.status(200).send("Creado con exito");
 
           }else{
 
@@ -83,15 +90,27 @@ const getShoppingCart = async (req, res) => {
                 amount: amount,
                 UserId: UserId,
                 ProductId: ProductId,
-              });
-    
+              })
+
+              await product.update({
+                stock: product.stock - amount
+              })
+
+              await product.save()
+
               return res.status(200).json(newCart);
             } else {
 
               await shoppingCart.update({
                 amount: shoppingCart.amount + amount
               })
+
               await shoppingCart.save()
+
+              await product.update({
+                stock: product.stock - amount
+              })
+              await product.save()
 
               return res.status(200).json(shoppingCart);
             }
@@ -144,7 +163,38 @@ const deleteShoppingCart =  async (req, res) => {
   }
 };
 
+const restoreProductsFromShoppingCart = async (req, res) => {
 
+  try {
+
+    const { id } = req.query
+
+    const shoppingCart = await ShoppingCart.findByPk(id)
+    const productId = shoppingCart.ProductId
+    const amountToReturn = shoppingCart.amount
+
+    const product = await Product.findByPk(productId)
+    await product.update({
+      stock: product.stock + shoppingCart.amount
+    })
+
+    await product.save()
+
+    await ShoppingCart.destroy({
+      where: {
+        id: shoppingCart.id
+      }
+    })
+    
+    return res.status(200).send(`${amountToReturn} producto/s agregado/s a el stock del producto ${product.brand} ${product.model}`)
+
+  } catch (error) {
+
+    return res.status(400).json({ message: error.message })
+
+  }
+
+}
 
 module.exports = {
   
@@ -153,6 +203,7 @@ module.exports = {
     createShoppingCart,
     updateShoppingCart,
     deleteShoppingCart,
+    restoreProductsFromShoppingCart
   };
  
   
