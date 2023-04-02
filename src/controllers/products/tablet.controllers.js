@@ -24,7 +24,7 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
@@ -48,8 +48,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "mainCamera" debe tener al menos 2 caracteres.');
         }
 
-        if (!screenSize || typeof screenSize !== 'string' || screenSize.length < 2) {
-            errors.push('El campo "screenSize" debe tener al menos 2 caracteres.');
+        if (!screenSize || typeof screenSize !== 'number' || screenSize.length < 1) {
+            errors.push('El campo "screenSize" debe tener al menos 1 digito.');
         }
 
         if (errors.length > 0) {
@@ -125,7 +125,7 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
@@ -149,8 +149,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "mainCamera" debe tener al menos 2 caracteres.');
         }
 
-        if (!screenSize || typeof screenSize !== 'string' || screenSize.length < 2) {
-            errors.push('El campo "screenSize" debe tener al menos 2 caracteres.');
+        if (!screenSize || typeof screenSize !== 'number' || screenSize.length < 1) {
+            errors.push('El campo "screenSize" debe tener al menos 1 digito.');
         }
 
         if (errors.length > 0) {

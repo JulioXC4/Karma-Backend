@@ -69,17 +69,20 @@ module.exports = (sequelize) => {
           },
         }
       },
-      
-      screenSize: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "",
-        validate: {
-          notEmpty: {
-            msg: "El tamaño de pantalla es obligatorio"
-          },
+      screenSize:{
+        type:DataTypes.FLOAT,
+        allowNull:false,
+        validate:{
+            isFloat:{
+                args:[{min:0,max:999}],
+                msg:'El valor de las pulgadas debe ser un número entero y estar en un rango de 1 a 3 dígitos.'
+            }
+        },
+        get(){
+            let valor = this.getDataValue('screenSize')
+            return `${valor} pulgadas (${parseInt(valor)*2.54} cm)`
         }
-      },
+    }
     },
     {
       timestamps: false,

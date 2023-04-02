@@ -70,8 +70,8 @@ module.exports= (sequelize) =>{
             allowNull:false,
             validate:{
                 isInt:{
-                    args:[{min:0,max:100}],
-                    msg:'Las pulgadas deben ser en un rango de 2 digitos y debe ser entero'
+                    args:[{min:0,max:999}],
+                    msg:'El valor de las pulgadas debe ser un número entero y estar en un rango de 1 a 3 dígitos.'
                 }
             },
             get(){

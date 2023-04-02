@@ -2,9 +2,9 @@ const {Television,Product} = require('../db')
 
 const createTelevision = async(req,res) =>{
     try {
-        const {model,brand,description,price,images,stock,nameTV,typeResolution,systemOperating,screenSize} = req.body
+        const {model,brand,description,price,images,stock,typeResolution,systemOperating,screenSize} = req.body
         const newTV = await Television.create({
-            name:nameTV,
+            name:`${brand} ${model}`,
             typeResolution,
             systemOperating,
             screenSize,
@@ -44,7 +44,7 @@ const updateTelevision = async(req,res) =>{
 
             const TV=await Television.findByPk(tvID)
             await TV.update({
-                name:nameTV,typeResolution,systemOperating,screenSize
+                name:`${brand} ${model}`,typeResolution,systemOperating,screenSize
             })
             return res.status(200).json({message:"Actualizado correctamente"});
         }

@@ -68,7 +68,7 @@
                 "internalMemory": "64 GB",
                 "colors": ["Gris","Negro"],
                 "mainCamera": "8 MPX",
-                "screenSize": "10.4"
+                "screenSize": 10.4
               },
               {
                 "model": "Tab P11 Plus",
@@ -81,7 +81,7 @@
                 "internalMemory": "64 GB",
                 "colors": ["Gris Platino","Gris","Azul"],
                 "mainCamera": "13 MPX",
-                "screenSize": "11"
+                "screenSize": 11
               },
               {
                 "model": "Galaxy Tab A7 Lite",
@@ -94,7 +94,7 @@
                 "internalMemory": "32 GB",
                 "colors": ["Gris","Plata"],
                 "mainCamera": "8 MPX",
-                "screenSize": "8.7"
+                "screenSize": 8.7
               },
               {
                 "model": "Tab M10 Plus",
@@ -107,7 +107,7 @@
                 "internalMemory": "64 GB",
                 "colors": ["Gris Oscuro","Gris"],
                 "mainCamera": "8 MPX",
-                "screenSize": "10.3"
+                "screenSize": 10.3
               },
               {
                 "model": "iPad Air 2",
@@ -120,7 +120,7 @@
                 "internalMemory": "16 GB",
                 "colors": ["Gris"],
                 "mainCamera": "8 MPX",
-                "screenSize": "9.7"
+                "screenSize": 9.7
               },
               {
                 "model": "Galaxy Tab A8",
@@ -133,7 +133,7 @@
                 "internalMemory": "32 GB",
                 "colors": ["Blanco"],
                 "mainCamera": "5 MPX",
-                "screenSize": "8.4"
+                "screenSize": 8.4
               },
               {
                 "model": "Surface Pro 9",
@@ -146,7 +146,7 @@
                 "internalMemory": "256 GB",
                 "colors": ["Negro"],
                 "mainCamera": "10 MPX",
-                "screenSize": "13"
+                "screenSize": 13
               },
               {
                 "model": "Surface Pro 4",
@@ -159,7 +159,7 @@
                 "internalMemory": "256 GB",
                 "colors": ["Plata"],
                 "mainCamera": "8 MPX",
-                "screenSize": "12.3"
+                "screenSize": 12.3
               }
             ]
         },
@@ -264,7 +264,6 @@
                     "price": 2000, 
                     "images": ["https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011164.webp","https://tienda.claro.com.ar/staticContent/Claro/images/catalog/productos/646x1000/70011178_3.webp"],
                     "stock": 10,
-                    "name":"SAMSUNG GALAXY S23 ULTRA",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
                     "mainCamera":"200 MP",
@@ -277,7 +276,6 @@
                     "price": 2000, 
                     "images": ["https://images.samsung.com/is/image/samsung/my/galaxy-note20/gallery/my-galaxy-z-fold2-f916-sm-f916bznaxme-frontmysticbronze-273584304?$650_519_PNG$","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Fru_xV0yPn-fEZEOR2edWOBaHififXSrMokyLNHAuSCrej80uP-2Jq5XMdbJCZ1N_T0&usqp=CAU"],
                     "stock": 10,
-                    "name":"SAMSUNG Galaxy Z Fold3",
                     "ramMemory":"12 GB",
                     "internalMemory":"256 GB",
                     "mainCamera":"12 MP",
@@ -290,7 +288,6 @@
                     "price": 750, 
                     "images": ["https://i.blogs.es/86a836/img_20230206_112113_788/1024_2000.jpeg","https://i.blogs.es/10ed78/img_20230206_112113_724/1366_2000.jpeg"],
                     "stock": 10,
-                    "name":"XIAOMI POCO X5 PRO 5G",
                     "ramMemory":"8 GB",
                     "internalMemory":"16 GB",
                     "mainCamera":"216 MP",
@@ -303,7 +300,6 @@
                     "price": 1066, 
                     "images": ["https://www.apple.com/v/iphone-14-pro/d/images/specs/hero_iphone_14_pro__fnda92wv13m2_large.jpg","https://www.apple.com/la/iphone-14-pro/images/key-features/features/dynamic-island/dd_dynamic_island_notify_v__gdxu3q8ym82u_large.jpg"],
                     "stock": 10,
-                    "name":"Apple iPhone 14 Pro Max",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
                     "mainCamera":"12 MP",
@@ -316,7 +312,6 @@
                     "price": 1300, 
                     "images": ["https://i02.appmifile.com/525_operatorx_operatorx_xm/22/02/2023/a83af85dd46f847a59a5ffecd1186d16.jpg?q=100","https://i02.appmifile.com/mi-com-product/fly-birds/pc/xiaomi-13-pro/11c12604270aaefa2dee9e7ceb20050f.jpg?f=webp"],
                     "stock": 10,
-                    "name":"Xiaomi 13 Pro",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
                     "mainCamera":"32 MP",
@@ -329,7 +324,6 @@
                     "price": 1066, 
                     "images": ["https://www.apple.com/newsroom/images/product/iphone/geo/Apple_iPhone-13-Pro_iPhone-13-Pro-Max_GEO_09142021_inline.jpg.medium.jpg","https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_New-Camera-System_09142021_Full-Bleed-Image.jpg.medium.jpg","https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_A15-Bionic_09142021_big_carousel.jpg.medium.jpg"],
                     "stock": 10,
-                    "name":"Apple iPhone 13 Pro Max",
                     "ramMemory":"12 GB",
                     "internalMemory":"512 GB",
                     "mainCamera":"12 MP",
@@ -342,7 +336,6 @@
                     "price": 800, 
                     "images": ["https://tse4.mm.bing.net/th?id=OIP.60WpWvTx1w_DhOj_dY3sOAHaEo&pid=Api&P=0","https://tse3.mm.bing.net/th?id=OIP.ifGR5eeNGI69fVCd4QCRTQHaEL&pid=Api&P=0"],
                     "stock": 10,
-                    "name":"Google Pixel 7 Pro",
                     "ramMemory":"12 GB",
                     "internalMemory":"128 GB",
                     "mainCamera":"50 MP",
@@ -355,7 +348,6 @@
                     "price": 1500, 
                     "images": ["https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p40-pro/images/design/design-intro-e.webp","https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p40-pro/images/design/colors/3-right-e.webp"],
                     "stock": 10,
-                    "name":"HUAWEI P40 Pro",
                     "ramMemory":"8 GB",
                     "internalMemory":"256 GB",
                     "mainCamera":"50 MP",
@@ -376,7 +368,6 @@
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/f-qn65s95ba-01/gallery/pe-vd-combo-tv-s95b-and-soundbar-hwq800b-f-qn65s95ba-01-535307673?$684_547_PNG$"
                             ],
                     "stock": 10,
-                    "nameTV":"Samsung Smart TV",
                     "typeResolution":"4K OLED",
                     "systemOperating":"Android",
                     "screenSize":65
@@ -392,7 +383,6 @@
                                 "https://images.samsung.com/is/image/samsung/p6pim/pe/qn85qn900bgxpe/gallery/pe-qled-qn900b-qn85qn900bgxpe-532402841?$684_547_PNG$"
                             ],
                     "stock": 10,
-                    "nameTV":"Samsung Smart TV Neo",
                     "typeResolution":"8K QLED",
                     "systemOperating":"Android",
                     "screenSize":85
@@ -406,7 +396,6 @@
                                 "https://i.linio.com/p/3570f038c20734269fa7257b5a7269d7-product.jpg"
                             ],
                     "stock": 10,
-                    "nameTV":"JVC LT-32KB274",
                     "typeResolution":"HD LED",
                     "systemOperating":"Android",
                     "screenSize":32
@@ -420,7 +409,6 @@
                                 "https://www.lg.com/pe/images/tvs/md07562601/gallery/D-1.jpg"
                             ],
                     "stock": 10,
-                    "nameTV":"LG ThinQ AI UQ75 Smart TV",
                     "typeResolution":"4K UHD",
                     "systemOperating":"WebOS",
                     "screenSize":50
@@ -434,7 +422,6 @@
                                 "https://img.youtube.com/vi/jATwo4MLdFg/hqdefault.jpg","https://arsonyb2c.vtexassets.com/arquivos/ids/357805-1200-auto?v=637695490986100000&width=1200&height=auto&aspect=true"
                             ],
                     "stock": 10,
-                    "nameTV":"Smart TV Sony BRAVIA X80J",
                     "typeResolution":"4K",
                     "systemOperating":"Android TV",
                     "screenSize":55
@@ -448,7 +435,6 @@
                                 "https://img.youtube.com/vi/80B2SGjSuD0/hqdefault.jpg","https://arsonyb2c.vtexassets.com/arquivos/ids/357760-1200-auto?v=637695438728200000&width=1200&height=auto&aspect=true"
                             ],
                     "stock": 10,
-                    "nameTV":"Smart TV Sony A80J",
                     "typeResolution":"4K",
                     "systemOperating":"Android TV",
                     "screenSize":65
@@ -462,7 +448,6 @@
                                 "https://images.philips.com/is/image/PhilipsConsumer/F400099135-FIL-global-001?wid=305&hei=173&$jpglarge$","https://images.philips.com/is/image/PhilipsConsumer/55PUD7406_77-MI1-global-001?$jpglarge$&wid=960"
                             ],
                     "stock": 10,
-                    "nameTV":"Smart TV Philips",
                     "typeResolution":"4K",
                     "systemOperating":"Android 10",
                     "screenSize":55
@@ -475,7 +460,6 @@
                                 "https://images.philips.com/is/image/PhilipsConsumer/65PUD7906_77-MI1-global-001?$jpglarge$&wid=960","https://images.philips.com/is/image/PhilipsConsumer/F400099135-FIL-global-001?wid=305&hei=173&$jpglarge$"
                             ],
                     "stock": 10,
-                    "nameTV":"Smart TV Philips",
                     "typeResolution":"4K",
                     "systemOperating":"Android TV",
                     "screenSize":65
