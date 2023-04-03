@@ -1,5 +1,7 @@
     //MERCADO PAGO
     const mercadopago = require("mercadopago");
+    const {Order, ShoppingCart, User, Product} = require('../../db.js')
+    const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
     const {HOST_FRONT} = process.env
 
@@ -18,20 +20,35 @@
     const mercadoPagoPayment = async (req, res) => {
 
         try {
-          const { itemsOrderArray } = req.body
-          const itemsConvertProperties = await itemsOrderArray.map( product => {
-            return {
-               id: product.ProductId,
-               title: `${product.Product.brand} ${product.Product.model}`,
-               currency_id: 'USD',
-               picture_url: product.Product.images[0],
-               //description: product.Product.description,
-               description: 'Descripcion del producto',
-               category_id: Object.keys(product)[4],
-               quantity: product.amount,
-               unit_price: product.Product.price
-            }
-          })
+          const { userId, orderId } = req.body
+
+          const user = await User.findByPk(userId, { include:{model: Order, include: ShoppingCart } })
+          const userOrder = user.Orders.find(order => order.id === orderId)
+          let itemsConvertProperties = []
+
+          if(userOrder){
+
+            removeItemsFromProductStock(orderId)
+            
+            itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
+              const productInShoppingCart = await Product.findByPk(product.id)
+  
+              return {
+                 id: productInShoppingCart.id,
+                 title: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
+                 currency_id: 'USD',
+                 picture_url: productInShoppingCart.images[0],
+                 description: 'Descripcion del producto',
+                 category_id: productInShoppingCart.constructor.name,
+                 quantity: product.dataValues.amount,
+                 unit_price: productInShoppingCart.price
+              }
+            }))
+
+          }else{
+
+            return res.status(400).send("El id de la orden no corresponde al usuario seleccionado")
+          }
 
             let preference = {
                 items: itemsConvertProperties,
