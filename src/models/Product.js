@@ -31,8 +31,25 @@ module.exports = (sequelize)=>{
         images: {
             type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false,
-            defaultValue: []
+            defaultValue: ["https://ingoodcompany.asia/images/products_attr_img/matrix/default.png"],
+            set(value) {
+                if (value.length === 0) {
+                  this.setDataValue('images', ["https://ingoodcompany.asia/images/products_attr_img/matrix/default.png"]);
+                } else {
+                  this.setDataValue('images', value);
+                }
+            }
         },
+        stock: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 1
+        },
+        averageRating: {
+            type: DataTypes.FLOAT,
+            allowNull: true,
+            defaultValue: 0
+        }, 
 
     },
     {

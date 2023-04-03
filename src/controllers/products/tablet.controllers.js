@@ -4,7 +4,7 @@ const {Tablet, Product} = require('../../db.js');
 
         try {
 
-        const { model, brand, description, price, images, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
+        const { model, brand, description, price, images, stock, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
 
         const errors = [];
 
@@ -24,8 +24,12 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
+        }
+
+        if (!stock || typeof stock !== 'number' || stock <= 0 ) {
+            errors.push('El campo "stock" no es válido.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -44,8 +48,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "mainCamera" debe tener al menos 2 caracteres.');
         }
 
-        if (!screenSize || typeof screenSize !== 'string' || screenSize.length < 2) {
-            errors.push('El campo "screenSize" debe tener al menos 2 caracteres.');
+        if (!screenSize || typeof screenSize !== 'number' || screenSize.length < 1) {
+            errors.push('El campo "screenSize" debe tener al menos 1 digito.');
         }
 
         if (errors.length > 0) {
@@ -56,6 +60,7 @@ const {Tablet, Product} = require('../../db.js');
 
             const newTablet = await Tablet.create({
 
+                name: `${brand} ${model}`,
                 ramMemory: ramMemory, 
                 internalMemory: internalMemory, 
                 colors: colors, 
@@ -76,7 +81,8 @@ const {Tablet, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    images: images
+                    images: images,
+                    stock: stock
 
                 })
 
@@ -99,7 +105,7 @@ const {Tablet, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, images, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
+        const { id, model, brand, description, price, images, stock, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
 
         const errors = [];
 
@@ -119,8 +125,12 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
+        }
+
+        if (!stock || typeof stock !== 'number' || stock <= 0 ) {
+            errors.push('El campo "stock" no es válido.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -139,8 +149,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "mainCamera" debe tener al menos 2 caracteres.');
         }
 
-        if (!screenSize || typeof screenSize !== 'string' || screenSize.length < 2) {
-            errors.push('El campo "screenSize" debe tener al menos 2 caracteres.');
+        if (!screenSize || typeof screenSize !== 'number' || screenSize.length < 1) {
+            errors.push('El campo "screenSize" debe tener al menos 1 digito.');
         }
 
         if (errors.length > 0) {
@@ -163,7 +173,8 @@ const {Tablet, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    images: images
+                    images: images,
+                    stock: stock
     
                 })
                 await product.save()
@@ -175,6 +186,7 @@ const {Tablet, Product} = require('../../db.js');
     
                 await tablet.update({
 
+                    name: `${brand} ${model}`,
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
                     colors: colors, 

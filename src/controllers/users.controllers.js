@@ -5,7 +5,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
         try {
 
-        const { id, name, lastName, birthdate, phoneNumber, city, country, address } = req.body
+        const { id, name, email, picture, lastName, birthdate, phoneNumber, city, country, address } = req.body
 
         const errors = [];
 
@@ -15,6 +15,14 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
         if (!name || typeof name !== 'string' || name.length < 2) {
           errors.push('El campo "name" debe tener al menos 2 caracteres.');
+        }
+
+        if (!email || typeof email !== 'string' || email.length < 2) {
+          errors.push('El campo "email" debe tener al menos 2 caracteres.');
+        }
+
+        if (!picture || typeof picture !== 'string' || picture.length < 2) {
+          errors.push('El campo "picture" debe tener al menos 2 caracteres.');
         }
 
         if (!lastName || typeof lastName !== 'string' || lastName.length < 2) {
@@ -50,7 +58,9 @@ const {regexPhoneNumber} = require('../utils/consts.js')
             const newUser = await User.create({
 
                 id: id, 
-                name: name, 
+                name: name,
+                email: email,
+                picture: picture, 
                 lastName: lastName, 
                 birthdate: birthdate, 
                 phoneNumber: phoneNumber, 
@@ -139,7 +149,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
       try {
 
-      const { id, name, lastName, birthdate, phoneNumber, city, country, address } = req.body
+      const { id, name, email, picture, lastName, birthdate, phoneNumber, city, country, address } = req.body
 
       const errors = [];
 
@@ -151,6 +161,14 @@ const {regexPhoneNumber} = require('../utils/consts.js')
         errors.push('El campo "name" debe tener al menos 2 caracteres.');
       }
 
+      if (!email || typeof email !== 'string' || email.length < 2) {
+        errors.push('El campo "email" debe tener al menos 2 caracteres.');
+      }
+
+      if (!picture || typeof picture !== 'string' || picture.length < 2) {
+        errors.push('El campo "picture" debe tener al menos 2 caracteres.');
+      }
+
       if (!lastName || typeof lastName !== 'string' || lastName.length < 2) {
         errors.push('El campo "lastName" debe tener al menos 2 caracteres.');
       }
@@ -159,7 +177,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
         errors.push('El campo "birthdate" es obligatorio.');
       }
 
-      if (!phoneNumber || !regexPhoneNumber.test(phoneNumber.toString())) {
+      if (!phoneNumber) {
         errors.push('El campo "phoneNumber" no es válido.');
       }
 
@@ -185,8 +203,9 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
           await user.update({
 
-              id: id, 
-              name: name, 
+              name: name,
+              email: email,
+              picture: picture, 
               lastName: lastName, 
               birthdate: birthdate, 
               phoneNumber: phoneNumber, 
@@ -211,13 +230,13 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
       } catch (error) {
 
-          return res.status(500).json({ message: "Error interno del servidor" });
+          return res.status(500).json({ message: error });
 
       }
 
     };
 
-
+//test commit
     const deleteUser = async (req, res) => {
     
       try {
@@ -246,11 +265,70 @@ const {regexPhoneNumber} = require('../utils/consts.js')
     
     };
 
+    const userAuth0Register = async (req, res) => {
+
+      try {
+
+        const {id, email, picture} = req.body
+
+        const errors = [];
+
+        if (!id) {
+          errors.push('El campo "id" es obligatorio.');
+        }
+
+        if (!email || typeof email !== 'string' || email.length < 2) {
+          errors.push('El campo "email" debe tener al menos 2 caracteres.');
+        }
+
+        if (!picture || typeof picture !== 'string' || picture.length < 2) {
+          errors.push('El campo "picture" debe tener al menos 2 caracteres.');
+        }
+
+        if (errors.length > 0) {
+          return res.status(400).json({ message: 'Error al crear usuario.', errors });
+        }
+
+        const userExists = User.findByPk(id)
+        
+        if (userExists.length !== 0){
+
+          await User.create({
+  
+            id: id, 
+            email: email,
+            picture: picture,
+            name: "none",
+            lastName: "none", 
+            birthdate: "none", 
+            phoneNumber: "none", 
+            city: "none", 
+            country: "none", 
+            address: "none" 
+          
+          })
+
+          return res.status(200).send(`El usuario con la id ${id} fue creado correctamente`)
+
+        } else {
+
+            return res.status(400).send(`El usuario con la id ${id} ya existe`)
+
+        }
+
+      } catch (error) {
+
+        return res.status(500).json({message: error.message})
+
+      }
+
+    }
 
     module.exports = {
         createUser,
         getUsers,
         getUser,
         updateUser,
-        deleteUser
+        deleteUser,
+        userAuth0Register
     };

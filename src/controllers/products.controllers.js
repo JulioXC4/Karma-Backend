@@ -1,11 +1,12 @@
-const {Product, Laptop, Tablet, conn} = require('../db.js');
+const {User, Product, Laptop, Tablet, conn} = require('../db.js');
 const {Op} = require('sequelize')
+const {PromoProducts} = require('../utils/consts.js')
 
     const createProduct = async (req, res) => {
 
         try {
 
-        const { model, brand, description, price, images } = req.body
+        const { model, brand, description, price, images, stock } = req.body
 
         const errors = [];
 
@@ -29,6 +30,10 @@ const {Op} = require('sequelize')
           errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
+        if (!stock || typeof stock !== 'number' || stock <= 0) {
+          errors.push('El campo "stock" no es válido.');
+        }
+
         if (errors.length > 0) {
           return res.status(400).json({ message: 'Error al crear producto.', errors });
         }
@@ -41,8 +46,8 @@ const {Op} = require('sequelize')
                 brand: brand,
                 description: description, 
                 price: price, 
-                images: images
-    
+                images: images,
+                stock: stock
                 })
     
             if(!newProduct){
@@ -85,7 +90,7 @@ const {Op} = require('sequelize')
           }
           return filteredProduct;
         }).filter(product => {
-          return product.Laptop !== undefined || product.Tablet !== undefined || product.Televisor !== undefined;
+          return product.Laptop !== undefined || product.Tablet !== undefined || product.Television !== undefined || product.CellPhone;
         });
 
         if(!products){
@@ -151,7 +156,7 @@ const {Op} = require('sequelize')
 
       try {
 
-        const { id, model, brand, description, price, images  } = req.body
+        const { id, model, brand, description, price, images, stock  } = req.body
 
         const errors = [];
 
@@ -179,6 +184,10 @@ const {Op} = require('sequelize')
           errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
+        if (!stock || typeof stock !== 'number' || stock <= 0) {
+          errors.push('El campo "stock" no es válido.');
+        }
+
         if (errors.length > 0) {
           return res.status(400).json({ message: 'Error al crear producto.', errors });
         }
@@ -194,8 +203,8 @@ const {Op} = require('sequelize')
             brand: brand,
             description: description, 
             price: price, 
-            images: images
-
+            images: images,
+            stock: stock
             })
 
           await product.save()
@@ -273,7 +282,7 @@ const {Op} = require('sequelize')
           const categoryFound = properties.filter(element => element.includes(category))
 
           if(categoryFound.length === 0){
-            //no encuentra la categoria
+
             return res.status(400).send("Categoria no encontrada")
 
           }else{
@@ -299,11 +308,146 @@ const {Op} = require('sequelize')
       }
     }
 
+    const getProductsByInput = async (req, res) => {
+
+      try {
+        const {input} = req.query
+
+        const lowCharacterInput = input.toLowerCase()
+        const productAssociations = await Product.associations
+        const productAssociationsKeys = Object.keys(productAssociations)
+
+        const excludedModels = ['ShoppingCarts','CommentsRatings']
+
+        //Funcion excluir modelos
+        excludedModels.map((model) => {
+          const index = productAssociationsKeys.indexOf(model)
+          productAssociationsKeys.splice(index, 1); 
+        })
+
+        if(!input || typeof input !== 'string' || input.length < 2){
+
+          return res.status(400).send("Parametros incompletos o informacion invalida")
+
+        }else{
+          console.log(productAssociationsKeys)
+          const products = await Product.findAll({
+
+            where: {
+              [Op.or]: [
+                conn.where(conn.fn('LOWER', conn.col('model')), 'LIKE', `%${lowCharacterInput}%`),
+                conn.where(conn.fn('LOWER', conn.col('brand')), 'LIKE', `%${lowCharacterInput}%`)
+              ]
+              
+            },  include: productAssociationsKeys.map(modelName => ({
+                model: conn.models[modelName],
+                required: false
+            }))
+
+          })
+
+          if(products.length === 0){
+            return res.status(404).send("No existen productos con ese nombre")
+          } else {
+          
+            const filteredProducts = products.map(product => {
+              for (const property of productAssociationsKeys) {
+                if(product.dataValues[property] === null){
+                  delete product.dataValues[property]
+                }
+              }
+              
+              return product.dataValues
+            });
+
+            return res.status(200).send(filteredProducts)
+          }
+        }
+
+      } catch (error) {
+
+        return res.status(400).json({message: error.message})
+      }
+    }
+
+    const getProductsFromUserShoppingCart = async (req, res) => {
+
+      try {
+        const {id} = req.query
+
+        if(!id){
+          return res.status(400).send('Debe ingresar la id del usuario por query')
+        }
+        else {
+          const user = await User.findByPk(id)
+
+          if(!user){
+
+            return res.status(404).send(`El usuario con la id ${id} no existe`)
+
+          }else{
+            const userShoppingList = await user.getShoppingCarts({
+              include: {
+                model: Product
+              }
+            })
+            
+            return res.status(200).json(userShoppingList)
+          }
+        }
+      } catch (error) {
+
+        return res.status(400).json({message: error.message})
+
+      }
+
+    }
+
+    const getAllProductPromo = async(req,res) => {
+      try {
+              let {quantity} = req.params;
+              quantity = parseInt(quantity)
+              if (isNaN(quantity)) {
+                  return res.status(400).send("Debe ser un numero en quantity") 
+              }
+              const productAssociations = await Product.associations
+              const properties = Object.keys(productAssociations)
+  
+              let products = await Product.findAll({
+                  include: properties
+              });
+              const filteredProducts = products.map(product => {
+              const filteredProduct = { ...product.toJSON() };
+                  for (const key in filteredProduct) {
+                  if (filteredProduct[key] === null) {
+                      delete filteredProduct[key];
+                      }
+                  }
+                  return filteredProduct;
+              }).filter(product => {
+              return product.Laptop !== undefined || product.Tablet !== undefined || product.Television !== undefined || product.CellPhone !== undefined;
+              });
+  
+              if(products < 1){
+                  return res.status(400).send("No existen productos")
+              }else{
+                  let newProductsPromo=PromoProducts(filteredProducts,quantity)
+                  return res.status(200).json(newProductsPromo);
+              }
+  
+          } catch (error) {
+              return res.status(400).json({message: error.message})
+          }
+  }
+
     module.exports = {
         createProduct,
         getProducts,
         getProduct,
         updateProduct,
         deleteProduct,
-        getProductsByCategory
+        getProductsByCategory,
+        getProductsByInput,
+        getProductsFromUserShoppingCart,
+        getAllProductPromo
     };

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize")
 
 module.exports = (sequelize)=>{
-    sequelize.define('CommentsRaiting', {
+    sequelize.define('CommentsRating', {
         id: {
             type:DataTypes.INTEGER,
             autoIncrement:true,
@@ -13,11 +13,23 @@ module.exports = (sequelize)=>{
             allowNull: true,
            
         },
-        raiting: {
+        rating: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            validate: {
+              min: 1,
+              max: 5,
+            }
         },
-
+        reviewed: {
+            type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+          },
+          state: {
+            type: DataTypes.STRING,
+            allowNull: true
+         },
     },
     {
         timestamps: false

@@ -33,11 +33,11 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { User, ShoppingCart, Order, CommentsRaiting,  Product, Category, Laptop, Tablet,Televisor ,CellPhone} = sequelize.models;
+const { User, ShoppingCart, Order, CommentsRating,  Product, Laptop, Tablet,Television ,CellPhone} = sequelize.models;
 
 // Aca vendrian las relaciones
-User.hasMany(ShoppingCart, { foreignKey: 'user_id' });
-ShoppingCart.belongsTo(User,{ foreignKey: 'user_id' })
+User.hasMany(ShoppingCart);
+ShoppingCart.belongsTo(User);
 
 Product.hasOne(Laptop, { onDelete: 'CASCADE' });
 Laptop.belongsTo(Product, { onDelete: 'CASCADE' });
@@ -48,28 +48,26 @@ Tablet.belongsTo(Product, { onDelete: 'CASCADE' });
 Product.hasOne(CellPhone, { onDelete: 'CASCADE' });
 CellPhone.belongsTo(Product, { onDelete: 'CASCADE' });
 
-/*
-User.hasMany(ShoppingCart, { foreignKey: 'user_id' });
-ShoppingCart.belongsTo(User,{ foreignKey: 'user_id' })
+User.hasMany(ShoppingCart);
+ShoppingCart.belongsTo(User)
 
-User.hasMany(CommentsRaiting,{ foreignKey: 'user_id' })
-CommentsRaiting.belongsTo(User,{ foreignKey: 'user_id' })
+User.hasMany(CommentsRating)
+CommentsRating.belongsTo(User)
 
-Product.hasMany(ShoppingCart,{ foreignKey: 'product_id' })
-ShoppingCart.belongsTo(Product,{ foreignKey: 'product_id' })
+Product.hasMany(ShoppingCart)
+ShoppingCart.belongsTo(Product)
 
-Product.hasMany(CommentsRaiting,{ foreignKey: 'product_id' })
-CommentsRaiting.belongsTo(Product,{ foreignKey: 'product_id' })
+Product.hasMany(CommentsRating)
+CommentsRating.belongsTo(Product)
 
 User.hasMany(Order)
-Order.belongsTo(User)*/
-/*Category.hasMany(Product)
-Product.belongsTo(Category) 
-*/
+Order.belongsTo(User)
 
-Product.hasOne(Televisor, { onDelete: 'CASCADE' });
-Televisor.belongsTo(Product, { onDelete: 'CASCADE' });
+Product.hasOne(Television, { onDelete: 'CASCADE' });
+Television.belongsTo(Product, { onDelete: 'CASCADE' });
 
+Order.hasMany(ShoppingCart)
+ShoppingCart.belongsTo(Order)
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

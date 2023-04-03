@@ -1,8 +1,12 @@
-const {Order} = require('../db.js')
+const {Order,ShoppingCart,User,Product} = require('../db.js')
 
 const getAllOrder = async(req,res) =>{
     try {
-        const order = await Order.findAll()
+        const order = await Order.findAll({
+            include:[{
+                model:ShoppingCart,
+            }]
+        })
         if (order.length < 1) {
             return res.status(400).send("No existen registros de Pedidos")
         } else {
@@ -16,7 +20,14 @@ const getAllOrder = async(req,res) =>{
 const getOrder = async(req,res) =>{
     try {
         const {id} = req.query
-        const order = await Order.findByPk(id)
+        const order = await Order.findByPk(id,{
+            include:[{
+                model:ShoppingCart,
+                include:[{
+                    model:Product
+                }]
+            }]
+        })
         if (!order) {
             return res.status(400).send(`No existe el pedido con la id:${id}`)
         } else {
@@ -29,12 +40,50 @@ const getOrder = async(req,res) =>{
 
 const createOrder = async(req,res) =>{
     try {
-        const {datePurchase,orderStatus} = req.body
-        const newOrder = await Order.create({
-            datePurchase,
-            orderStatus
+        const {datePurchase,orderStatus,idUser} = req.body
+
+        const UserCarts = await User.findByPk(idUser,{
+            attributes:['id'],
+            include:[{
+                model:ShoppingCart,
+                where:{
+                    OrderId:null
+                }
+            }]
         })
-        return res.status(200).json(newOrder)
+        if (!UserCarts) {
+            return res.status(400).json({error:"Debes ingresar un usuario existente"})
+        }
+        if (UserCarts.ShoppingCarts.length < 1) {
+            return res.status(400).json({error:"El usuario no tiene carritos de compra"})
+        }
+
+        let idOrder=0;
+        
+        for (let i = 0; i < UserCarts.ShoppingCarts.length; i++) {
+            let idShop=UserCarts.ShoppingCarts[i].id
+            const ShopCart = await ShoppingCart.findByPk(idShop)
+            if (!idOrder) {
+                const newOrder = await Order.create({
+                    datePurchase,
+                    orderStatus,
+                    UserId:ShopCart.UserId
+                })
+                idOrder = newOrder.id
+            }
+            const asignOrder = await Order.findByPk(idOrder)
+            await ShopCart.update({
+                OrderId:asignOrder.id
+            })
+        }
+
+        const totalOrder = await Order.findByPk(idOrder,{
+            include:[{
+                model:ShoppingCart,
+                include:[{model:Product}]
+            }]
+        })
+        res.send(totalOrder)
     } catch (error) {
         res.status(400).json({message: error.message})
     }

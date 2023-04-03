@@ -4,7 +4,7 @@ const {Laptop, Product} = require('../../db.js');
 
         try {
 
-        const { model, brand, description, price, images, ramMemory, internalMemory, processor } = req.body
+        const { model, brand, description, price, images, stock, ramMemory, internalMemory, processor } = req.body
 
         const errors = [];
 
@@ -24,8 +24,12 @@ const {Laptop, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "images" debe ser un arreglo y debe contener como minimo un elemento.');
+        }
+
+        if (!stock || typeof stock !== 'number' || stock <= 0 ) {
+            errors.push('El campo "stock" no es válido.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -48,6 +52,7 @@ const {Laptop, Product} = require('../../db.js');
 
             const newLaptop = await Laptop.create({
 
+                name: `${brand} ${model}`,
                 ramMemory: ramMemory, 
                 internalMemory: internalMemory, 
                 processor: processor
@@ -66,7 +71,8 @@ const {Laptop, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    images: images
+                    images: images,
+                    stock: stock
 
                 })
 
@@ -89,7 +95,7 @@ const {Laptop, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, images, ramMemory, internalMemory, processor } = req.body
+        const { id, model, brand, description, price, images, stock, ramMemory, internalMemory, processor } = req.body
 
         const errors = [];
 
@@ -109,8 +115,12 @@ const {Laptop, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
+        }
+
+        if (!stock || typeof stock !== 'number' || stock <= 0 ) {
+            errors.push('El campo "stock" no es válido.');
         }
 
         if (!ramMemory || typeof ramMemory !== 'string' || ramMemory.length < 2) {
@@ -145,7 +155,8 @@ const {Laptop, Product} = require('../../db.js');
                     brand: brand,
                     description: description, 
                     price: price, 
-                    images: images
+                    images: images,
+                    stock: stock
     
                 })
                 await product.save()
@@ -157,6 +168,7 @@ const {Laptop, Product} = require('../../db.js');
     
                 await laptop.update({
 
+                    name: `${brand} ${model}`,
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
                     processor: processor

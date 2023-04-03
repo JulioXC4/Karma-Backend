@@ -5,10 +5,10 @@ const {CellPhone, Product} = require('../db.js');
 
     const createCellPhone = async (req, res) => {
         try {
-          const { model, brand, description, price, images, name, ram, internalMemory, mainCamera, colors } = req.body;
+          const { model, brand, description, price, images, stock, ramMemory, internalMemory, mainCamera, colors } = req.body;
           const newCellPhone = await CellPhone.create({ 
-            name,
-            ram,
+            name: `${brand} ${model}`,
+            ramMemory,
             internalMemory,
             mainCamera,
             colors
@@ -19,7 +19,8 @@ const {CellPhone, Product} = require('../db.js');
             brand,
             description, 
             price, 
-            images
+            images,
+            stock
           });
           
           await newCellPhone.setProduct(newProduct);
@@ -35,7 +36,7 @@ const {CellPhone, Product} = require('../db.js');
       const updateCellPhone = async(req,res) =>{
         try {
     
-            const { id,model, brand, description, price, images, name, ram, internalMemory, mainCamera, colors } = req.body;
+            const { id,model, brand, description, price, images, name, ramMemory, internalMemory, mainCamera, colors } = req.body;
             
             const product = await Product.findByPk(id)
     
@@ -49,7 +50,8 @@ const {CellPhone, Product} = require('../db.js');
                     brand,
                     description, 
                     price, 
-                    images
+                    images, 
+                    stock
     
                 })
                 await product.save();
@@ -63,8 +65,8 @@ const {CellPhone, Product} = require('../db.js');
     
                 const cellphone = await CellPhone.findByPk(cellPhoneId)
                 await cellphone.update({
-                    name:name,
-                    ram:ram,
+                    name: `${brand} ${model}`,
+                    ramMemory:ramMemory,
                     internalMemory:internalMemory,
                     mainCamera:mainCamera,
                     colors:colors

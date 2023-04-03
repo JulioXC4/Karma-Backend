@@ -1,13 +1,13 @@
-const {Televisor,Product} = require('../db')
+const {Television,Product} = require('../db')
 
-const createTelevisor = async(req,res) =>{
+const createTelevision = async(req,res) =>{
     try {
-        const {model,brand,description,price,images,nameTV,typeResolution,systemOperating,tamañoPantalla} = req.body
-        const newTV = await Televisor.create({
-            name:nameTV,
+        const {model,brand,description,price,images,stock,typeResolution,systemOperating,screenSize} = req.body
+        const newTV = await Television.create({
+            name:`${brand} ${model}`,
             typeResolution,
             systemOperating,
-            tamañoPantalla,
+            screenSize,
         })
 
         const newProduct = await Product.create({
@@ -16,6 +16,7 @@ const createTelevisor = async(req,res) =>{
             description,
             price,
             images,
+            stock
         })
     
         await newTV.setProduct(newProduct)
@@ -26,24 +27,24 @@ const createTelevisor = async(req,res) =>{
     }
 }
 
-const updateTelevisor = async(req,res) =>{
+const updateTelevision = async(req,res) =>{
     try {
-        const {idProduct,model,brand,description,price,images,nameTV,typeResolution,systemOperating,tamañoPantalla} = req.body
+        const {idProduct,model,brand,description,price,images,stock,nameTV,typeResolution,systemOperating,screenSize} = req.body
         const product = await Product.findByPk(idProduct,{
-            include:Televisor
+            include:Television
         })
         if (!product) {
             return res.status(400).send(`No existe el producto con la id:${idProduct}`)
         } else {
             await product.update({
-                model,brand,description,price,images,
+                model,brand,description,price,images,stock
             })
-            const productTV = await product.getTelevisor()
+            const productTV = await product.getTelevision()
             const tvID = productTV.dataValues.id
 
-            const TV=await Televisor.findByPk(tvID)
+            const TV=await Television.findByPk(tvID)
             await TV.update({
-                name:nameTV,typeResolution,systemOperating,tamañoPantalla
+                name:`${brand} ${model}`,typeResolution,systemOperating,screenSize
             })
             return res.status(200).json({message:"Actualizado correctamente"});
         }
@@ -53,6 +54,6 @@ const updateTelevisor = async(req,res) =>{
 }
 
 module.exports={
-    createTelevisor,
-    updateTelevisor
+    createTelevision,
+    updateTelevision
 }
