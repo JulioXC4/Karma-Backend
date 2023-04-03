@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const{ getShoppingCarts,getShoppingCart,createShoppingCart,updateShoppingCart,deleteShoppingCart, restoreProductsFromShoppingCart } = require ('../controllers/shoppingCarts.controllers.js');
+const{ getShoppingCarts,getShoppingCart,createShoppingCart,updateShoppingCart,deleteShoppingCart, restoreProductsFromShoppingCart, addItemsToShoppingCartByProduct, removeItemsToShoppingCartByProduct } = require ('../controllers/shoppingCarts.controllers.js');
 
 const router = Router();
 
@@ -13,6 +13,8 @@ router.post("/createShoppingCart", createShoppingCart);
 
 //PUT
 router.put("/updateShoppingCart/:id", updateShoppingCart);
+router.put("/addItemsToShoppingCartByProduct", addItemsToShoppingCartByProduct)
+router.put("/removeItemsToShoppingCartByProduct", removeItemsToShoppingCartByProduct)
 
 //DELETE
 router.delete("/deleteShoppingCart", deleteShoppingCart);

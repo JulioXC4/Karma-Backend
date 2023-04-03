@@ -1,4 +1,5 @@
 const { default: axios } = require('axios');
+const {Order, ShoppingCart, Product} = require('../db.js');
 const data = require('../utils/data.json')
 const {HOST_BACK} = process.env
 
@@ -40,4 +41,21 @@ const createInitialData = async () => {
     )
 }
 
-module.exports= {createInitialData}
+//REMOVE PRODUCTS
+const removeItemsFromProductStock = async (orderId) => {
+    const order = await Order.findByPk(orderId, {include: {model: ShoppingCart} })
+    
+    const shoppingCartOrder = order.ShoppingCarts
+
+    shoppingCartOrder.forEach( async (product) => {
+
+        const currentProduct = await Product.findByPk(product.id)
+        await currentProduct.update({
+            stock: currentProduct.stock - product.amount
+        })
+        await currentProduct.save()
+
+    })
+}
+
+module.exports= {createInitialData, removeItemsFromProductStock}
