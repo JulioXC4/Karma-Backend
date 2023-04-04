@@ -1,6 +1,7 @@
+const { default: isEmail } = require('validator/lib/isEmail.js');
 const {User} = require('../db.js');
 const {regexPhoneNumber} = require('../utils/consts.js')
-
+const emailer = require ('../utils/emailer');
     const createUser = async (req, res) => {
 
         try {
@@ -307,7 +308,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
             address: "none" 
           
           })
-
+          emailer.sendMail({email:email});
           return res.status(200).send(`El usuario con la id ${id} fue creado correctamente`)
 
         } else {

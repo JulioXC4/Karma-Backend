@@ -29,7 +29,7 @@ const getCommentsRatings=  async (req, res) => {
 
     const badWords = ['palabra1', 'palabra2', 'palabra3']; // lista de palabras prohibidas
       try {
-          const { comments, rating, UserId, ProductId,state = 'pendiente' } = req.body;
+          const { comments, rating, UserId, ProductId,state = 'activo' } = req.body;
   
           const user = await User.findByPk(UserId);
           const product = await Product.findByPk(ProductId);
