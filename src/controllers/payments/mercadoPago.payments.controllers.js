@@ -60,7 +60,12 @@
                 },
                 auto_return: "approved",
                 binary_mode: true,
-                notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`
+                notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
+                events: {
+                  "payment": {
+                    "cancelled": true
+                  }
+                }
             }
     
             const response = await mercadopago.preferences.create(preference)
@@ -83,7 +88,7 @@
       const topic = req.query.topic
       const paymentId = req.query.id
       const body = req.body
-        
+
       switch (topic) {
         case 'payment':
           if (body.action === 'payment.cancel') {
