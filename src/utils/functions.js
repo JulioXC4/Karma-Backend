@@ -16,27 +16,27 @@ const createInitialData = async () => {
     //CREATE TABLETS
     await Promise.all(
         data.products[0]["Tablets"].map(async (tablet) => {
-            await axios.post(`https://${HOST_BACK}/tablet/createTablet`, tablet)
+            await axios.post(`https://karma-backend-production.up.railway.app/tablet/createTablet`, tablet)
         })
     )
 
     //CREATE LAPTOPS
     await Promise.all(
         data.products[1]["Laptops"].map(async (laptop) => {
-            await axios.post(`https://${HOST_BACK}/laptop/createLaptop`, laptop)
+            await axios.post(`https://karma-backend-production.up.railway.app/laptop/createLaptop`, laptop)
         })
     )
      //CREATE CELLPHONE
  await Promise.all(
     data.products[2]["CellPhone"].map(async (cellphone) => {
-        await axios.post(`https://${HOST_BACK}/cellPhone/createCellPhone`, cellphone)
+        await axios.post(`https://karma-backend-production.up.railway.app/cellPhone/createCellPhone`, cellphone)
     })
 )
 
     //CREATE TELEVISORES
     await Promise.all(
         data.products[3]["Television"].map(async(tv) =>{
-            await axios.post(`https://${HOST_BACK}/tv/createTelevision`, tv)
+            await axios.post(`https://karma-backend-production.up.railway.app/tv/createTelevision`, tv)
         })
     )
 }
