@@ -72,7 +72,7 @@
                 throw new Error('No se pudo crear la preferencia en MercadoPago');
             }
 
-            return res.status(200).json( response.body.sandbox_init_point )
+            return res.status(200).json( response.body )
 
         } catch (error) {
 
@@ -87,6 +87,7 @@
       const paymentId = req.query.id
       const body = req.body
 
+      console.log(body)
       switch (topic) {
         case 'payment':
           if (body.action === 'payment.cancel') {
