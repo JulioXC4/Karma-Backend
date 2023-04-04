@@ -63,7 +63,7 @@
                   pending: `${HOST_FRONT}/contact`,
                 },
                 auto_return: "approved",
-                binary_mode: true,
+                binary_mode: false,
                 notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
                 metadata: { "idOrder": `The order id is: ${orderId} `}
             }
