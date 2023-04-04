@@ -12,8 +12,8 @@
     mercadopago.configure({
     
         access_token:
-          "TEST-5611898071281389-031618-a473ed55ef3e607e910a22367f29b042-1332275363",
-          //"TEST-2732806097343775-040312-71707d7f468d52ae903740a978a46192-281720927",
+          //"TEST-5611898071281389-031618-a473ed55ef3e607e910a22367f29b042-1332275363",
+          "TEST-2732806097343775-040312-71707d7f468d52ae903740a978a46192-281720927",
         sandbox: true,
         
     })
@@ -80,12 +80,29 @@
     }
 
     const handleMercadoPagoWebhook = (req, res) => {
-      const body = req.body;
-      console.log('Webhook body:', body);
-
-      res.sendStatus(200);
-    }
+      const topic = req.query.topic
+      const paymentId = req.query.id
+      const body = req.body
+        
+      switch (topic) {
+        case 'payment':
+          if (body.action === 'payment.cancel') {
+            // Pago cancelado
+            console.log(`El pago ${paymentId} ha sido cancelado.`)
+          } else if (body.action === 'payment.approved') {
+            // Pago aprobado
+            console.log(`El pago ${paymentId} ha sido aprobado.`)
+          } else {
+            console.log(`Se recibió un evento de pago con acción ${body.action}.`)
+          }
+          break
+        default:
+          console.log(`Se recibió un evento de tipo ${topic}.`)
+      }
     
+      res.sendStatus(200)
+    }
+
     module.exports = {
         mercadoPagoPayment,
         handleMercadoPagoWebhook
