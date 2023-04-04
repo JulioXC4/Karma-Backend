@@ -50,7 +50,7 @@
 
             return res.status(400).send("El id de la orden no corresponde al usuario seleccionado")
           }
-
+          //integrar metadata para pasarle id de order
             let preference = {
                 items: itemsConvertProperties,
                 back_urls: {
@@ -61,11 +61,7 @@
                 auto_return: "approved",
                 binary_mode: true,
                 notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
-                events: {
-                  "payment": {
-                    "cancelled": true
-                  }
-                }
+                metadata: { "idOrder": `The order id is: ${orderId} `}
             }
     
             const response = await mercadopago.preferences.create(preference)
