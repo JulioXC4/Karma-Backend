@@ -3,7 +3,7 @@
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
     const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
-    const {HOST_FRONT} = process.env
+    const {HOST_FRONT, HOST_BACK} = process.env
 
     //Cuenta para probar mercado pago
     //TEST_USER_124639877
@@ -60,6 +60,7 @@
                 },
                 auto_return: "approved",
                 binary_mode: true,
+                notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`
             }
     
             const response = await mercadopago.preferences.create(preference)
@@ -78,8 +79,16 @@
        
     }
 
+    const handleMercadoPagoWebhook = (req, res) => {
+      const body = req.body;
+      console.log('Webhook body:', body);
+
+      res.sendStatus(200);
+    }
+    
     module.exports = {
         mercadoPagoPayment,
+        handleMercadoPagoWebhook
     }
 
   
