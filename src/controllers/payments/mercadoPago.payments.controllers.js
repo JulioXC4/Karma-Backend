@@ -12,10 +12,12 @@
     mercadopago.configure({
     
         access_token:
-          //Marcelo "TEST-5611898071281389-031618-a473ed55ef3e607e910a22367f29b042-1332275363",
-          //Julio "TEST-2732806097343775-040312-71707d7f468d52ae903740a978a46192-281720927",
+          //Marcelo 
+          //"TEST-5611898071281389-031618-a473ed55ef3e607e910a22367f29b042-1332275363",
+          //Julio 
+          "TEST-2732806097343775-040312-71707d7f468d52ae903740a978a46192-281720927",
           //KARMA TEST
-          "TEST-6210022801027439-040413-27f58e123b683a364cfc81bf0a917085-1345491369",
+          //"TEST-6210022801027439-040413-27f58e123b683a364cfc81bf0a917085-1345491369",
         sandbox: true,
         
     })
@@ -72,7 +74,7 @@
                 throw new Error('No se pudo crear la preferencia en MercadoPago');
             }
 
-            return res.status(200).json( response.body )
+            return res.status(200).json( response.body.init_point )
 
         } catch (error) {
 
@@ -87,7 +89,9 @@
       const paymentId = req.query.id
       const body = req.body
 
+      console.log(req.query)
       console.log(body)
+
       switch (topic) {
         case 'payment':
           if (body.action === 'payment.cancel') {
