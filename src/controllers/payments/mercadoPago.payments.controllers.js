@@ -4,7 +4,7 @@
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
     const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
-    const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
+    const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY, MERCADOPAGO_DOMAIN_TO_REDIRECT} = process.env
 
     //Cuenta para probar mercado pago
     //TEST_USER_124639877
@@ -123,7 +123,7 @@
     const disableMerchantOrderById = async (merchantOrderId) => {
       try {
         await axios.put(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, 
-        { notification_url: "https://sindominomercadopago.com"},
+        { notification_url: MERCADOPAGO_DOMAIN_TO_REDIRECT},
         {
           headers: {
             'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`,
@@ -146,18 +146,20 @@
         case 'merchant_order':
 
           const merchantData = await getMerchantOrder(id)
-          if(merchantData.status === 'closed'){
+          if(merchantData.status === 'closed' && merchantData.notification_url != MERCADOPAGO_DOMAIN_TO_REDIRECT){
 
             //Si aparece más de dos veces verificar la notification_url al momento de hacer el if
-            //await disableMerchantOrderById(id)
+            await disableMerchantOrderById(id)
             console.log("Merchant Order cerrada, pagado")
             //Eliminar carrito
             return res.status(200)
           }else if (merchantData.status === 'opened'){
             console.log("Merchant Order abierta, esperando pago")
             return res.status(200)
+          }else{
+
+            return res.status(200)
           }
-          return res.status(200)
       
         default:
           return res.status(200).send("OK mercado")
