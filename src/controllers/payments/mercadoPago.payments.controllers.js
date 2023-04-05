@@ -146,7 +146,7 @@
         case 'merchant_order':
 
           const merchantData = await getMerchantOrder(id)
-          if(merchantData.status === 'closed' && merchantData.notification_url != MERCADOPAGO_DOMAIN_TO_REDIRECT){
+          if(merchantData.status === 'closed' && merchantData.notification_url != MERCADOPAGO_DOMAIN_TO_REDIRECT.toString()){
 
             //Si aparece más de dos veces verificar la notification_url al momento de hacer el if
             await disableMerchantOrderById(id)
