@@ -54,8 +54,8 @@
             let preference = {
                 items: itemsConvertProperties,
                 back_urls: {
-                  success: `${HOST_FRONT}/profile/orders`,
-                  failure: `${HOST_BACK}/payments/failureMercadoPago`,
+                  success: `${HOST_BACK}/payments/approvedPaymentMercadoPago`,
+                  failure: `${HOST_BACK}/payments/failedPaymentMercadoPago`,
                   pending: ``,
                 },
                 auto_return: "approved",
@@ -116,7 +116,7 @@
           } 
 
           else {
-            console.log(`Se recibió un evento de pago con acción ${action}.`)
+            console.log(`Else de la accion: ${action}.`)
           }
 
           break
