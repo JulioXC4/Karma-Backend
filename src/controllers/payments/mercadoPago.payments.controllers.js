@@ -147,11 +147,12 @@
 
           const merchantData = await getMerchantOrder(id)
           if(merchantData.status === 'closed'){
-            //const shoppingCart = await ShoppingCart
-            await disableMerchantOrderById(id)
+
+            //Si aparece más de dos veces verificar la notification_url al momento de hacer el if
+            //await disableMerchantOrderById(id)
             console.log("Merchant Order cerrada, pagado")
             //Eliminar carrito
-            return res.status(200).send("Orden cerrada")
+            return res.status(200)
           }else if (merchantData.status === 'opened'){
             console.log("Merchant Order abierta, esperando pago")
             return res.status(200)
