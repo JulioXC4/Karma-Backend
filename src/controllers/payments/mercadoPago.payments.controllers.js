@@ -132,8 +132,8 @@
 
     const handleMercadoPagoWebhook = async (req, res) => {
       const {topic, id} = req.query
-     /*  console.log("El query: ", req.query)
-      console.log("El body: ", req.body) */
+        console.log("El query: ", req.query)
+      /*console.log("El body: ", req.body) */
       switch (topic) {
         case 'merchant_order':
 
