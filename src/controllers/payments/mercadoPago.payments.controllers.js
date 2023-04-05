@@ -91,7 +91,7 @@
             'Content-Type': 'application/json'
           }
         })
-
+        console.log("getPayment function: ", response.data)
        return response.data
 
       } catch (error) {
