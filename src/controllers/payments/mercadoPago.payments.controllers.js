@@ -101,7 +101,7 @@
 
     }
 
-    const handleMercadoPagoWebhook = (req, res) => {
+    const handleMercadoPagoWebhook = async (req, res) => {
 
       const {topic} = req.query
       const {action, id} = req.body
@@ -111,7 +111,7 @@
       switch (topic) {
         case 'payment':
         
-            const payment = getPayment(id)
+            const payment = await getPayment(id)
             console.log(payment)
            
 
@@ -122,9 +122,10 @@
           break
         default:
           console.log(`Se recibió un evento de tipo ${topic}.`)
+          return res.status(200).send("200 de arriba")
       }
     
-      return res.status(200)
+      return res.status(200).send("OK mercado")
 
     }
 
