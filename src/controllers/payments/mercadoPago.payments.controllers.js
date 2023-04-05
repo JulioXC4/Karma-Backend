@@ -149,6 +149,7 @@
             //cambiar order status a procesando
             console.log("Merchant Order abierta, esperando pago")
             return res.status(200)
+            // IF "order_status": "payment_required" Empezar el contador
           }else{
 
             return res.status(200)
@@ -156,6 +157,7 @@
       
         default:
           console.log("topic", topic)
+          return res.status(200)
       }
       return res.status(200)
     }
