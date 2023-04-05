@@ -106,7 +106,7 @@
       const {topic} = req.query
       const {action, id} = req.body
 
-      console.log(body)
+      console.log(req.body)
 
       switch (topic) {
         case 'payment':
@@ -118,7 +118,7 @@
           else {
             console.log(`Se recibió un evento de pago con acción ${action}.`)
           }
-          
+
           break
         default:
           console.log(`Se recibió un evento de tipo ${topic}.`)
