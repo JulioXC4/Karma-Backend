@@ -81,7 +81,7 @@
        
     }
 
-    const getPayment = async (paymentId) => {
+/*     const getPayment = async (paymentId) => {
 
       try {
 
@@ -100,24 +100,18 @@
       }
 
     }
-
+ */
     const getMerchantOrder = async (merchantOrderId) => {
-
       try {
-
         const response = await axios.get(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, {
           headers: {
             'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`
           }
         })
-
        return response.data
-
       } catch (error) {
-
         console.error(error)
       }
-
     }
 
     const disableMerchantOrderById = async (merchantOrderId) => {
@@ -138,20 +132,18 @@
 
     const handleMercadoPagoWebhook = async (req, res) => {
       const {topic, id} = req.query
-
      /*  console.log("El query: ", req.query)
       console.log("El body: ", req.body) */
-
       switch (topic) {
         case 'merchant_order':
 
           const merchantData = await getMerchantOrder(id)
           if(merchantData.status === 'closed' && merchantData.notification_url != MERCADOPAGO_DOMAIN_TO_REDIRECT.toString()){
 
-            //Si aparece más de dos veces verificar la notification_url al momento de hacer el if
             await disableMerchantOrderById(id)
-            console.log("Merchant Order cerrada, pagado")
-            //Eliminar carrito
+            console.log("Merchant Order cerrada, pagado. notificacion de Merchant Order deshabilitada")
+            //Primero verificar si el status order ya se cambio
+            //Cambiar order status a pago validado
             return res.status(200)
           }else if (merchantData.status === 'opened'){
             //cambiar order status a procesando
@@ -163,20 +155,21 @@
           }
       
         default:
-          return res.status(200)
+          console.log("topic", topic)
       }
-
+      return res.status(200)
     }
 
     const approvedPaymentMercadoPago = async (req, res) => {
 
-      const {merchant_order_id} = req.query
+      const {merchant_order_id, collection_status} = req.query
 
-      console.log("Query del aprobado",req.query)
-     const merchantData = await getMerchantOrder(merchant_order_id)
-      if(merchantData.status === 'closed'){
+      const merchantData = await getMerchantOrder(merchant_order_id)
+
+      if(merchantData.status === 'closed' && collection_status === 'approved'){
         console.log("Dentro de la funcion aprobado, merchantData closed")
-        console.log("Eliminado carrito de compras")
+         //Primero verificar si el status order ya se cambio
+        console.log("Cambiar order status a pago validado")
       }else{
         console.log("Dentro de la funcion aprobado, ELSEEEEEE")
       }
@@ -185,7 +178,7 @@
 
     const failedPaymentMercadoPago = (req, res) => {
       
-      //devolver productos a stock
+      //devolver productos a stock o devolverlos hasta 5 minutos
       console.log("Query del fallido",req.query)
       console.log("Dentro de la funcion si falla el pago por mercadopago")
 
