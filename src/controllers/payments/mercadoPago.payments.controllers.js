@@ -106,13 +106,14 @@
       const {topic} = req.query
       const {action, id} = req.body
 
-      console.log(req.body)
+      console.log("El query: ", req.query)
+      console.log("El body: ", req.body)
 
       switch (topic) {
         case 'merchant_order':
             console.log("La id es: ", id)
-            const payment = await getPayment(id)
-            console.log(payment)
+            //const payment = await getPayment(id)
+            //console.log(payment)
            
 
        /*    else {
