@@ -110,7 +110,7 @@
             'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`
           }
         })
-        
+
        return response.data
 
       } catch (error) {
@@ -118,6 +118,22 @@
         console.error(error)
       }
 
+    }
+
+    const disableMerchantOrderById = async (merchantOrderId) => {
+      try {
+        await axios.post(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}/notifications_url`, 
+        {notifications_url: null},
+        {
+          headers: {
+            'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        console.log("Merchant Order Cerrada por notificaciones")
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     const handleMercadoPagoWebhook = async (req, res) => {
@@ -132,6 +148,7 @@
           const merchantData = await getMerchantOrder(id)
           if(merchantData.status === 'closed'){
             //const shoppingCart = await ShoppingCart
+            await disableMerchantOrderById(id)
             console.log("Merchant Order cerrada, pagado")
             //Eliminar carrito
             return res.status(200).send("Orden cerrada")
@@ -155,6 +172,7 @@
      const merchantData = await getMerchantOrder(merchant_order_id)
       if(merchantData.status === 'closed'){
         console.log("Dentro de la funcion aprobado, merchantData closed")
+        console.log("Eliminado carrito de compras")
       }else{
         console.log("Dentro de la funcion aprobado, ELSEEEEEE")
       }
