@@ -101,21 +101,51 @@
 
     }
 
-    const handleMercadoPagoWebhook = async (req, res) => {
+    const getMerchantOrder = async (merchantOrderId) => {
 
-      console.log("El query: ", req.query)
-      console.log("El body: ", req.body)
+      try {
 
-      return res.status(200).send("OK mercado")
+        const response = await axios.get(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, {
+          headers: {
+            'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`
+          }
+        })
+        console.log("getMerchantOrder function: ", response.data)
+       return response.data
+
+      } catch (error) {
+
+        console.error(error)
+      }
 
     }
 
-    const approvedPaymentMercadoPago = (req, res) => {
+    const handleMercadoPagoWebhook = async (req, res) => {
+      const {topic, id} = req.query
 
-      //const {id} = req.query
+     /*  console.log("El query: ", req.query)
+      console.log("El body: ", req.body) */
+
+      switch (topic) {
+        case 'merchant_order':
+          console.log("id: ", id)
+          const merchantData = await getMerchantOrder(id)
+          console.log("Merchant data:", merchantData)
+        return res.status(200)
+      
+        default:
+          return res.status(200).send("OK mercado")
+      }
+
+    }
+
+    const approvedPaymentMercadoPago = async (req, res) => {
+
+      const {merchant_order_id} = req.query
+
       console.log("Query del aprobado",req.query)
-      console.log("Dentro de la funcion si se aprueba el pago por mercadopago")
-
+     const merchantData = await getMerchantOrder(merchant_order_id)
+      console.log(merchantData)
       return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
     }
 
