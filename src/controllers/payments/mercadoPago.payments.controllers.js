@@ -122,7 +122,7 @@
 
     const disableMerchantOrderById = async (merchantOrderId) => {
       try {
-        await axios.post(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, 
+        await axios.put(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, 
         { notification_url: "https://sindominomercadopago.com"},
         {
           headers: {
