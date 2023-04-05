@@ -3,7 +3,7 @@
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
     const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
-    const {HOST_FRONT, HOST_BACK} = process.env
+    const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
 
     //Cuenta para probar mercado pago
     //TEST_USER_124639877
@@ -14,10 +14,7 @@
         access_token:
           //Marcelo 
           //"TEST-5611898071281389-031618-a473ed55ef3e607e910a22367f29b042-1332275363",
-          //Julio 
-          //"TEST-2732806097343775-040312-71707d7f468d52ae903740a978a46192-281720927",
-          //KARMA TEST
-          "TEST-6210022801027439-040413-27f58e123b683a364cfc81bf0a917085-1345491369",
+        MERCADOPAGO_API_KEY,
         sandbox: true,
         
     })
@@ -59,11 +56,12 @@
                 items: itemsConvertProperties,
                 back_urls: {
                   success: `${HOST_FRONT}/profile/orders`,
-                  failure: `${HOST_FRONT}/cart`,
-                  pending: `${HOST_FRONT}/contact`,
+                  failure: `${HOST_BACK}/payments/failureMercadoPago`,
+                  pending: ``,
                 },
                 auto_return: "approved",
-                binary_mode: false,
+                //Evitamos tener pagos pendientes
+                binary_mode: true,
                 notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
                 metadata: { "idOrder": `The order id is: ${orderId} `}
             }
@@ -111,9 +109,19 @@
       res.sendStatus(200)
     }
 
+    const failureMercadoPago = (req, res) => {
+      
+      //const {id} = req.query
+      console.log(req.query)
+      console.log("Dentro de la funcion si falla mercadopago")
+
+      return res.redirect(`${HOST_FRONT}/rutafront`);
+    }
+
     module.exports = {
         mercadoPagoPayment,
-        handleMercadoPagoWebhook
+        handleMercadoPagoWebhook,
+        failureMercadoPago
     }
 
   
