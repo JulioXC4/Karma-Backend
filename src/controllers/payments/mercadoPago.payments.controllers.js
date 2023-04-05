@@ -110,14 +110,14 @@
 
       switch (topic) {
         case 'payment':
-          if (action === 'payment.created') {
+        
             const payment = getPayment(id)
             console.log(payment)
-          } 
+           
 
-          else {
+       /*    else {
             console.log(`Else de la accion: ${action}.`)
-          }
+          } */
 
           break
         default:
