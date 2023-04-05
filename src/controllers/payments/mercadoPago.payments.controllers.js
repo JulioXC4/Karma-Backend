@@ -124,7 +124,6 @@
             'Content-Type': 'application/json'
           }
         })
-        console.log("Merchant Order Cerrada por notificaciones")
       } catch (error) {
         console.error(error)
       }
