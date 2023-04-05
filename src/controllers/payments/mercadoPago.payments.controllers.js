@@ -154,6 +154,7 @@
             //Eliminar carrito
             return res.status(200)
           }else if (merchantData.status === 'opened'){
+            //cambiar order status a procesando
             console.log("Merchant Order abierta, esperando pago")
             return res.status(200)
           }else{
@@ -162,7 +163,7 @@
           }
       
         default:
-          return res.status(200).send("OK mercado")
+          return res.status(200)
       }
 
     }
@@ -184,7 +185,7 @@
 
     const failedPaymentMercadoPago = (req, res) => {
       
-      //const {id} = req.query
+      //devolver productos a stock
       console.log("Query del fallido",req.query)
       console.log("Dentro de la funcion si falla el pago por mercadopago")
 
