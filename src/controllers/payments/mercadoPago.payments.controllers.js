@@ -133,7 +133,7 @@
     const approvedPaymentMercadoPago = (req, res) => {
 
       //const {id} = req.query
-      console.log(req.query)
+      console.log("Query del aprobado",req.query)
       console.log("Dentro de la funcion si se aprueba el pago por mercadopago")
 
       return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
@@ -142,7 +142,7 @@
     const failedPaymentMercadoPago = (req, res) => {
       
       //const {id} = req.query
-      console.log(req.query)
+      console.log("Query del fallido",req.query)
       console.log("Dentro de la funcion si falla el pago por mercadopago")
 
       return res.redirect(`${HOST_FRONT}/rutaFrontFallida`);
