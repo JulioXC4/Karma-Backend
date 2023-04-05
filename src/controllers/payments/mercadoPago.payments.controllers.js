@@ -91,7 +91,7 @@
             'Content-Type': 'application/json'
           }
         })
-        console.log("getPayment function: ", response.data)
+
        return response.data
 
       } catch (error) {
@@ -110,7 +110,7 @@
             'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`
           }
         })
-        console.log("getMerchantOrder function: ", response.data)
+        
        return response.data
 
       } catch (error) {
@@ -128,10 +128,18 @@
 
       switch (topic) {
         case 'merchant_order':
-          console.log("id: ", id)
+
           const merchantData = await getMerchantOrder(id)
-          console.log("Merchant data:", merchantData)
-        return res.status(200)
+          if(merchantData.status === 'closed'){
+            //const shoppingCart = await ShoppingCart
+            console.log("Merchant Order cerrada, pagado")
+            //Eliminar carrito
+            return res.status(200).send("Orden cerrada")
+          }else if (merchantData.status === 'opened'){
+            console.log("Merchant Order abierta, esperando pago")
+            return res.status(200)
+          }
+          return res.status(200)
       
         default:
           return res.status(200).send("OK mercado")
@@ -145,7 +153,11 @@
 
       console.log("Query del aprobado",req.query)
      const merchantData = await getMerchantOrder(merchant_order_id)
-      console.log(merchantData)
+      if(merchantData.status === 'closed'){
+        console.log("Dentro de la funcion aprobado, merchantData closed")
+      }else{
+        console.log("Dentro de la funcion aprobado, ELSEEEEEE")
+      }
       return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
     }
 
