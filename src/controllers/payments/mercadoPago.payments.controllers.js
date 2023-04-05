@@ -132,7 +132,7 @@
 
     const handleMercadoPagoWebhook = async (req, res) => {
       const {topic, id} = req.query
-      
+
         console.log("El query: ", req.query)
 
       switch (topic) {
@@ -148,7 +148,7 @@
             return res.status(200)
           }else if (merchantData.status === 'opened' && merchantData.order_status === "payment_required"){
             // IF "order_status": "payment_required" Empezar el contador
-            console.log("Merchant Order abierta, esperando pago")
+            console.log("Merchant Order abierta, esperando pago. Comienza el temporizador de 5 minutos antes de delvolver productos al stock")
             return res.status(200)
           }
           else{
@@ -168,8 +168,9 @@
       const merchantData = await getMerchantOrder(merchant_order_id)
 
       if(merchantData.status === 'closed' && collection_status === 'approved'){
-        console.log("Dentro de la funcion aprobado, merchantData closed")
+        console.log("Dentro de la funcion aprobado, Pago aprobado")
          //Primero verificar si el status order ya se cambio
+        console.log("Vaciar carrito de compras")
         console.log("Cambiar order status a pago validado")
       }else{
         console.log("Dentro de la funcion aprobado, Dentro del else")
