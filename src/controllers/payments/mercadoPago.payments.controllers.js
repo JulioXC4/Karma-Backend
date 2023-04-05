@@ -1,5 +1,6 @@
     //MERCADO PAGO
-    const mercadopago = require("mercadopago");
+    const mercadopago = require("mercadopago")
+    const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
     const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
@@ -12,8 +13,6 @@
     mercadopago.configure({
     
         access_token:
-          //Marcelo 
-          //"TEST-5611898071281389-031618-a473ed55ef3e607e910a22367f29b042-1332275363",
         MERCADOPAGO_API_KEY,
         sandbox: true,
         
@@ -51,7 +50,7 @@
 
             return res.status(400).send("El id de la orden no corresponde al usuario seleccionado")
           }
-          //integrar metadata para pasarle id de order
+
             let preference = {
                 items: itemsConvertProperties,
                 back_urls: {
@@ -82,46 +81,76 @@
        
     }
 
-    const handleMercadoPagoWebhook = (req, res) => {
-      const topic = req.query.topic
-      const paymentId = req.query.id
-      const body = req.body
+    const getPayment = async (paymentId) => {
 
-      console.log(req.query)
+      try {
+
+        const response = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+          headers: {
+            'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        })
+
+       return response.data
+
+      } catch (error) {
+
+        console.error(error)
+      }
+
+    }
+
+    const handleMercadoPagoWebhook = (req, res) => {
+
+      const {topic} = req.query
+      const {action, id} = req.body
+
       console.log(body)
 
       switch (topic) {
         case 'payment':
-          if (body.action === 'payment.cancel') {
-            // Pago cancelado
-            console.log(`El pago ${paymentId} ha sido cancelado.`)
-          } else if (body.action === 'payment.approved') {
-            // Pago aprobado
-            console.log(`El pago ${paymentId} ha sido aprobado.`)
-          } else {
-            console.log(`Se recibió un evento de pago con acción ${body.action}.`)
+          if (action === 'payment.created') {
+            const payment = getPayment(id)
+            console.log(payment)
+          } 
+
+          else {
+            console.log(`Se recibió un evento de pago con acción ${action}.`)
           }
+          
           break
         default:
           console.log(`Se recibió un evento de tipo ${topic}.`)
       }
     
-      res.sendStatus(200)
+      return res.status(200)
+
     }
 
-    const failureMercadoPago = (req, res) => {
+    const approvedPaymentMercadoPago = (req, res) => {
+
+      //const {id} = req.query
+      console.log(req.query)
+      console.log("Dentro de la funcion si se aprueba el pago por mercadopago")
+
+      return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
+    }
+
+    const failedPaymentMercadoPago = (req, res) => {
       
       //const {id} = req.query
       console.log(req.query)
-      console.log("Dentro de la funcion si falla mercadopago")
+      console.log("Dentro de la funcion si falla el pago por mercadopago")
 
-      return res.redirect(`${HOST_FRONT}/rutafront`);
+      return res.redirect(`${HOST_FRONT}/rutaFrontFallida`);
     }
 
     module.exports = {
         mercadoPagoPayment,
         handleMercadoPagoWebhook,
-        failureMercadoPago
+        approvedPaymentMercadoPago,
+        failedPaymentMercadoPago
     }
 
   
