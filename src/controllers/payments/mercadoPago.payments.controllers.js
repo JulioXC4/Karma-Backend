@@ -132,8 +132,9 @@
 
     const handleMercadoPagoWebhook = async (req, res) => {
       const {topic, id} = req.query
+      
         console.log("El query: ", req.query)
-      /*console.log("El body: ", req.body) */
+
       switch (topic) {
         case 'merchant_order':
 
@@ -145,18 +146,16 @@
             //Primero verificar si el status order ya se cambio
             //Cambiar order status a pago validado
             return res.status(200)
-          }else if (merchantData.status === 'opened'){
-            //cambiar order status a procesando
+          }else if (merchantData.status === 'opened' && merchantData.order_status === "payment_required"){
+            // IF "order_status": "payment_required" Empezar el contador
             console.log("Merchant Order abierta, esperando pago")
             return res.status(200)
-            // IF "order_status": "payment_required" Empezar el contador
-          }else{
-
+          }
+          else{
             return res.status(200)
           }
       
         default:
-          console.log("topic", topic)
           return res.status(200)
       }
       return res.status(200)
@@ -173,7 +172,7 @@
          //Primero verificar si el status order ya se cambio
         console.log("Cambiar order status a pago validado")
       }else{
-        console.log("Dentro de la funcion aprobado, ELSEEEEEE")
+        console.log("Dentro de la funcion aprobado, Dentro del else")
       }
       return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
     }
@@ -181,8 +180,8 @@
     const failedPaymentMercadoPago = (req, res) => {
       
       //devolver productos a stock o devolverlos hasta 5 minutos
-      console.log("Query del fallido",req.query)
-      console.log("Dentro de la funcion si falla el pago por mercadopago")
+      console.log("Query del payment fallido",req.query)
+      console.log("Cancellar la Merchant Orden y devolver productos a stock")
 
       return res.redirect(`${HOST_FRONT}/rutaFrontFallida`);
     }
