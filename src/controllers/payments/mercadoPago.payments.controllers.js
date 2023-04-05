@@ -109,8 +109,8 @@
       console.log(req.body)
 
       switch (topic) {
-        case 'payment':
-        
+        case 'merchant_order':
+            console.log("La id es: ", id)
             const payment = await getPayment(id)
             console.log(payment)
            
