@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const {Order, ShoppingCart, Product} = require('../db.js');
+const {Order, ShoppingCart, Product, User} = require('../db.js');
 const data = require('../utils/data.json')
 const {HOST_BACK} = process.env
 
@@ -68,6 +68,7 @@ const ChangeOrderStatus = async (orderId, status) => {
             orderStatus: status
         })
         await order.save()
+        console.log(`Estado de orden actualizada`)
 
     } catch (error) {
         console.log(error)
@@ -75,4 +76,15 @@ const ChangeOrderStatus = async (orderId, status) => {
     
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus}
+const emptyUserShoppingCart = async (orderId) => {
+    try {
+        const order = await Order.findByPk(orderId)
+        const user = await User.findByPk(order.userId)
+
+        await user.setShoppingCarts([])
+        console.log(`Carrito de compras del usuario ${user.email} vaciado correctamente`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart}

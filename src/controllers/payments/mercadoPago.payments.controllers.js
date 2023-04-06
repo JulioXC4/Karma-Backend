@@ -2,7 +2,7 @@
     const mercadopago = require("mercadopago")
     const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
-    const { removeItemsFromProductStock,ChangeOrderStatus } = require('../../utils/functions.js')
+    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart } = require('../../utils/functions.js')
 
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
 
@@ -134,19 +134,16 @@
     const approvedPaymentMercadoPago = async (req, res) => {
 
       const {merchant_order_id, collection_status} = req.query
-
       const merchantData = await getMerchantOrder(merchant_order_id)
+      const orderId = parseInt(merchantData.external_reference)
 
       if(merchantData.status === 'closed' && collection_status === 'approved'){
 
-        console.log("merchDATA: ", merchantData)
-        //ChangeOrderStatus(orderid, "Orden Pagada")
-        console.log("external:", merchantData.external_reference)
-        console.log("Vaciar carrito de compras")
-        console.log("Cambiar order status a pago validado")
-      }else{
-        console.log("Dentro de la funcion aprobado, Dentro del else")
+        await ChangeOrderStatus(orderId, "Orden Pagada")
+        await emptyUserShoppingCart(orderId)
+        
       }
+
       return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
     }
 
