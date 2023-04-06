@@ -57,7 +57,7 @@
                 },
                 auto_return: "approved",
                 binary_mode: true,
-                metadata: { "idOrder": `The order id is: ${orderId} `}
+                external_reference: orderId
             }
     
             const response = await mercadopago.preferences.create(preference)
@@ -141,6 +141,7 @@
 
         console.log("merchDATA: ", merchantData)
         //ChangeOrderStatus(orderid, "Orden Pagada")
+        console.log("external:", merchantData.external_reference)
         console.log("Vaciar carrito de compras")
         console.log("Cambiar order status a pago validado")
       }else{
