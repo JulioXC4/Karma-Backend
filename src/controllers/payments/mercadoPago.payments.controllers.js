@@ -57,7 +57,7 @@
                 },
                 auto_return: "approved",
                 binary_mode: true,
-                external_reference: orderId
+                external_reference: orderId.toString()
             }
     
             const response = await mercadopago.preferences.create(preference)
