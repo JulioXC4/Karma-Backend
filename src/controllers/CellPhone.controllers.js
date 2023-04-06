@@ -65,7 +65,7 @@ const {CellPhone, Product} = require('../db.js');
     
                 const cellphone = await CellPhone.findByPk(cellPhoneId)
                 await cellphone.update({
-                    name: `${brand} ${model}`,
+                    name,
                     ramMemory:ramMemory,
                     internalMemory:internalMemory,
                     mainCamera:mainCamera,

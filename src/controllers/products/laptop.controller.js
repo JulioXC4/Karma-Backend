@@ -95,7 +95,7 @@ const {Laptop, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, images, stock, ramMemory, internalMemory, processor } = req.body
+        const { id, model, brand, description, price, images, stock, name, ramMemory, internalMemory, processor } = req.body
 
         const errors = [];
 
@@ -168,7 +168,7 @@ const {Laptop, Product} = require('../../db.js');
     
                 await laptop.update({
 
-                    name: `${brand} ${model}`,
+                    name,
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
                     processor: processor
