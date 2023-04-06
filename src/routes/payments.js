@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const { mercadoPagoPayment, handleMercadoPagoWebhook, approvedPaymentMercadoPago, failedPaymentMercadoPago } = require('../controllers/payments/mercadoPago.payments.controllers.js')
+const { mercadoPagoPayment, approvedPaymentMercadoPago, failedPaymentMercadoPago } = require('../controllers/payments/mercadoPago.payments.controllers.js')
 const router = Router()
 
 // GET

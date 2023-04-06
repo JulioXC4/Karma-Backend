@@ -26,7 +26,7 @@
           if(userOrder){
 
             removeItemsFromProductStock(orderId)
-            myAsyncFunction(timer)
+            myAsyncFunction()
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
