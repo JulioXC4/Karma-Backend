@@ -2,9 +2,9 @@
     const mercadopago = require("mercadopago")
     const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
-    const { removeItemsFromProductStock } = require('../../utils/functions.js')
+    const { removeItemsFromProductStock,ChangeOrderStatus } = require('../../utils/functions.js')
 
-    const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY, MERCADOPAGO_DOMAIN_TO_REDIRECT} = process.env
+    const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
 
     mercadopago.configure({
     
@@ -57,7 +57,6 @@
                 },
                 auto_return: "approved",
                 binary_mode: true,
-                //notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
                 metadata: { "idOrder": `The order id is: ${orderId} `}
             }
     
@@ -89,23 +88,6 @@
         console.error(error)
       }
     }
-
-/*     const disableMerchantOrderById = async (merchantOrderId) => {
-      try {
-        await axios.put(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, 
-        { notification_url: MERCADOPAGO_DOMAIN_TO_REDIRECT},
-        {
-          headers: {
-            'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    }
- */
-   
 
     const myAsyncFunction = async () => {
         console.log("Comienza el temporizador, 2 minutos")
@@ -156,8 +138,9 @@
       const merchantData = await getMerchantOrder(merchant_order_id)
 
       if(merchantData.status === 'closed' && collection_status === 'approved'){
-        console.log("Dentro de la funcion aprobado, Pago aprobado")
-         //Primero verificar si el status order ya se cambio
+
+        console.log("merchDATA: ", merchantData)
+        //ChangeOrderStatus(orderid, "Orden Pagada")
         console.log("Vaciar carrito de compras")
         console.log("Cambiar order status a pago validado")
       }else{

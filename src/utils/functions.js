@@ -58,4 +58,21 @@ const removeItemsFromProductStock = async (orderId) => {
     })
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock}
+//CHANGE STATUS
+const ChangeOrderStatus = async (orderId, status) => {
+
+    try {
+        
+        const order = await Order.findByPk( orderId )
+        await order.update({
+            orderStatus: status
+        })
+        await order.save()
+
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
+
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus}
