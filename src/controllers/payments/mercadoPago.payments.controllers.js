@@ -2,9 +2,10 @@
     const mercadopago = require("mercadopago")
     const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart } = require('../../utils/functions.js')
+    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock } = require('../../utils/functions.js')
 
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
+    let timeoutId
 
     mercadopago.configure({
     
@@ -26,7 +27,7 @@
           if(userOrder){
 
             removeItemsFromProductStock(orderId)
-            myAsyncFunction()
+            stockReserveTimeInterval(3, orderId)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
@@ -76,9 +77,9 @@
        
     }
 
-    const getMerchantOrder = async (merchantOrderId) => {
+    const getMerchantOrder = async (merchOrderId) => {
       try {
-        const response = await axios.get(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, {
+        const response = await axios.get(`https://api.mercadopago.com/merchant_orders/${merchOrderId}`, {
           headers: {
             'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`
           }
@@ -89,17 +90,73 @@
       }
     }
 
-    const myAsyncFunction = async () => {
-        console.log("Comienza el temporizador, 2 minutos")
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve(console.log("! Pasaron 2 minutos ¡ Tiempo expirado"));
-          }, 2*60*1000)
+    const cancelMerchOrder = async (merchOrderId) => {
+      try {
+        await axios.put(`https://api.mercadopago.com/merchant_orders/${merchOrderId}`, {cancelled: true},{
+          headers: {
+            'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`
+          }
         })
-      
+        console.log(`Orden de mercado pago ${merchOrderId} cancelada`)
+      } catch (error) {
+        console.error(error)
+      }
     }
 
-   /*  const handleMercadoPagoWebhook = async (req, res) => {
+    const stockReserveTimeInterval = async ( minutes, orderId ) => {
+      console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
+      timeoutId = setTimeout(() => {
+          console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
+      }, minutes * 60 * 1000)
+    }
+
+    const cancelTimer = (orderId) => {
+      clearTimeout(timeoutId)
+      console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
+    }
+
+    const approvedPaymentMercadoPago = async (req, res) => {
+
+      const {merchant_order_id, collection_status} = req.query
+      const merchantData = await getMerchantOrder(merchant_order_id)
+      const orderId = parseInt(merchantData.external_reference)
+
+      if(merchantData.status === 'closed' && collection_status === 'approved'){
+
+        cancelTimer(orderId)
+        await ChangeOrderStatus(orderId, "Orden Pagada")
+        await emptyUserShoppingCart(orderId)
+        
+      }
+      return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
+    }
+
+    const failedPaymentMercadoPago = async (req, res) => {
+      
+      const {merchant_order_id, collection_status} = req.query
+      const merchantData = await getMerchantOrder(merchant_order_id)
+      const orderId = parseInt(merchantData.external_reference)
+
+      if(merchantData.status === 'opened' && collection_status === 'rejected'){
+
+        cancelTimer(orderId)
+        await cancelMerchOrder(merchant_order_id)
+        await ChangeOrderStatus(orderId, "Orden Rechazada")
+        await returnProductsToStock(orderId)
+
+      }
+
+      return res.redirect(`${HOST_FRONT}/rutaFrontFallida`);
+    }
+
+    module.exports = {
+        mercadoPagoPayment,
+        approvedPaymentMercadoPago,
+        failedPaymentMercadoPago
+    }
+
+    /*  
+    const handleMercadoPagoWebhook = async (req, res) => {
       const {topic, id} = req.query
 
         console.log("El query: ", req.query)
@@ -129,38 +186,5 @@
           return res.status(200)
       }
       return res.status(200)
-    } */
-
-    const approvedPaymentMercadoPago = async (req, res) => {
-
-      const {merchant_order_id, collection_status} = req.query
-      const merchantData = await getMerchantOrder(merchant_order_id)
-      const orderId = parseInt(merchantData.external_reference)
-
-      if(merchantData.status === 'closed' && collection_status === 'approved'){
-
-        await ChangeOrderStatus(orderId, "Orden Pagada")
-        await emptyUserShoppingCart(orderId)
-        
-      }
-
-      return res.redirect(`${HOST_FRONT}/rutaFrontAprobada`);
-    }
-
-    const failedPaymentMercadoPago = (req, res) => {
-      
-      //devolver productos a stock o devolverlos hasta 5 minutos
-      console.log("Query del payment fallido",req.query)
-      console.log("Cancellar la Merchant Orden y devolver productos a stock")
-
-      return res.redirect(`${HOST_FRONT}/rutaFrontFallida`);
-    }
-
-    module.exports = {
-        mercadoPagoPayment,
-        //handleMercadoPagoWebhook,
-        approvedPaymentMercadoPago,
-        failedPaymentMercadoPago
-    }
-
-  
+    } 
+    */

@@ -68,7 +68,7 @@ const ChangeOrderStatus = async (orderId, status) => {
             orderStatus: status
         })
         await order.save()
-        console.log(`Estado de orden actualizada`)
+        console.log(`Estado de orden actualizada: ${status}`)
 
     } catch (error) {
         console.log(error)
@@ -79,7 +79,7 @@ const ChangeOrderStatus = async (orderId, status) => {
 const emptyUserShoppingCart = async (orderId) => {
     try {
         const order = await Order.findByPk(orderId)
-        const user = await User.findByPk(order.userId)
+        const user = await User.findByPk(order.UserId)
 
         await user.setShoppingCarts([])
         console.log(`Carrito de compras del usuario ${user.email} vaciado correctamente`)
@@ -87,4 +87,24 @@ const emptyUserShoppingCart = async (orderId) => {
         console.log(error)
     }
 }
-module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart}
+
+const returnProductsToStock = async (orderId) => {
+    try {
+        const order = await Order.findByPk(orderId, {include: {model: ShoppingCart} })
+        const shoppingCartOrder = order.ShoppingCarts
+
+        shoppingCartOrder.forEach( async (product) => {
+
+            const currentProduct = await Product.findByPk(product.id)
+            await currentProduct.update({
+                stock: currentProduct.stock + product.amount
+            })
+            await currentProduct.save()
+    })
+    console.log(`Producto de la orden ${orderId} devueltos al stock`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock}
