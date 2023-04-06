@@ -5,7 +5,7 @@
     const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY, MERCADOPAGO_DOMAIN_TO_REDIRECT} = process.env
-
+    let timer = 0
     //Cuenta para probar mercado pago
     //TEST_USER_124639877
     //RLN7rg1vga
@@ -143,15 +143,15 @@
       };
     };
     
-    const myAsyncFunction = async () => {
-      let counter = 0
-      if(counter === 0){
-        counter = 1;
+    const myAsyncFunction = async (t) => {
+
+      if(t === 0){
+        t = 1
         return new Promise(resolve => {
           setTimeout(() => {
-            resolve(console.log("TEMPORIZADOR 10 SEGUNDOS"));
-          }, 10000);
-        });
+            resolve(console.log("TEMPORIZADOR 20 segundos "));
+          }, 20*1000)
+        })
       }else{
         console.log("El temporizador ya ha iniciado")
       }
@@ -175,7 +175,7 @@
             return res.status(200)
           }else if (merchantData.status === 'opened' && merchantData.order_status === "payment_required"){
             // IF "order_status": "payment_required" Empezar el contador
-            await myAsyncFunction()
+            await myAsyncFunction(timer)
             console.log("Merchant Order abierta, esperando pago. Comienza el temporizador de 5 minutos antes de delvolver productos al stock")
             return res.status(200)
           }
