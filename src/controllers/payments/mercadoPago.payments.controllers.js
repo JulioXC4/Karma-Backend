@@ -5,10 +5,6 @@
     const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY, MERCADOPAGO_DOMAIN_TO_REDIRECT} = process.env
-    var timer = 0
-    //Cuenta para probar mercado pago
-    //TEST_USER_124639877
-    //RLN7rg1vga
 
     mercadopago.configure({
     
@@ -60,7 +56,6 @@
                   pending: ``,
                 },
                 auto_return: "approved",
-                //Evitamos tener pagos pendientes
                 binary_mode: true,
                 //notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
                 metadata: { "idOrder": `The order id is: ${orderId} `}
@@ -82,26 +77,6 @@
        
     }
 
-/*     const getPayment = async (paymentId) => {
-
-      try {
-
-        const response = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-          headers: {
-            'Authorization': `Bearer ${MERCADOPAGO_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
-        })
-
-       return response.data
-
-      } catch (error) {
-
-        console.error(error)
-      }
-
-    }
- */
     const getMerchantOrder = async (merchantOrderId) => {
       try {
         const response = await axios.get(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, {
@@ -115,7 +90,7 @@
       }
     }
 
-    const disableMerchantOrderById = async (merchantOrderId) => {
+/*     const disableMerchantOrderById = async (merchantOrderId) => {
       try {
         await axios.put(`https://api.mercadopago.com/merchant_orders/${merchantOrderId}`, 
         { notification_url: MERCADOPAGO_DOMAIN_TO_REDIRECT},
@@ -129,36 +104,20 @@
         console.error(error)
       }
     }
+ */
+   
 
-    const runOnce = () => {
-      console.log("Dentro de runOnce")
-      let executed = false;
-      return async () => {
-        console.log("Dentro del asyn de runOnce")
-        if (!executed) {
-          executed = true;
-          console.log("execite cambia a true");
-          await new Promise((resolve) => setTimeout(resolve, 1 * 60 * 1000));
-          console.log('La función se ejecutó después de 1 minuto1');
-        }
-      };
-    };
-    
-    const myAsyncFunction = async (timer) => {
-
-      if(timer === 0){
-        timer = 1
+    const myAsyncFunction = async () => {
+        console.log("Comienza el temporizador, 2 minutos")
         return new Promise(resolve => {
           setTimeout(() => {
-            resolve(console.log("TEMPORIZADOR 20 segundos "));
-          }, 20*1000)
+            resolve(console.log("! Pasaron 2 minutos ¡ Tiempo expirado"));
+          }, 2*60*1000)
         })
-      }else{
-        console.log("El temporizador ya ha iniciado")
-      }
+      
     }
 
-    const handleMercadoPagoWebhook = async (req, res) => {
+   /*  const handleMercadoPagoWebhook = async (req, res) => {
       const {topic, id} = req.query
 
         console.log("El query: ", req.query)
@@ -188,7 +147,7 @@
           return res.status(200)
       }
       return res.status(200)
-    }
+    } */
 
     const approvedPaymentMercadoPago = async (req, res) => {
 
@@ -218,7 +177,7 @@
 
     module.exports = {
         mercadoPagoPayment,
-        handleMercadoPagoWebhook,
+        //handleMercadoPagoWebhook,
         approvedPaymentMercadoPago,
         failedPaymentMercadoPago
     }
