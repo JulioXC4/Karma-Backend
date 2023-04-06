@@ -8,7 +8,7 @@ router.get('/failedPaymentMercadoPago', failedPaymentMercadoPago )
 
 // POST
 router.post('/mercadoPago', mercadoPagoPayment )
-router.post('/mercadoPagoWebhook', handleMercadoPagoWebhook )
+//router.post('/mercadoPagoWebhook', handleMercadoPagoWebhook )
 
 // PUT
 

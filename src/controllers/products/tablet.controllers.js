@@ -171,6 +171,7 @@ const {Tablet, Product} = require('../../db.js');
 
                     model: model, 
                     brand: brand,
+                    name: name,
                     description: description, 
                     price: price, 
                     images: images,
