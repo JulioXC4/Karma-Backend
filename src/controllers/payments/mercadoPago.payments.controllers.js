@@ -5,7 +5,7 @@
     const { removeItemsFromProductStock } = require('../../utils/functions.js')
 
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY, MERCADOPAGO_DOMAIN_TO_REDIRECT} = process.env
-    let timer = 0
+    var timer = 0
     //Cuenta para probar mercado pago
     //TEST_USER_124639877
     //RLN7rg1vga
@@ -143,10 +143,10 @@
       };
     };
     
-    const myAsyncFunction = async (t) => {
+    const myAsyncFunction = async (timer) => {
 
-      if(t === 0){
-        t = 1
+      if(timer === 0){
+        timer = 1
         return new Promise(resolve => {
           setTimeout(() => {
             resolve(console.log("TEMPORIZADOR 20 segundos "));
