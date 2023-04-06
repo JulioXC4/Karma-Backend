@@ -143,6 +143,19 @@
       };
     };
     
+    const myAsyncFunction = async () => {
+      let counter = 0
+      if(counter === 0){
+        counter = 1;
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(console.log("TEMPORIZADOR 10 SEGUNDOS"));
+          }, 10000);
+        });
+      }else{
+        console.log("El temporizador ya ha iniciado")
+      }
+    }
 
     const handleMercadoPagoWebhook = async (req, res) => {
       const {topic, id} = req.query
@@ -162,7 +175,7 @@
             return res.status(200)
           }else if (merchantData.status === 'opened' && merchantData.order_status === "payment_required"){
             // IF "order_status": "payment_required" Empezar el contador
-            await runOnce();
+            await myAsyncFunction()
             console.log("Merchant Order abierta, esperando pago. Comienza el temporizador de 5 minutos antes de delvolver productos al stock")
             return res.status(200)
           }
