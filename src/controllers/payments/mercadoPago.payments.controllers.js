@@ -30,6 +30,7 @@
           if(userOrder){
 
             removeItemsFromProductStock(orderId)
+            myAsyncFunction(timer)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
@@ -61,7 +62,7 @@
                 auto_return: "approved",
                 //Evitamos tener pagos pendientes
                 binary_mode: true,
-                notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
+                //notification_url: `${HOST_BACK}/payments/mercadoPagoWebhook`,
                 metadata: { "idOrder": `The order id is: ${orderId} `}
             }
     
