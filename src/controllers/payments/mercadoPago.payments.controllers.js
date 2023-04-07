@@ -68,7 +68,8 @@
                 throw new Error('No se pudo crear la preferencia en MercadoPago');
             }
 
-            return res.status(200).json( response.body )
+            //return res.status(200).json( response.body.init_point )
+            return res.redirect(response.body.init_point)
 
         } catch (error) {
 
