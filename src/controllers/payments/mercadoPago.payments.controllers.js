@@ -26,8 +26,9 @@
 
           if(userOrder){
 
-            removeItemsFromProductStock(orderId)
-            stockReserveTimeInterval(3, orderId)
+            await ChangeOrderStatus(orderId, "Procesando Orden")
+            await removeItemsFromProductStock(orderId)
+            await stockReserveTimeInterval(1, orderId, res)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
@@ -107,6 +108,8 @@
       console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
       timeoutId = setTimeout(() => {
           console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
+          ChangeOrderStatus(orderId, "Orden Rechazada")
+          returnProductsToStock(orderId)
       }, minutes * 60 * 1000)
     }
 
