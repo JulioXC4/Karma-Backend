@@ -23,15 +23,15 @@ module.exports = (sequelize) =>{
             }
         },
         orderStatus:{
-            type:DataTypes.ENUM('Procesando','Enviado','Entregado'),
+            type:DataTypes.ENUM('Orden Creada','Orden Pagada','Orden Rechazada','Procesando Orden','Enviando','Entregado'),
             allowNull:false,
-            defaultValue:"Procesando",
+            defaultValue:"Orden Creada",
             validate:{
                 notNull:{
                     msg:'El estado del pedido debe ser requerido'
                 },
                 isIn:{
-                    args:[['Procesando','Enviado','Entregado']],
+                    args:[['Orden Creada','Orden Pagada','Orden Rechazada','Procesando Orden','Enviando','Entregado']],
                     msg:"No esta dentro de las opciones permitidas"
                 }
             }

@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const {Order, ShoppingCart, Product} = require('../db.js');
+const {Order, ShoppingCart, Product, User} = require('../db.js');
 const data = require('../utils/data.json')
 const {HOST_BACK} = process.env
 
@@ -58,4 +58,53 @@ const removeItemsFromProductStock = async (orderId) => {
     })
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock}
+//CHANGE STATUS
+const ChangeOrderStatus = async (orderId, status) => {
+
+    try {
+        
+        const order = await Order.findByPk( orderId )
+        await order.update({
+            orderStatus: status
+        })
+        await order.save()
+        console.log(`Estado de orden actualizada: ${status}`)
+
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
+
+const emptyUserShoppingCart = async (orderId) => {
+    try {
+        const order = await Order.findByPk(orderId)
+        const user = await User.findByPk(order.UserId)
+
+        await user.setShoppingCarts([])
+        console.log(`Carrito de compras del usuario ${user.email} vaciado correctamente`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const returnProductsToStock = async (orderId) => {
+    try {
+        const order = await Order.findByPk(orderId, {include: {model: ShoppingCart} })
+        const shoppingCartOrder = order.ShoppingCarts
+
+        shoppingCartOrder.forEach( async (product) => {
+
+            const currentProduct = await Product.findByPk(product.id)
+            await currentProduct.update({
+                stock: currentProduct.stock + product.amount
+            })
+            await currentProduct.save()
+    })
+    console.log(`Producto de la orden ${orderId} devueltos al stock`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock}
