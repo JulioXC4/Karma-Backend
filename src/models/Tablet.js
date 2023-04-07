@@ -78,10 +78,6 @@ module.exports = (sequelize) => {
                 msg:'El valor de las pulgadas debe ser un número entero y estar en un rango de 1 a 3 dígitos.'
             }
         },
-        get(){
-            let valor = this.getDataValue('screenSize')
-            return `${valor} pulgadas (${parseInt(valor)*2.54} cm)`
-        }
     }
     },
     {
