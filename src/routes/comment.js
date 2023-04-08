@@ -1,5 +1,5 @@
 const { Router } = require ('express');
-const {  createCommentByUser, getComments, getCommentsByUserId } = require ('../controllers/comment.controllers');
+const {  createCommentByUser, getComments, getCommentsByUserId, changeCommentToRead } = require ('../controllers/comment.controllers');
 const router = Router();
 
 //GET
@@ -10,6 +10,7 @@ router.get("/getCommentsByUserId", getCommentsByUserId)
 router.post("/createCommentByUser", createCommentByUser)
 
 //PUT
+router.put("/changeCommentToRead", changeCommentToRead)
 
 //DELETE
 

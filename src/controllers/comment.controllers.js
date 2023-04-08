@@ -58,8 +58,29 @@
         }
     }
   
+    const changeCommentToRead = async (req, res) => {
+        try {
+            const {commentId} = req.body
+            currentComment = await Comment.findByPk(commentId)
+
+            if(!currentComment){
+                return res.status(400).send(`El comentario con la id ${commentId} no existe`)
+            }else{
+                await currentComment.update({
+                    read: true
+                })
+                await currentComment.save()
+                return res.status(200).send(`Estado de comentario ${commentId} read: ${currentComment.read}`)
+            }
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message })
+        }
+    }
+
   module.exports = {
     createCommentByUser,
     getComments,
-    getCommentsByUserId
+    getCommentsByUserId,
+    changeCommentToRead
   }

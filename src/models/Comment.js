@@ -10,8 +10,19 @@ module.exports = (sequelize)=>{
             },
         comment: {
             type: DataTypes.TEXT,
-            allowNull: true,
+            allowNull: false,
+            defaultValue: ""
         },
+        read: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        },
+        date: {
+            type: DataTypes.DATE,
+            allowNull:false,
+            defaultValue: sequelize.literal("NOW()"),
+        }
     },
     {
         timestamps: false
