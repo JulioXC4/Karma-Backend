@@ -2,11 +2,7 @@
     const { Order, User, Product, ShoppingCart } = require('../../db.js');
     const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
 
-    const { HOST_BACK, HOST_FRONT } = process.env
-
-    const PAYPAL_CLIENT_ID = "AfgyX1GpOMq8DFd-T1GrvwMyhCPEeIq_lqBjGl6ZJX6KPbiGQE5_HEAOQn-MtEW3TJkIqpgUvkDOZlog"
-    const PAYPAL_SECRET = "EHSjOfBtmbAmS_5IiTGbLxGFDFRXCdIDsQRbIJD5wFW7KdX6Msx7e1F5yI86Om5AgIjbuUNbBxCn7qmP"
-    const PAYPAL_API = 'https://api-m.sandbox.paypal.com'
+    const { HOST_BACK, HOST_FRONT, PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_API } = process.env
 
     const stockReserveTimeInterval = async ( minutes, orderId ) => {
       console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
@@ -25,7 +21,6 @@
     const createOrderPaypal = async (req, res ) =>{
 
       const { userId, orderId } = req.body
-      //const encodedUserId = encodeURIComponent(userId)
 
       await ChangeOrderStatus(orderId, "Procesando Orden")
       await removeItemsFromProductStock(orderId)
