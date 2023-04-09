@@ -28,7 +28,7 @@
 
             await ChangeOrderStatus(orderId, "Procesando Orden")
             await removeItemsFromProductStock(orderId)
-            await stockReserveTimeInterval(1, orderId, res)
+            await stockReserveTimeInterval(5, orderId, res)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
@@ -130,6 +130,7 @@
         cancelTimer(orderId)
         await ChangeOrderStatus(orderId, "Orden Pagada")
         await emptyUserShoppingCart(orderId)
+        await cancelMerchOrder(merchant_order_id)
         //await deleteUserShoppingCart(orderId)
         
       }

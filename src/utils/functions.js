@@ -68,7 +68,7 @@ const ChangeOrderStatus = async (orderId, status) => {
             orderStatus: status
         })
         await order.save()
-        console.log(`Estado de orden actualizada: ${status}`)
+        console.log(`Estado de orden actualizado: ${status}`)
 
     } catch (error) {
         console.log(error)
@@ -86,7 +86,7 @@ const DeleteOrderById = async (orderId) => {
         }else{
             if(order.orderStatus === 'Orden Rechazada'){
                 await order.destroy()
-                console.log(`Orden eliminada con éxito.`)
+                console.log(`Orden ${orderId} eliminada con éxito.`)
             }else{
                 throw new Error("La orden debe estar en estado: 'Orden Rechazada'");
             }
