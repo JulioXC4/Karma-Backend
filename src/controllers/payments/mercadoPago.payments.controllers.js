@@ -2,7 +2,7 @@
     const mercadopago = require("mercadopago")
     const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock } = require('../../utils/functions.js')
+    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
 
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
     let timeoutId
@@ -28,7 +28,7 @@
 
             await ChangeOrderStatus(orderId, "Procesando Orden")
             await removeItemsFromProductStock(orderId)
-            await stockReserveTimeInterval(1, orderId, res)
+            await stockReserveTimeInterval(5, orderId, res)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
@@ -130,6 +130,8 @@
         cancelTimer(orderId)
         await ChangeOrderStatus(orderId, "Orden Pagada")
         await emptyUserShoppingCart(orderId)
+        await cancelMerchOrder(merchant_order_id)
+        //await deleteUserShoppingCart(orderId)
         
       }
       return res.redirect(`${HOST_FRONT}/profile/orders`);
@@ -147,6 +149,7 @@
         await cancelMerchOrder(merchant_order_id)
         await ChangeOrderStatus(orderId, "Orden Rechazada")
         await returnProductsToStock(orderId)
+        await DeleteOrderById(orderId)
 
       }
 

@@ -68,12 +68,33 @@ const ChangeOrderStatus = async (orderId, status) => {
             orderStatus: status
         })
         await order.save()
-        console.log(`Estado de orden actualizada: ${status}`)
+        console.log(`Estado de orden actualizado: ${status}`)
 
     } catch (error) {
         console.log(error)
     }
     
+}
+
+const DeleteOrderById = async (orderId) => {
+
+    try {
+        const order = await Order.findByPk(orderId)
+        if (!order) {
+            console.log(`No se encontró la orden con el ID: ${orderId}`)
+            return
+        }else{
+            if(order.orderStatus === 'Orden Rechazada'){
+                await order.destroy()
+                console.log(`Orden ${orderId} eliminada con éxito.`)
+            }else{
+                throw new Error("La orden debe estar en estado: 'Orden Rechazada'");
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const emptyUserShoppingCart = async (orderId) => {
@@ -83,6 +104,23 @@ const emptyUserShoppingCart = async (orderId) => {
 
         await user.setShoppingCarts([])
         console.log(`Carrito de compras del usuario ${user.email} vaciado correctamente`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const deleteUserShoppingCart = async (orderId) => {
+    try {
+        const order = await Order.findByPk(orderId)
+        const user = await User.findByPk(order.UserId)
+
+        // Obtener los carritos de compra del usuario
+        const shoppingCarts = await user.getShoppingCarts()
+        // Borrar cada carrito de compra
+        await Promise.all(shoppingCarts.map(async (shoppingCart) => {
+            await shoppingCart.destroy()
+        }))
+        console.log(`Carrito de compras del usuario ${user.email} fue eliminado correctamente`)
     } catch (error) {
         console.log(error)
     }
@@ -107,4 +145,4 @@ const returnProductsToStock = async (orderId) => {
     }
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock}
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart}
