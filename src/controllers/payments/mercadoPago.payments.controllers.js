@@ -3,7 +3,7 @@
     const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
     const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
-
+    const { sendMail, sendPaymentConfirmationEmail } = require('../../utils/emailer.js')
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
 
     mercadopago.configure({
@@ -123,7 +123,7 @@
       const {merchant_order_id, collection_status} = req.query
       const merchantData = await getMerchantOrder(merchant_order_id)
       const orderId = parseInt(merchantData.external_reference)
-
+      const {email }= req.query;
       if(merchantData.status === 'closed' && collection_status === 'approved'){
 
         cancelTimer(orderId)
@@ -131,7 +131,7 @@
         await emptyUserShoppingCart(orderId)
         await cancelMerchOrder(merchant_order_id)
         //await deleteUserShoppingCart(orderId)
-        
+        await sendPaymentConfirmationEmail( {email: req.query.email ? req.query.email : null } );
       }
       return res.redirect(`${HOST_FRONT}/profile/orders`);
     }

@@ -12,6 +12,7 @@ const transport = nodemailer.createTransport(nodemailerSendgrid({
   
 
 const sendMail = async ({ email, subject, templateId }) => {
+
   const transporter = createTrans()
   const info = await transporter.sendMail({
     from: '"Karma" <karma.contact12@gmail.com>',
@@ -24,6 +25,7 @@ const sendMail = async ({ email, subject, templateId }) => {
 };
 
 const sendConfirmationRegistrationEmail = async ({ email }) => {
+
   await sendMail({
     email: email,
     subject: 'Bienvenido a Karma',
@@ -32,10 +34,11 @@ const sendConfirmationRegistrationEmail = async ({ email }) => {
 };
 
 const sendPaymentConfirmationEmail = async ({ email }) => {
+ 
   await sendMail({
     email: email,
     subject: 'Confirmación de pago en Karma',
-    templateId: 'd-9ac7a421d70a4f94b91d4c4d4e4a0196'
+    templateId:'d-1dc54b4002dd45e19dbe746222fe8186'
   });
 }
 
@@ -44,7 +47,7 @@ module.exports = {
   sendConfirmationRegistrationEmail,
   sendPaymentConfirmationEmail
 }
-
+//d-1dc54b4002dd45e19dbe746222fe8186
 
 
 
