@@ -5,7 +5,6 @@
     const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
 
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
-    let timeoutId
 
     mercadopago.configure({
     
@@ -28,7 +27,7 @@
 
             await ChangeOrderStatus(orderId, "Procesando Orden")
             await removeItemsFromProductStock(orderId)
-            await stockReserveTimeInterval(5, orderId, res)
+            await stockReserveTimeInterval(3, orderId, res)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
