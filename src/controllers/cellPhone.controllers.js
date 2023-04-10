@@ -5,9 +5,9 @@ const {CellPhone, Product} = require('../db.js');
 
     const createCellPhone = async (req, res) => {
         try {
-          const { model, brand, description, price, images, stock, name, ramMemory, internalMemory, mainCamera, colors } = req.body;
+          const { model, brand, description, price, images, stock, ramMemory, internalMemory, mainCamera, colors } = req.body;
           const newCellPhone = await CellPhone.create({ 
-            name,
+            name: `${brand} ${model}`,
             ramMemory,
             internalMemory,
             mainCamera,
@@ -36,7 +36,7 @@ const {CellPhone, Product} = require('../db.js');
       const updateCellPhone = async(req,res) =>{
         try {
     
-            const { id,model, brand, description, price, images, name, ramMemory, internalMemory, mainCamera, colors } = req.body;
+            const { id,model, brand, description, price, images, stock, name, ramMemory, internalMemory, mainCamera, colors } = req.body;
             
             const product = await Product.findByPk(id)
     
@@ -65,7 +65,7 @@ const {CellPhone, Product} = require('../db.js');
     
                 const cellphone = await CellPhone.findByPk(cellPhoneId)
                 await cellphone.update({
-                    name:name,
+                    name,
                     ramMemory:ramMemory,
                     internalMemory:internalMemory,
                     mainCamera:mainCamera,

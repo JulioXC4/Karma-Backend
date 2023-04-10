@@ -9,14 +9,15 @@ const laptopRoutes = require('./laptop.js')
 const tabletRoutes = require('./tablet.js')
 const tvRoutes = require('./tv.js')
 const CellPhoneRoutes  = require('./cellPhone.js');
-const productPromoRoutes = require('./productPromotion');
+const payments  = require('./payments.js');
+const comments  = require('./comment.js');
+const admin  = require('./admin.js');
 
 const app = express();
 
 app.use('/', homeRoutes);
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
-app.use('/product', productPromoRoutes)
 app.use('/order', orderRoutes);
 app.use('/shoppingCart',shoppingCartRoutes);
 app.use('/commentsRating',commentsRatingRoutes);
@@ -24,6 +25,9 @@ app.use('/laptop', laptopRoutes);
 app.use('/tablet', tabletRoutes);
 app.use('/tv',tvRoutes)
 app.use('/cellPhone',CellPhoneRoutes);
+app.use('/payments',payments);
+app.use('/comments',comments);
+app.use('/admin',admin);
 
 
 module.exports = app;

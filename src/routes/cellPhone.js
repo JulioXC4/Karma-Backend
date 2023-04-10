@@ -1,5 +1,5 @@
 const { Router } = require ('express');
-const {  createCellPhone, updateCellPhone } = require ('../controllers/CellPhone.controllers.js');
+const {  createCellPhone, updateCellPhone } = require ('../controllers/cellPhone.controllers.js');
 const router = Router();
 
 //GET

@@ -23,16 +23,16 @@ module.exports = (sequelize) =>{
             }
         },
         orderStatus:{
-            type:DataTypes.BOOLEAN,
+            type:DataTypes.ENUM('Orden Creada','Orden Pagada','Orden Rechazada','Procesando Orden','Enviando','Entregado'),
             allowNull:false,
-            defaultValue:true,
+            defaultValue:"Orden Creada",
             validate:{
-                isBoolean:{
-                    args:true,
-                    msg:'Debe contener un booleano en el campo'
-                },
                 notNull:{
                     msg:'El estado del pedido debe ser requerido'
+                },
+                isIn:{
+                    args:[['Orden Creada','Orden Pagada','Orden Rechazada','Procesando Orden','Enviando','Entregado']],
+                    msg:"No esta dentro de las opciones permitidas"
                 }
             }
         }
