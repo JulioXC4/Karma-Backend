@@ -119,21 +119,26 @@
     }
 
     const approvedPaymentMercadoPago = async (req, res) => {
+      try {
+        const {merchant_order_id, collection_status} = req.query
+        const merchantData = await getMerchantOrder(merchant_order_id)
+        const orderId = parseInt(merchantData.external_reference)
+        const {email}= req.query;
+        if(merchantData.status === 'closed' && collection_status === 'approved'){
+  
+          cancelTimer(orderId)
+          await ChangeOrderStatus(orderId, "Orden Pagada")
+          await emptyUserShoppingCart(orderId)
+          await cancelMerchOrder(merchant_order_id)
+          //await deleteUserShoppingCart(orderId)
+          await sendPaymentConfirmationEmail( {email: email ? email : null } );
+        }
+        return res.redirect(`${HOST_FRONT}/profile/orders`);
 
-      const {merchant_order_id, collection_status} = req.query
-      const merchantData = await getMerchantOrder(merchant_order_id)
-      const orderId = parseInt(merchantData.external_reference)
-      const {email }= req.query;
-      if(merchantData.status === 'closed' && collection_status === 'approved'){
-
-        cancelTimer(orderId)
-        await ChangeOrderStatus(orderId, "Orden Pagada")
-        await emptyUserShoppingCart(orderId)
-        await cancelMerchOrder(merchant_order_id)
-        //await deleteUserShoppingCart(orderId)
-        await sendPaymentConfirmationEmail( {email: req.query.email ? req.query.email : null } );
+      } catch (error) {
+        res.status(400).json({message: error.message})
       }
-      return res.redirect(`${HOST_FRONT}/profile/orders`);
+
     }
 
     const failedPaymentMercadoPago = async (req, res) => {
