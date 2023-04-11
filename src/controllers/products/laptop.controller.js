@@ -24,7 +24,7 @@ const {Laptop, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "images" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
@@ -95,7 +95,7 @@ const {Laptop, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, images, stock, ramMemory, internalMemory, processor } = req.body
+        const { id, model, brand, description, price, images, stock, name, ramMemory, internalMemory, processor } = req.body
 
         const errors = [];
 
@@ -115,7 +115,7 @@ const {Laptop, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
@@ -168,7 +168,7 @@ const {Laptop, Product} = require('../../db.js');
     
                 await laptop.update({
 
-                    name: `${brand} ${model}`,
+                    name,
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
                     processor: processor

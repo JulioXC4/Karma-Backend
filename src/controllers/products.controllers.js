@@ -330,7 +330,7 @@ const {PromoProducts} = require('../utils/consts.js')
           return res.status(400).send("Parametros incompletos o informacion invalida")
 
         }else{
-          console.log(productAssociationsKeys)
+          
           const products = await Product.findAll({
 
             where: {

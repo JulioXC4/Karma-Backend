@@ -24,7 +24,7 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
@@ -48,8 +48,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "mainCamera" debe tener al menos 2 caracteres.');
         }
 
-        if (!screenSize || typeof screenSize !== 'string' || screenSize.length < 2) {
-            errors.push('El campo "screenSize" debe tener al menos 2 caracteres.');
+        if (!screenSize || typeof screenSize !== 'number' || screenSize.length < 1) {
+            errors.push('El campo "screenSize" debe tener al menos 1 digito.');
         }
 
         if (errors.length > 0) {
@@ -105,7 +105,7 @@ const {Tablet, Product} = require('../../db.js');
 
         try {
 
-        const { id, model, brand, description, price, images, stock, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
+        const { id, model, brand, description, price, images, stock, name, ramMemory, internalMemory, colors, mainCamera, screenSize } = req.body
 
         const errors = [];
 
@@ -125,7 +125,7 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "price" no es válido.');
         }
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!images ) {
             errors.push('El campo "image" debe ser un arreglo y debe contener como minimo un elemento.');
         }
 
@@ -149,8 +149,8 @@ const {Tablet, Product} = require('../../db.js');
             errors.push('El campo "mainCamera" debe tener al menos 2 caracteres.');
         }
 
-        if (!screenSize || typeof screenSize !== 'string' || screenSize.length < 2) {
-            errors.push('El campo "screenSize" debe tener al menos 2 caracteres.');
+        if (!screenSize || typeof screenSize !== 'number' || screenSize.length < 1) {
+            errors.push('El campo "screenSize" debe tener al menos 1 digito.');
         }
 
         if (errors.length > 0) {
@@ -171,6 +171,7 @@ const {Tablet, Product} = require('../../db.js');
 
                     model: model, 
                     brand: brand,
+                    name: name,
                     description: description, 
                     price: price, 
                     images: images,
@@ -186,7 +187,7 @@ const {Tablet, Product} = require('../../db.js');
     
                 await tablet.update({
 
-                    name: `${brand} ${model}`,
+                    name,
                     ramMemory: ramMemory, 
                     internalMemory: internalMemory, 
                     colors: colors, 

@@ -1,6 +1,7 @@
-const {User} = require('../db.js');
+const { default: isEmail } = require('validator/lib/isEmail.js');
+const {User, Order} = require('../db.js');
 const {regexPhoneNumber} = require('../utils/consts.js')
-
+const emailer = require ('../utils/emailer');
     const createUser = async (req, res) => {
 
         try {
@@ -143,7 +144,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
       }
 
-  };
+  }
 
     const updateUser = async (req, res) => {
 
@@ -307,7 +308,7 @@ const {regexPhoneNumber} = require('../utils/consts.js')
             address: "none" 
           
           })
-
+          emailer.sendMail({email:email});
           return res.status(200).send(`El usuario con la id ${id} fue creado correctamente`)
 
         } else {
@@ -324,11 +325,41 @@ const {regexPhoneNumber} = require('../utils/consts.js')
 
     }
 
+    const getOrdersByUserId = async (req, res) => {
+
+      try {
+
+      const {id} = req.query
+
+      const userWithOrders = await User.findByPk(id, {
+        include: [Order]
+      })
+
+      if(!userWithOrders){
+
+          return res.status(400).send(`No existe el usuario con la id ${id}`)
+
+      }else{
+
+          return res.status(200).json(userWithOrders);
+
+      }
+
+      } catch (error) {
+
+          return res.status(400).json({message: error.message})
+
+      }
+
+  };
+
+
     module.exports = {
         createUser,
         getUsers,
         getUser,
         updateUser,
         deleteUser,
-        userAuth0Register
+        userAuth0Register,
+        getOrdersByUserId
     };
