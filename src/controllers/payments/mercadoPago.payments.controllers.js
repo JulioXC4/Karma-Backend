@@ -3,7 +3,7 @@
     const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product} = require('../../db.js')
     const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
-
+    const {  sendPaymentConfirmationEmail } = require('../../utils/emailer.js')
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
 
     mercadopago.configure({
@@ -119,21 +119,34 @@
     }
 
     const approvedPaymentMercadoPago = async (req, res) => {
-
-      const {merchant_order_id, collection_status} = req.query
-      const merchantData = await getMerchantOrder(merchant_order_id)
-      const orderId = parseInt(merchantData.external_reference)
-
-      if(merchantData.status === 'closed' && collection_status === 'approved'){
-
-        cancelTimer(orderId)
-        await ChangeOrderStatus(orderId, "Orden Pagada")
-        await emptyUserShoppingCart(orderId)
-        await cancelMerchOrder(merchant_order_id)
-        //await deleteUserShoppingCart(orderId)
+      try {
+       
+        const { merchant_order_id, collection_status } = req.query;
+        const merchantData = await getMerchantOrder(merchant_order_id);
+        const order = await Order.findOne({ 
+          where: { orderStatus: 'Procesando Orden'},
+          include:[{ model: User }]
+        });
         
+        if (merchantData.status === 'closed' && collection_status === 'approved') {
+          const orderId = order.id;
+          
+          cancelTimer(orderId);
+          await ChangeOrderStatus(orderId, 'Orden Pagada');
+          await emptyUserShoppingCart(orderId);
+          await cancelMerchOrder(merchant_order_id);
+        
+          const email = order.User.email;
+          await sendPaymentConfirmationEmail({ email });
+
+          return res.redirect(`${HOST_FRONT}/profile/orders`);
+
+        } else {
+          throw new Error('El pago no ha sido aprobado');
+        }
+      } catch (error) {
+        res.status(400).json({ message: error.message });
       }
-      return res.redirect(`${HOST_FRONT}/profile/orders`);
     }
 
     const failedPaymentMercadoPago = async (req, res) => {
