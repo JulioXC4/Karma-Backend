@@ -27,7 +27,7 @@
 
             await ChangeOrderStatus(orderId, "Procesando Orden")
             await removeItemsFromProductStock(orderId)
-            await stockReserveTimeInterval(3, orderId, res)
+            await stockReserveTimeInterval(2, orderId)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
               const productInShoppingCart = await Product.findByPk(product.id)
@@ -105,17 +105,23 @@
     }
 
     const stockReserveTimeInterval = async ( minutes, orderId ) => {
+      const currentOrder = await Order.findByPk(orderId)
       console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
       timeoutId = setTimeout(() => {
+        console.log("MERCADOPAGO:", currentOrder.orderStatus)
+        if(currentOrder.orderStatus === 'Procesando Orden'){
           console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
           ChangeOrderStatus(orderId, "Orden Rechazada")
           returnProductsToStock(orderId)
+        }else{
+          console.log(`Para que el temporizador de la orden ${orderId} sea cancelado, la orden debe estar en proceso`)
+        }
       }, minutes * 60 * 1000)
     }
 
-    const cancelTimer = (orderId) => {
-      clearTimeout(timeoutId)
-      console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
+    const cancelTimer = async (orderId) => {
+        clearTimeout(timeoutId)
+        console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
     }
 
     const approvedPaymentMercadoPago = async (req, res) => {
@@ -126,12 +132,12 @@
 
       if(merchantData.status === 'closed' && collection_status === 'approved'){
 
-        cancelTimer(orderId)
+        await cancelTimer(orderId)
         await ChangeOrderStatus(orderId, "Orden Pagada")
         await emptyUserShoppingCart(orderId)
         await cancelMerchOrder(merchant_order_id)
         //await deleteUserShoppingCart(orderId)
-        
+        //enviar correo
       }
       return res.redirect(`${HOST_FRONT}/profile/orders`);
     }
@@ -144,7 +150,7 @@
 
       if(merchantData.status === 'opened' && collection_status === 'rejected'){
 
-        cancelTimer(orderId)
+        await cancelTimer(orderId)
         await cancelMerchOrder(merchant_order_id)
         await ChangeOrderStatus(orderId, "Orden Rechazada")
         await returnProductsToStock(orderId)

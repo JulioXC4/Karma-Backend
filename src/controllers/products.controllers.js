@@ -1,4 +1,4 @@
-const {User, Product, Laptop, Tablet, conn} = require('../db.js');
+const {User, Product, Laptop, Tablet, ProductDiscount, conn} = require('../db.js');
 const {Op} = require('sequelize')
 const {PromoProducts} = require('../utils/consts.js')
 
@@ -288,12 +288,15 @@ const {PromoProducts} = require('../utils/consts.js')
           }else{
 
             const modelName = productAssociations[categoryFound].target.name
+            //modelName.push("ProductDiscount")
             const products = await conn.models[modelName].findAll({
               where: { ProductId: { [Op.ne]: null } },
             });
             const producstIds = products.map(obj => obj.ProductId)
 
-            const productsFiltered = await Product.findAll({where: {id: producstIds}, include: conn.models[modelName]})
+            const productsFiltered = await Product.findAll({where: {id: producstIds}, include:[conn.models[modelName],  {
+              model: ProductDiscount
+            }] })
 
             return res.status(200).json(productsFiltered)
 
@@ -324,6 +327,7 @@ const {PromoProducts} = require('../utils/consts.js')
           const index = productAssociationsKeys.indexOf(model)
           productAssociationsKeys.splice(index, 1); 
         })
+        productAssociationsKeys.push("ProductDiscount")
 
         if(!input || typeof input !== 'string' || input.length < 2){
 
@@ -343,7 +347,6 @@ const {PromoProducts} = require('../utils/consts.js')
                 model: conn.models[modelName],
                 required: false
             }))
-
           })
 
           if(products.length === 0){
