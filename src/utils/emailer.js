@@ -34,12 +34,15 @@ const sendConfirmationRegistrationEmail = async ({ email }) => {
 };
 
 const sendPaymentConfirmationEmail = async ({ email }) => {
- 
+  try {
   await sendMail({
     email: email,
     subject: 'Confirmación de pago en Karma',
-    templateId:'d-1dc54b4002dd45e19dbe746222fe8186'
+    templateId: 'd-1dc54b4002dd45e19dbe746222fe8186'
   });
+} catch (error) {
+  console.error(`Error al enviar el correo electrónico de confirmación de pago a ${email}: ${error.message}`);
+}
 }
 
 module.exports = {
