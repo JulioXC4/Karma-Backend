@@ -391,7 +391,12 @@ const {PromoProducts} = require('../utils/consts.js')
           }else{
             const userShoppingList = await user.getShoppingCarts({
               include: {
-                model: Product
+                model: Product,
+                include: [
+                  {
+                    model: ProductDiscount
+                  }
+                ]
               }
             })
             
