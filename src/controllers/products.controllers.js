@@ -72,44 +72,53 @@ const {PromoProducts} = require('../utils/consts.js')
     const getProducts = async (req, res) => {
 
         try {
-
+        const {start, end} = req.query
         const productAssociations = await Product.associations
         const properties = Object.keys(productAssociations)
 
         let products = await Product.findAll({
 
           include: properties
-        });
+        })
         const filteredProducts = products.map(product => {
-          const filteredProduct = { ...product.toJSON() };
+          const filteredProduct = { ...product.toJSON() }
 
           for (const key in filteredProduct) {
             if (filteredProduct[key] === null) {
-              delete filteredProduct[key];
+              delete filteredProduct[key]
             }
           }
           return filteredProduct;
         }).filter(product => {
           return product.Laptop !== undefined || product.Tablet !== undefined || product.Television !== undefined || product.CellPhone;
-        });
-
+        })
         if(!products){
-
             return res.status(400).send("No existen productos")
-
         }else{
-
+          if(start && end){
+            const startInteger = parseInt(start)
+            const endInteger = parseInt(end)
+            if(isNaN(startInteger) || isNaN(endInteger)){
+              return res.status(400).send(`start y end no pueden ser de tipo string`)
+            }
+            if(startInteger < 0 || startInteger >= endInteger){
+              return res.status(400).send(`Parametro start invalido, ingrese un numero mayor a 0 y menor que "end" `)
+            }
+            if(endInteger < 0 || endInteger > filteredProducts.length){
+              return res.status(400).send(`Parametro end invalido, ingrese un numero mayor a 0 y menor que la cantidad de elementos de productos`)
+            }
+            if(startInteger < endInteger){
+              const sliceFilteredProducts = filteredProducts.slice(startInteger, endInteger + 1)
+              return res.status(200).json(sliceFilteredProducts)
+            }
+          }else{
             return res.status(200).json(filteredProducts);
-
+          }
         }
-
         } catch (error) {
-
             return res.status(400).json({message: error.message})
-
         }
-
-    };
+    }
 
     const getProduct = async (req, res) => {
 
