@@ -1,4 +1,4 @@
-const {User, Product, Laptop, Tablet, conn} = require('../db.js');
+const {User, Product, Laptop, Tablet, ProductDiscount, conn} = require('../db.js');
 const {Op} = require('sequelize')
 const {PromoProducts} = require('../utils/consts.js')
 
@@ -72,44 +72,53 @@ const {PromoProducts} = require('../utils/consts.js')
     const getProducts = async (req, res) => {
 
         try {
-
+        const {start, end} = req.query
         const productAssociations = await Product.associations
         const properties = Object.keys(productAssociations)
 
         let products = await Product.findAll({
 
           include: properties
-        });
+        })
         const filteredProducts = products.map(product => {
-          const filteredProduct = { ...product.toJSON() };
+          const filteredProduct = { ...product.toJSON() }
 
           for (const key in filteredProduct) {
             if (filteredProduct[key] === null) {
-              delete filteredProduct[key];
+              delete filteredProduct[key]
             }
           }
           return filteredProduct;
         }).filter(product => {
           return product.Laptop !== undefined || product.Tablet !== undefined || product.Television !== undefined || product.CellPhone;
-        });
-
+        })
         if(!products){
-
             return res.status(400).send("No existen productos")
-
         }else{
-
+          if(start && end){
+            const startInteger = parseInt(start)
+            const endInteger = parseInt(end)
+            if(isNaN(startInteger) || isNaN(endInteger)){
+              return res.status(400).send(`start y end no pueden ser de tipo string`)
+            }
+            if(startInteger < 0 || startInteger >= endInteger){
+              return res.status(400).send(`Parametro start invalido, ingrese un numero mayor a 0 y menor que "end" `)
+            }
+            if(endInteger < 0 || endInteger > filteredProducts.length){
+              return res.status(400).send(`Parametro end invalido, ingrese un numero mayor a 0 y menor que la cantidad de elementos de productos`)
+            }
+            if(startInteger < endInteger){
+              const sliceFilteredProducts = filteredProducts.slice(startInteger, endInteger + 1)
+              return res.status(200).json(sliceFilteredProducts)
+            }
+          }else{
             return res.status(200).json(filteredProducts);
-
+          }
         }
-
         } catch (error) {
-
             return res.status(400).json({message: error.message})
-
         }
-
-    };
+    }
 
     const getProduct = async (req, res) => {
 
@@ -288,12 +297,15 @@ const {PromoProducts} = require('../utils/consts.js')
           }else{
 
             const modelName = productAssociations[categoryFound].target.name
+            //modelName.push("ProductDiscount")
             const products = await conn.models[modelName].findAll({
               where: { ProductId: { [Op.ne]: null } },
             });
             const producstIds = products.map(obj => obj.ProductId)
 
-            const productsFiltered = await Product.findAll({where: {id: producstIds}, include: conn.models[modelName]})
+            const productsFiltered = await Product.findAll({where: {id: producstIds}, include:[conn.models[modelName],  {
+              model: ProductDiscount
+            }] })
 
             return res.status(200).json(productsFiltered)
 
@@ -324,6 +336,7 @@ const {PromoProducts} = require('../utils/consts.js')
           const index = productAssociationsKeys.indexOf(model)
           productAssociationsKeys.splice(index, 1); 
         })
+        productAssociationsKeys.push("ProductDiscount")
 
         if(!input || typeof input !== 'string' || input.length < 2){
 
@@ -343,7 +356,6 @@ const {PromoProducts} = require('../utils/consts.js')
                 model: conn.models[modelName],
                 required: false
             }))
-
           })
 
           if(products.length === 0){
@@ -388,7 +400,12 @@ const {PromoProducts} = require('../utils/consts.js')
           }else{
             const userShoppingList = await user.getShoppingCarts({
               include: {
-                model: Product
+                model: Product,
+                include: [
+                  {
+                    model: ProductDiscount
+                  }
+                ]
               }
             })
             

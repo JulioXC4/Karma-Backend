@@ -1,16 +1,19 @@
     const axios = require("axios")
+
     const { Order, User, Product, ShoppingCart } = require('../../db.js');
     const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js');
     const {  sendConfirmationEmail } = require('../../utils/emailer.js')
+
 
     const { HOST_BACK, HOST_FRONT, PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_API } = process.env
 
     const stockReserveTimeInterval = async ( minutes, orderId ) => {
       console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
-      timeoutId = setTimeout(() => {
+      timeoutId = setTimeout(async () => {
           console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
-          ChangeOrderStatus(orderId, "Orden Rechazada")
-          returnProductsToStock(orderId)
+          await ChangeOrderStatus(orderId, "Orden Rechazada")
+          await returnProductsToStock(orderId)
+          await DeleteOrderById(orderId)
       }, minutes * 60 * 1000)
     }
 
@@ -25,7 +28,7 @@
 
       await ChangeOrderStatus(orderId, "Procesando Orden")
       await removeItemsFromProductStock(orderId)
-      await stockReserveTimeInterval(5, orderId, res)
+      await stockReserveTimeInterval(1, orderId, res)
 
       let itemsConvertProperties = []
       let orderTotalValue = 0
@@ -44,19 +47,47 @@
           try {
 
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
-              const productInShoppingCart = await Product.findByPk(product.id)
-              orderTotalValue = orderTotalValue + (productInShoppingCart.price * product.dataValues.amount)
-  
-              return {
-                 id: productInShoppingCart.id,
-                 name: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
-                 category_id: productInShoppingCart.constructor.name,
-                 quantity: product.dataValues.amount,
-                 unit_amount: {
-                  currency_code: 'USD',
-                  value: productInShoppingCart.price,
-                },
+              const productInShoppingCart = await Product.findByPk(product.id, {include: {model: ProductDiscount}})
+              const price = productInShoppingCart.price
+              const productQuantity = product.dataValues.amount
+              
+              if(productInShoppingCart.ProductDiscount !== null){
+                const discountVal = productInShoppingCart.ProductDiscount.discountValue
+                const discount = (price * discountVal) / 100
+
+                const priceWithDiscount = price - discount
+
+                orderTotalValue = orderTotalValue + (priceWithDiscount * productQuantity)
+                return {
+                  id: productInShoppingCart.id,
+                  name: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
+                  category_id: productInShoppingCart.constructor.name,
+                  quantity: productQuantity,
+                  unit_amount: {
+                   currency_code: 'USD',
+                   value: priceWithDiscount,
+                 },
+                 discount: {
+                  currency_code: "USD",
+                  value: discountVal
+                }
+               }
+               
+              }else{
+                orderTotalValue = orderTotalValue + (price * productQuantity)
+
+                return {
+                   id: productInShoppingCart.id,
+                   name: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
+                   category_id: productInShoppingCart.constructor.name,
+                   quantity: product.dataValues.amount,
+                   unit_amount: {
+                    currency_code: 'USD',
+                    value: productInShoppingCart.price,
+                  },
+                }
               }
+  
             }))
 
             const paypalOrder = {
@@ -70,6 +101,10 @@
                       item_total: {
                         currency_code: 'USD',
                         value: orderTotalValue
+                      },
+                      discount: {
+                        currency_code: 'USD',
+                        value: 0 
                       }
                   }
                   },
@@ -83,7 +118,7 @@
                 return_url: `${HOST_BACK}/payments/captureOrderPaypal?orderId=${orderId}`,
                 cancel_url: `${HOST_BACK}/payments/cancelOrderPaypal?orderId=${orderId}`,
               },
-            };
+            }
               //Obtener token
               const params = new URLSearchParams();
               params.append("grant_type", "client_credentials")
@@ -116,6 +151,7 @@
               return res.json(response.data.links[1])
     
           } catch (error) {
+            console.log(error)
             return res.status(400).json({message: error.message})
           } 
         }
@@ -163,9 +199,7 @@
             return res.status(400).send(`PAGO PENDIENTE`)
           }
         } catch (error) {
-  
           return res.status(500).json({message: error.message})
-
         }
       }
 
@@ -173,14 +207,20 @@
      
     const cancelOrderPaypal = async (req, res ) =>{
  
-      const { orderId } = req.query
+      try {
+        const { orderId } = req.query
+        
+        cancelTimer(orderId)
+        await ChangeOrderStatus(orderId, "Orden Rechazada")
+        await returnProductsToStock(orderId)
+        await DeleteOrderById( orderId )
 
-      cancelTimer(orderId)
-      await ChangeOrderStatus(orderId, "Orden Rechazada")
-      await returnProductsToStock(orderId)
-      await DeleteOrderById(orderId)
+        return res.redirect(`${HOST_FRONT}/profile/orders`)
 
-      return res.redirect(`${HOST_FRONT}/profile/orders`)
+      } catch (error) {
+        return res.status(500).json({message: error.message})
+      }
+      
     }
 
 module.exports = {

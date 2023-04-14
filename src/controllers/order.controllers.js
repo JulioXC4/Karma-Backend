@@ -1,4 +1,4 @@
-const {Order,ShoppingCart,User,Product} = require('../db.js')
+const {Order,ShoppingCart,User,Product, ProductDiscount} = require('../db.js')
 
 const getAllOrder = async(req,res) =>{
     try {
@@ -24,7 +24,12 @@ const getOrder = async(req,res) =>{
             include:[{
                 model:ShoppingCart,
                 include:[{
-                    model:Product
+                    model:Product,
+                    include: [
+                        {
+                          model: ProductDiscount
+                        }
+                      ]
                 }]
             }]
         })
