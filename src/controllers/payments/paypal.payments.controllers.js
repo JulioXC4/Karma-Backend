@@ -43,10 +43,10 @@
         }else{
           try {
 
-            itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
-              const productInShoppingCart = await Product.findByPk(product.id, {include: {model: ProductDiscount}})
+            itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (shopCart) => {
+              const productInShoppingCart = await Product.findByPk(shopCart.ProductId, {include: {model: ProductDiscount}})
               const price = productInShoppingCart.price
-              const productQuantity = product.dataValues.amount
+              const productQuantity = shopCart.dataValues.amount
               
               if(productInShoppingCart.ProductDiscount !== null){
                 const discountVal = productInShoppingCart.ProductDiscount.discountValue
@@ -77,7 +77,7 @@
                    id: productInShoppingCart.id,
                    name: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
                    category_id: productInShoppingCart.constructor.name,
-                   quantity: product.dataValues.amount,
+                   quantity: shopCart.dataValues.amount,
                    unit_amount: {
                     currency_code: 'USD',
                     value: productInShoppingCart.price,
