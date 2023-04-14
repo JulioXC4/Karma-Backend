@@ -1,7 +1,7 @@
     //MERCADO PAGO
     const mercadopago = require("mercadopago")
     const { default: axios } = require("axios")
-    const {Order, ShoppingCart, User, Product} = require('../../db.js')
+    const {Order, ShoppingCart, User, Product, ProductDiscount} = require('../../db.js')
     const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
     const {  sendPaymentConfirmationEmail } = require('../../utils/emailer.js')
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
@@ -27,21 +27,44 @@
 
             await ChangeOrderStatus(orderId, "Procesando Orden")
             await removeItemsFromProductStock(orderId)
-            await stockReserveTimeInterval(3, orderId, res)
+            await stockReserveTimeInterval(2, orderId)
             
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (product) => {
-              const productInShoppingCart = await Product.findByPk(product.id)
-  
-              return {
-                 id: productInShoppingCart.id,
-                 title: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
-                 currency_id: 'USD',
-                 picture_url: productInShoppingCart.images[0],
-                 description: 'Descripcion del producto',
-                 category_id: productInShoppingCart.constructor.name,
-                 quantity: product.dataValues.amount,
-                 unit_price: productInShoppingCart.price
+              const productInShoppingCart = await Product.findByPk(product.id, {include: {model: ProductDiscount}})
+              
+              if(productInShoppingCart.ProductDiscount !== null){
+
+                const price = productInShoppingCart.price
+                const discountVal = productInShoppingCart.ProductDiscount.discountValue
+                const discount = (price * discountVal) / 100
+
+                const priceWithDiscount = price - discount
+
+                return {
+                  id: productInShoppingCart.id,
+                  title: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
+                  currency_id: 'USD',
+                  picture_url: productInShoppingCart.images[0],
+                  description: 'Descripcion del producto',
+                  category_id: productInShoppingCart.constructor.name,
+                  quantity: product.dataValues.amount,
+                  unit_price: priceWithDiscount
+               }
+              }else{
+
+                return {
+                   id: productInShoppingCart.id,
+                   title: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
+                   currency_id: 'USD',
+                   picture_url: productInShoppingCart.images[0],
+                   description: 'Descripcion del producto',
+                   category_id: productInShoppingCart.constructor.name,
+                   quantity: product.dataValues.amount,
+                   unit_price: productInShoppingCart.price
+                }
+
               }
+
             }))
 
           }else{
@@ -66,16 +89,10 @@
             if (!response) {
                 throw new Error('No se pudo crear la preferencia en MercadoPago');
             }
-
             return res.status(200).json( response.body.init_point )
-            //return res.redirect(response.body.init_point)
-
         } catch (error) {
-
             return res.status(400).send({ error: error.message })
-
         }
-       
     }
 
     const getMerchantOrder = async (merchOrderId) => {
@@ -105,47 +122,54 @@
     }
 
     const stockReserveTimeInterval = async ( minutes, orderId ) => {
+      const currentOrder = await Order.findByPk(orderId)
       console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
-      timeoutId = setTimeout(() => {
+      timeoutId = setTimeout(async() => {
+        console.log("MERCADOPAGO:", currentOrder.orderStatus)
+        if(currentOrder.orderStatus === 'Procesando Orden'){
           console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
-          ChangeOrderStatus(orderId, "Orden Rechazada")
-          returnProductsToStock(orderId)
+          await ChangeOrderStatus(orderId, "Orden Rechazada")
+          await returnProductsToStock(orderId)
+          await DeleteOrderById(orderId)
+        }else{
+          console.log(`Para que el temporizador de la orden ${orderId} sea cancelado, la orden debe estar en proceso`)
+        }
       }, minutes * 60 * 1000)
     }
 
-    const cancelTimer = (orderId) => {
-      clearTimeout(timeoutId)
-      console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
+    const cancelTimer = async (orderId) => {
+        clearTimeout(timeoutId)
+        console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
     }
 
     const approvedPaymentMercadoPago = async (req, res) => {
+
       try {
-       
         const { merchant_order_id, collection_status } = req.query;
         const merchantData = await getMerchantOrder(merchant_order_id);
         const order = await Order.findOne({ 
           where: { orderStatus: 'Procesando Orden'},
           include:[{ model: User }]
-        });
+        })
         
         if (merchantData.status === 'closed' && collection_status === 'approved') {
-          const orderId = order.id;
+          const orderId = order.id
           
-          cancelTimer(orderId);
-          await ChangeOrderStatus(orderId, 'Orden Pagada');
-          await emptyUserShoppingCart(orderId);
-          await cancelMerchOrder(merchant_order_id);
+          await cancelTimer(orderId)
+          await ChangeOrderStatus(orderId, 'Orden Pagada')
+          await emptyUserShoppingCart(orderId)
+          await cancelMerchOrder(merchant_order_id)
         
-          const email = order.User.email;
-          await sendPaymentConfirmationEmail({ email });
+          const email = order.User.email
+          await sendPaymentConfirmationEmail({ email })
 
-          return res.redirect(`${HOST_FRONT}/profile/orders`);
+          return res.redirect(`${HOST_FRONT}/profile/orders`)
 
         } else {
-          throw new Error('El pago no ha sido aprobado');
+          throw new Error('El pago no ha sido aprobado')
         }
       } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message })
       }
     }
 
@@ -157,7 +181,7 @@
 
       if(merchantData.status === 'opened' && collection_status === 'rejected'){
 
-        cancelTimer(orderId)
+        await cancelTimer(orderId)
         await cancelMerchOrder(merchant_order_id)
         await ChangeOrderStatus(orderId, "Orden Rechazada")
         await returnProductsToStock(orderId)
