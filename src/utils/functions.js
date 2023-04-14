@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const {Order, ShoppingCart, Product, User} = require('../db.js');
+const {Order, ShoppingCart, Product, User, ProductDiscount} = require('../db.js');
 const data = require('../utils/data.json')
 const {HOST_BACK} = process.env
 
@@ -47,11 +47,11 @@ const removeItemsFromProductStock = async (orderId) => {
     
     const shoppingCartOrder = order.ShoppingCarts
 
-    shoppingCartOrder.forEach( async (product) => {
+    shoppingCartOrder.forEach( async (shopCart) => {
 
-        const currentProduct = await Product.findByPk(product.id)
+        const currentProduct = await Product.findByPk(shopCart.ProductId)
         await currentProduct.update({
-            stock: currentProduct.stock - product.amount
+            stock: currentProduct.stock - shopCart.amount
         })
         await currentProduct.save()
 
@@ -145,4 +145,32 @@ const returnProductsToStock = async (orderId) => {
     }
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById,deleteUserShoppingCart}
+const setPurchaseOrder = async (orderId) => {
+
+    try {
+
+        const order = await Order.findByPk(orderId)
+        const userId = order.UserId
+
+        const userShoppingCarts = await User.findByPk(userId,{include: {
+            model: ShoppingCart,
+            include: {
+                model: Product,
+                include: {
+                    model: ProductDiscount
+                }
+            }
+        }})
+
+        await order.update({
+            orderData: userShoppingCarts
+        })
+        await order.save()
+
+        console.log(`La informacion de la orden ${orderId} fue guardada correctamente`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById,deleteUserShoppingCart, setPurchaseOrder}

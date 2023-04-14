@@ -35,6 +35,10 @@ module.exports = (sequelize) =>{
                     msg:"No esta dentro de las opciones permitidas"
                 }
             }
+        },
+        orderData: {
+            type: DataTypes.JSON,
+            allowNull:true,
         }
     },{
         timestamps:false

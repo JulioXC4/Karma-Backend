@@ -1,6 +1,6 @@
     const axios = require("axios")
     const { Order, User, Product, ShoppingCart, ProductDiscount } = require('../../db.js');
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
+    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart, setPurchaseOrder } = require('../../utils/functions.js')
 
     const { HOST_BACK, HOST_FRONT, PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_API } = process.env
 
@@ -182,7 +182,9 @@
             //Lo que pasa una vez si el pago esta aprobado
             cancelTimer(orderId)
             await ChangeOrderStatus(orderId, "Orden Pagada")
-            await emptyUserShoppingCart(orderId)
+            await setPurchaseOrder(orderId)
+            //await emptyUserShoppingCart(orderId)
+            await deleteUserShoppingCart(orderId)
 
             return res.redirect(`${HOST_FRONT}/profile/orders`)
             
