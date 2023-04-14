@@ -1,6 +1,9 @@
     const axios = require("axios")
-    const { Order, User, Product, ShoppingCart, ProductDiscount } = require('../../db.js');
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js')
+
+    const { Order, User, Product, ShoppingCart } = require('../../db.js');
+    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js');
+    const {  sendConfirmationEmail } = require('../../utils/emailer.js')
+
 
     const { HOST_BACK, HOST_FRONT, PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_API } = process.env
 
@@ -156,7 +159,10 @@
     }
 
     const captureOrderPaypal = async (req, res ) =>{
-    
+      const order = await Order.findOne({ 
+        where: { orderStatus: 'Procesando Orden'},
+        include:[{ model: User }]
+      });
       const { token, orderId } = req.query
 
       if(!token ){
@@ -178,7 +184,10 @@
             }
           )
           if(response.data.status === 'COMPLETED'){
-  
+            // Enviar correo electrónico de confirmación de pago
+            const email = order.User.email;
+            await sendConfirmationEmail({ email });
+
             //Lo que pasa una vez si el pago esta aprobado
             cancelTimer(orderId)
             await ChangeOrderStatus(orderId, "Orden Pagada")

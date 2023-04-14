@@ -38,17 +38,30 @@ const sendPaymentConfirmationEmail = async ({ email }) => {
   await sendMail({
     email: email,
     subject: 'Confirmación de pago en Karma',
-    templateId: 'd-1dc54b4002dd45e19dbe746222fe8186'
+    templateId: 'd-e6d8249d5de4418399f5828a96a362fb'
   });
 } catch (error) {
   console.error(`Error al enviar el correo electrónico de confirmación de pago a ${email}: ${error.message}`);
 }
+};
+const sendConfirmationEmail = async ({email}) => {
+  try {
+    await sendMail({
+      email: email,
+      subject: 'Confirmación de pago en Karma',
+      templateId: 'd-e6d8249d5de4418399f5828a96a362fb'
+    });
+
+  } catch (error) {
+    console.error(`Error al enviar el correo electrónico: ${error}`);
+  }
 }
 
 module.exports = {
   sendMail,
   sendConfirmationRegistrationEmail,
-  sendPaymentConfirmationEmail
+  sendPaymentConfirmationEmail,
+  sendConfirmationEmail 
 }
 //d-1dc54b4002dd45e19dbe746222fe8186
 
