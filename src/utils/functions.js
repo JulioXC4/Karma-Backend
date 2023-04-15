@@ -173,4 +173,26 @@ const setPurchaseOrder = async (orderId) => {
     }
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById,deleteUserShoppingCart, setPurchaseOrder}
+const stockReserveTimeInterval = async ( minutes, orderId ) => {
+    const currentOrder = await Order.findByPk(orderId)
+    console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
+    timeoutId = setTimeout(async() => {
+      console.log("MERCADOPAGO:", currentOrder.orderStatus)
+      if(currentOrder.orderStatus === 'Procesando Orden'){
+        console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
+        await ChangeOrderStatus(orderId, "Orden Rechazada")
+        await returnProductsToStock(orderId)
+        await DeleteOrderById(orderId)
+      }else{
+        console.log(`Para que el temporizador de la orden ${orderId} sea cancelado, la orden debe estar en proceso`)
+      }
+    }, minutes * 60 * 1000)
+  }
+
+  const cancelTimer = async (orderId) => {
+      clearTimeout(timeoutId)
+      console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
+  }
+
+
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById,deleteUserShoppingCart, setPurchaseOrder, stockReserveTimeInterval, cancelTimer}

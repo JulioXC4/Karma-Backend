@@ -1,23 +1,8 @@
     const axios = require("axios")
     const { Order, User, Product, ShoppingCart, ProductDiscount } = require('../../db.js');
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart, setPurchaseOrder } = require('../../utils/functions.js')
+    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart, setPurchaseOrder, stockReserveTimeInterval, cancelTimer } = require('../../utils/functions.js')
 
     const { HOST_BACK, HOST_FRONT, PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_API } = process.env
-
-    const stockReserveTimeInterval = async ( minutes, orderId ) => {
-      console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
-      timeoutId = setTimeout(async () => {
-          console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
-          await ChangeOrderStatus(orderId, "Orden Rechazada")
-          await returnProductsToStock(orderId)
-          await DeleteOrderById(orderId)
-      }, minutes * 60 * 1000)
-    }
-
-    const cancelTimer = (orderId) => {
-      clearTimeout(timeoutId)
-      console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
-    }
 
     const createOrderPaypal = async (req, res ) =>{
 
@@ -25,7 +10,7 @@
 
       await ChangeOrderStatus(orderId, "Procesando Orden")
       await removeItemsFromProductStock(orderId)
-      await stockReserveTimeInterval(1, orderId, res)
+      await stockReserveTimeInterval(1, orderId)
 
       let itemsConvertProperties = []
       let orderTotalValue = 0
@@ -116,7 +101,6 @@
                 cancel_url: `${HOST_BACK}/payments/cancelOrderPaypal?orderId=${orderId}`,
               },
             }
-              //Obtener token
               const params = new URLSearchParams();
               params.append("grant_type", "client_credentials")
           
@@ -179,11 +163,9 @@
           )
           if(response.data.status === 'COMPLETED'){
   
-            //Lo que pasa una vez si el pago esta aprobado
-            cancelTimer(orderId)
+            await cancelTimer(orderId)
             await ChangeOrderStatus(orderId, "Orden Pagada")
             await setPurchaseOrder(orderId)
-            //await emptyUserShoppingCart(orderId)
             await deleteUserShoppingCart(orderId)
 
             return res.redirect(`${HOST_FRONT}/profile/orders`)
@@ -203,7 +185,7 @@
       try {
         const { orderId } = req.query
         
-        cancelTimer(orderId)
+        await cancelTimer(orderId)
         await ChangeOrderStatus(orderId, "Orden Rechazada")
         await returnProductsToStock(orderId)
         await DeleteOrderById( orderId )

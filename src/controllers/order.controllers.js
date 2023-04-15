@@ -22,7 +22,7 @@ const getOrder = async(req,res) =>{
         const {id} = req.query
         const order = await Order.findByPk(id)
         if (!order) {
-            return res.status(400).send(`No existe el pedido con el id:${id}`)
+            return res.status(400).send(`No existe el pedido con el id ${id}`)
         } else {
             return res.status(200).json(order.orderData)
         }
