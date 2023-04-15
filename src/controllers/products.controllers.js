@@ -503,6 +503,22 @@ const {PromoProducts} = require('../utils/consts.js')
     }
   }
 
+  const getUserProducts = async(req, res) => {
+    try {
+      const {userId} = req.query
+      const userWithProducts = await User.findByPk(userId, {
+        include: {
+          model: Product,
+          include: { model: ProductDiscount },
+        },
+        attributes: { exclude: ['UserProduct'] } 
+      })  
+      return res.status(200).json(userWithProducts)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
     module.exports = {
         createProduct,
         getProducts,
@@ -514,5 +530,6 @@ const {PromoProducts} = require('../utils/consts.js')
         getProductsFromUserShoppingCart,
         getAllProductPromo,
         addProductToUser,
-        removeProductToUser
+        removeProductToUser,
+        getUserProducts
     }
