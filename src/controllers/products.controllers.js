@@ -135,16 +135,17 @@ const {PromoProducts} = require('../utils/consts.js')
 
           const productAssociations = await Product.associations;
           const properties = Object.keys(productAssociations);
+          const excludeProperties = properties.filter(elemento => elemento !== "Users");
           const productRelations = {};
     
-          for (let index = 0; index < properties.length; index++) {
-            const modelName = productAssociations[properties[index]].target.name;
+          for (let index = 0; index < excludeProperties.length; index++) {
+            const modelName = productAssociations[excludeProperties[index]].target.name;
             const relation = await conn.models[modelName].findAll({
               where: { ProductId: id },
             });
 
             if (relation.length) {
-              productRelations[properties[index]] = relation;
+              productRelations[excludeProperties[index]] = relation;
             }
           }
 
@@ -329,7 +330,7 @@ const {PromoProducts} = require('../utils/consts.js')
         const productAssociations = await Product.associations
         const productAssociationsKeys = Object.keys(productAssociations)
 
-        const excludedModels = ['ShoppingCarts','CommentsRatings']
+        const excludedModels = ['ShoppingCarts','CommentsRatings','Users']
 
         //Funcion excluir modelos
         excludedModels.map((model) => {
