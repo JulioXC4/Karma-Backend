@@ -72,6 +72,9 @@ Comment.belongsTo(User)
 Product.hasOne(ProductDiscount)
 ProductDiscount.belongsTo(Product)
 
+User.belongsToMany(Product,{through:'UserProduct',  timestamps: false } )
+Product.belongsToMany(User,{through:'UserProduct',  timestamps: false } )
+
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');

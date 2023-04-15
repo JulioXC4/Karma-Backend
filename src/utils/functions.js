@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const {Order, ShoppingCart, Product, User} = require('../db.js');
+const {Order, ShoppingCart, Product, User, ProductDiscount} = require('../db.js');
 const data = require('../utils/data.json')
 const {HOST_BACK} = process.env
 
@@ -47,11 +47,11 @@ const removeItemsFromProductStock = async (orderId) => {
     
     const shoppingCartOrder = order.ShoppingCarts
 
-    shoppingCartOrder.forEach( async (product) => {
+    shoppingCartOrder.forEach( async (shopCart) => {
 
-        const currentProduct = await Product.findByPk(product.id)
+        const currentProduct = await Product.findByPk(shopCart.ProductId)
         await currentProduct.update({
-            stock: currentProduct.stock - product.amount
+            stock: currentProduct.stock - shopCart.amount
         })
         await currentProduct.save()
 
@@ -145,4 +145,54 @@ const returnProductsToStock = async (orderId) => {
     }
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById,deleteUserShoppingCart}
+const setPurchaseOrder = async (orderId) => {
+
+    try {
+
+        const order = await Order.findByPk(orderId)
+        const userId = order.UserId
+
+        const userShoppingCarts = await User.findByPk(userId,{include: {
+            model: ShoppingCart,
+            include: {
+                model: Product,
+                include: {
+                    model: ProductDiscount
+                }
+            }
+        }})
+
+        await order.update({
+            orderData: userShoppingCarts
+        })
+        await order.save()
+
+        console.log(`La informacion de la orden ${orderId} fue guardada correctamente`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const stockReserveTimeInterval = async ( minutes, orderId ) => {
+    const currentOrder = await Order.findByPk(orderId)
+    console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
+    timeoutId = setTimeout(async() => {
+      console.log("MERCADOPAGO:", currentOrder.orderStatus)
+      if(currentOrder.orderStatus === 'Procesando Orden'){
+        console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
+        await ChangeOrderStatus(orderId, "Orden Rechazada")
+        await returnProductsToStock(orderId)
+        await DeleteOrderById(orderId)
+      }else{
+        console.log(`Para que el temporizador de la orden ${orderId} sea cancelado, la orden debe estar en proceso`)
+      }
+    }, minutes * 60 * 1000)
+  }
+
+  const cancelTimer = async (orderId) => {
+      clearTimeout(timeoutId)
+      console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
+  }
+
+
+module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById,deleteUserShoppingCart, setPurchaseOrder, stockReserveTimeInterval, cancelTimer}

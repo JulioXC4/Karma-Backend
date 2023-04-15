@@ -135,16 +135,17 @@ const {PromoProducts} = require('../utils/consts.js')
 
           const productAssociations = await Product.associations;
           const properties = Object.keys(productAssociations);
+          const excludeProperties = properties.filter(elemento => elemento !== "Users");
           const productRelations = {};
     
-          for (let index = 0; index < properties.length; index++) {
-            const modelName = productAssociations[properties[index]].target.name;
+          for (let index = 0; index < excludeProperties.length; index++) {
+            const modelName = productAssociations[excludeProperties[index]].target.name;
             const relation = await conn.models[modelName].findAll({
               where: { ProductId: id },
             });
 
             if (relation.length) {
-              productRelations[properties[index]] = relation;
+              productRelations[excludeProperties[index]] = relation;
             }
           }
 
@@ -329,7 +330,7 @@ const {PromoProducts} = require('../utils/consts.js')
         const productAssociations = await Product.associations
         const productAssociationsKeys = Object.keys(productAssociations)
 
-        const excludedModels = ['ShoppingCarts','CommentsRatings']
+        const excludedModels = ['ShoppingCarts','CommentsRatings','Users']
 
         //Funcion excluir modelos
         excludedModels.map((model) => {
@@ -457,6 +458,68 @@ const {PromoProducts} = require('../utils/consts.js')
           }
   }
 
+  const addProductToUser = async (req, res) => {
+
+    try {
+      const {userId, productId} = req.body
+      const user = await User.findByPk(userId)
+      const product = await Product.findByPk(productId, {include: {
+        model: ProductDiscount
+      }})
+
+      if(!user){
+        return res.status(400).send(`El usuario con el id ${userId} no existe`)
+      }
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await user.addProduct(product)
+
+      return res.status(200).send(`El producto ${product.brand} ${product.model} fue agregado correctamente a la lista de favoritos del usuario ${user.id}`)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const removeProductToUser = async (req, res) => {
+
+    try {
+      const {userId, productId} = req.body
+      const user = await User.findByPk(userId)
+      const product = await Product.findByPk(productId, {include: {
+        model: ProductDiscount
+      }})
+
+      if(!user){
+        return res.status(400).send(`El usuario con el id ${userId} no existe`)
+      }
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await user.removeProduct(product)
+
+      return res.status(200).send(`El producto ${product.brand} ${product.model} fue removido correctamente de la lista de favoritos del usuario ${user.id}`)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const getUserProducts = async(req, res) => {
+    try {
+      const {userId} = req.query
+      const userWithProducts = await User.findByPk(userId, {
+        include: {
+          model: Product,
+          include: { model: ProductDiscount },
+        },
+        attributes: { exclude: ['UserProduct'] } 
+      })  
+      return res.status(200).json(userWithProducts)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
     module.exports = {
         createProduct,
         getProducts,
@@ -466,5 +529,8 @@ const {PromoProducts} = require('../utils/consts.js')
         getProductsByCategory,
         getProductsByInput,
         getProductsFromUserShoppingCart,
-        getAllProductPromo
-    };
+        getAllProductPromo,
+        addProductToUser,
+        removeProductToUser,
+        getUserProducts
+    }

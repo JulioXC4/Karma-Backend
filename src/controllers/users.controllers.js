@@ -1,5 +1,5 @@
 const { default: isEmail } = require('validator/lib/isEmail.js');
-const {User, Order} = require('../db.js');
+const {User, Order, Product} = require('../db.js');
 const {regexPhoneNumber} = require('../utils/consts.js')
 const {sendMail,sendConfirmationRegistrationEmail} = require ('../utils/emailer');
     const createUser = async (req, res) => {
@@ -351,7 +351,8 @@ const {sendMail,sendConfirmationRegistrationEmail} = require ('../utils/emailer'
 
       }
 
-  };
+  }
+
 
 
     module.exports = {
@@ -361,5 +362,5 @@ const {sendMail,sendConfirmationRegistrationEmail} = require ('../utils/emailer'
         updateUser,
         deleteUser,
         userAuth0Register,
-        getOrdersByUserId
-    };
+        getOrdersByUserId,
+    }
