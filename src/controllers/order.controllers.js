@@ -24,7 +24,7 @@ const getOrder = async(req,res) =>{
         if (!order) {
             return res.status(400).send(`No existe el pedido con el id ${id}`)
         } else {
-            return res.status(200).json(order.orderData)
+            return res.status(200).json(order)
         }
     } catch (error) {
         return res.status(500).json({message: error.message})

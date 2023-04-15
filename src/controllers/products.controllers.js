@@ -457,6 +457,52 @@ const {PromoProducts} = require('../utils/consts.js')
           }
   }
 
+  const addProductToUser = async (req, res) => {
+
+    try {
+      const {userId, productId} = req.body
+      const user = await User.findByPk(userId)
+      const product = await Product.findByPk(productId, {include: {
+        model: ProductDiscount
+      }})
+
+      if(!user){
+        return res.status(400).send(`El usuario con el id ${userId} no existe`)
+      }
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await user.addProduct(product)
+
+      return res.status(200).send(`El producto ${product.brand} ${product.model} fue agregado correctamente a la lista de favoritos del usuario ${user.id}`)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const removeProductToUser = async (req, res) => {
+
+    try {
+      const {userId, productId} = req.body
+      const user = await User.findByPk(userId)
+      const product = await Product.findByPk(productId, {include: {
+        model: ProductDiscount
+      }})
+
+      if(!user){
+        return res.status(400).send(`El usuario con el id ${userId} no existe`)
+      }
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await user.removeProduct(product)
+
+      return res.status(200).send(`El producto ${product.brand} ${product.model} fue removido correctamente de la lista de favoritos del usuario ${user.id}`)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
     module.exports = {
         createProduct,
         getProducts,
@@ -466,5 +512,7 @@ const {PromoProducts} = require('../utils/consts.js')
         getProductsByCategory,
         getProductsByInput,
         getProductsFromUserShoppingCart,
-        getAllProductPromo
-    };
+        getAllProductPromo,
+        addProductToUser,
+        removeProductToUser
+    }
