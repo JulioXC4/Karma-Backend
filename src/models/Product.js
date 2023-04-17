@@ -45,6 +45,11 @@ module.exports = (sequelize)=>{
           allowNull: false,
           defaultValue: 1
         },
+        analytical: {
+            type: DataTypes.JSON,
+            allowNull: true,
+            defaultValue: { "sold": 0, "clicked": 0 }
+        },
         averageRating: {
             type: DataTypes.FLOAT,
             allowNull: true,

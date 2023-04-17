@@ -1,6 +1,17 @@
     const axios = require("axios")
     const { Order, User, Product, ShoppingCart, ProductDiscount } = require('../../db.js');
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart, setPurchaseOrder, stockReserveTimeInterval, cancelTimer } = require('../../utils/functions.js')
+    const { 
+      removeItemsFromProductStock, 
+      ChangeOrderStatus, 
+      emptyUserShoppingCart, 
+      returnProductsToStock, 
+      DeleteOrderById, 
+      deleteUserShoppingCart, 
+      setPurchaseOrder, 
+      stockReserveTimeInterval, 
+      cancelTimer,
+      addSoldProductsToAnalytics
+    } = require('../../utils/functions.js')
     const {  sendConfirmationEmail } = require('../../utils/emailer.js')
 
 
@@ -41,7 +52,7 @@
 
                 const priceWithDiscount = price - discount
 
-                orderTotalValue = orderTotalValue + (priceWithDiscount * productQuantity)
+                orderTotalValue = orderTotalValue + (parseFloat(priceWithDiscount.toFixed(2)) * productQuantity)
                 return {
                   id: productInShoppingCart.id,
                   name: `${productInShoppingCart.brand} ${productInShoppingCart.model}`,
@@ -49,7 +60,7 @@
                   quantity: productQuantity,
                   unit_amount: {
                    currency_code: 'USD',
-                   value: priceWithDiscount,
+                   value: parseFloat(priceWithDiscount.toFixed(2)),
                  },
                  discount: {
                   currency_code: "USD",
@@ -173,6 +184,7 @@
             await sendConfirmationEmail({ email });
             await ChangeOrderStatus(orderId, "Orden Pagada")
             await setPurchaseOrder(orderId)
+            await addSoldProductsToAnalytics(orderId)
             await deleteUserShoppingCart(orderId)
 
             return res.redirect(`${HOST_FRONT}/profile/orders`)

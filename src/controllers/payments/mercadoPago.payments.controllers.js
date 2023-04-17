@@ -2,7 +2,18 @@
     const mercadopago = require("mercadopago")
     const { default: axios } = require("axios")
     const {Order, ShoppingCart, User, Product, ProductDiscount} = require('../../db.js')
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart, stockReserveTimeInterval, cancelTimer, setPurchaseOrder } = require('../../utils/functions.js')
+    const { 
+      removeItemsFromProductStock, 
+      ChangeOrderStatus, 
+      emptyUserShoppingCart, 
+      returnProductsToStock, 
+      DeleteOrderById, 
+      deleteUserShoppingCart, 
+      stockReserveTimeInterval, 
+      cancelTimer, 
+      setPurchaseOrder,
+      addSoldProductsToAnalytics 
+    } = require('../../utils/functions.js')
     const {  sendPaymentConfirmationEmail } = require('../../utils/emailer.js')
     const {HOST_FRONT, HOST_BACK, MERCADOPAGO_API_KEY} = process.env
 
@@ -45,7 +56,7 @@
                   description: 'Descripcion del producto',
                   category_id: productInShoppingCart.constructor.name,
                   quantity: shopCart.dataValues.amount,
-                  unit_price: priceWithDiscount
+                  unit_price: parseFloat(priceWithDiscount.toFixed(2))
                }
               }else{
 
@@ -131,6 +142,7 @@
           await cancelTimer(orderId)
           await ChangeOrderStatus(orderId, 'Orden Pagada')
           await setPurchaseOrder(orderId)
+          await addSoldProductsToAnalytics(orderId)
           await deleteUserShoppingCart(orderId)
           await cancelMerchOrder(merchant_order_id)
         
