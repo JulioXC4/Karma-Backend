@@ -630,7 +630,7 @@ const { sumProductsById } = require('../utils/functions.js')
           }
         }})
         if(!orders || orders.length === 0){
-          return res.status(400).send(`No se encontro ningun registro de compra en la fecha ${startDate}`)
+          return res.status(400).send(`No se encontro ningun registro de compra con la fecha ${startDate}`)
         }else{
           const products = orders.map((order) => {
             const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
@@ -658,7 +658,7 @@ const { sumProductsById } = require('../utils/functions.js')
           }
         }})
         if(!orders || orders.length === 0){
-          return res.status(400).send(`No se encontro ningun registro de compra en la fecha ${startDate}`)
+          return res.status(400).send(`No se encontro ningun registro de compra con la fecha ${startDate}`)
         }else{
           const products = orders.map((order) => {
             const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
