@@ -74,18 +74,18 @@ const createOrder = async(req,res) =>{
 
 const updateOrder = async(req,res) =>{
     try {
-        const {id,datePurchase,orderStatus} = req.body
+        const {id, datePurchase, orderStatus} = req.body
         const order = await Order.findByPk(id)
-        if (!order) {
+        if(!order){
             return res.status(400).send(`No existe un pedido con la id:${id}`)
-        } else {
+        }else{
             await order.update({
                 datePurchase,
                 orderStatus
             })
-            return res.status(200).json(order);
+            return res.status(200).json(order)
         }
-    } catch (error) {
+    }catch (error) {
         return res.status(400).json({message: error.message})
     }
 }

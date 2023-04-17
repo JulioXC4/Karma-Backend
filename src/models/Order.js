@@ -9,7 +9,7 @@ module.exports = (sequelize) =>{
             primaryKey:true,
         },
         datePurchase:{
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull:false,
             defaultValue:sequelize.literal("NOW()"),
             validate:{

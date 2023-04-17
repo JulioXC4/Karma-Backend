@@ -1,6 +1,7 @@
-const {User, Product, Laptop, Tablet, ProductDiscount, conn} = require('../db.js');
+const {User, Product, Laptop, Tablet, ProductDiscount,Order, conn} = require('../db.js');
 const {Op} = require('sequelize')
 const {PromoProducts} = require('../utils/consts.js')
+const { sumProductsById } = require('../utils/functions.js')
 
     const createProduct = async (req, res) => {
 
@@ -520,6 +521,171 @@ const {PromoProducts} = require('../utils/consts.js')
     }
   }
 
+  const updateProductClicks = async (req, res) => {
+
+    try {
+      const {productId} = req.body
+      const product = await Product.findByPk(productId)
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await product.update({
+        analytical: { "sold": product.analytical.sold, "clicked": product.analytical.clicked + 1 }
+      })
+      await product.save()
+      return res.status(200).json(product.analytical)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
+
+  const getProductAnalytics = async (req, res) => {
+
+    try {
+      const{productId} =req.query
+      const product = await Product.findByPk(productId, { attributes: { exclude: ['description','images','price','stock'] }})
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }else{
+        return res.status(200).json(product)
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
+
+  const getAllProductAnalytics = async (req, res) => {
+
+    try {
+      const products = await Product.findAll({ attributes: { exclude: ['description','images','price','stock'] }})
+      if(!products){
+        return res.status(400).send(`No existen productos registrados`)
+      }else{
+        return res.status(200).json(products)
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
+
+  const getProductAnalyticsByCategory = async (req, res) => {
+
+    try {
+      const {category} = req.query
+
+      const productAssociations = await Product.associations
+      const properties = Object.keys(productAssociations)
+      const errors = []
+
+      if (!category || typeof category !== 'string' || category.length < 2) {
+        errors.push('El campo "category" debe tener al menos 2 caracteres, ser un string o debe estar presente en el query.');
+      }
+      if (errors.length > 0) {
+        return res.status(400).json({ message: 'Error al encontrar la categoria.', errors });
+      }
+      else {
+        const categoryFound = properties.filter(element => element.includes(category))
+
+        if(categoryFound.length === 0){
+          return res.status(400).send("Categoria no encontrada")
+        }else{
+
+          const compararClicked = (a, b) => {
+            return a.analytical.clicked - b.analytical.clicked
+          }
+
+          const modelName = productAssociations[categoryFound].target.name
+
+          const products = await conn.models[modelName].findAll({
+            where: { ProductId: { [Op.ne]: null } },
+          })
+          const producstIds = products.map(obj => obj.ProductId)
+          const productsFiltered = await Product.findAll({where: {id: producstIds},  attributes: { exclude: ['description','images','price','stock'] } })
+          const productsSort = productsFiltered.sort(compararClicked)
+
+          return res.status(200).json(productsSort)
+        }
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const getProductsSoldPerDay = async (req, res) => {
+
+    try {
+      const {startDate, endDate} = req.query
+      
+      if(!startDate){
+        return res.status(400).send(`Debes ingresar por query la fecha de inicio `)
+      }
+      if(startDate && !endDate){
+       
+        const orders = await Order.findAll({where: {
+          datePurchase : {
+            [Op.eq]: startDate 
+          }
+        }})
+        if(!orders || orders.length === 0){
+          return res.status(400).send(`No se encontro ningun registro de compra en la fecha ${startDate}`)
+        }else{
+          const products = orders.map((order) => {
+            const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
+              return {productId: shopCart.ProductId, quantity: shopCart.amount}
+            })
+            return orderProducts
+          })
+          const summedProducts = sumProductsById(products)
+
+          const productsWithQuantity = summedProducts.map(async(product) => {
+            const prod = await Product.findByPk(product.productId)
+            const productData = {id: prod.id, name: `${prod.brand} ${prod.model}`, quantity: product.quantity}
+            
+            return productData
+          })
+          const productsData = await Promise.all(productsWithQuantity)
+          
+          return res.status(200).json(productsData)
+        }
+      }if(startDate && endDate){
+      
+        const orders = await Order.findAll({where: {
+          datePurchase : {
+            [Op.between]: [startDate, endDate]
+          }
+        }})
+        if(!orders || orders.length === 0){
+          return res.status(400).send(`No se encontro ningun registro de compra en la fecha ${startDate}`)
+        }else{
+          const products = orders.map((order) => {
+            const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
+              return {productId: shopCart.ProductId, quantity: shopCart.amount}
+            })
+            return orderProducts
+          })
+          const summedProducts = sumProductsById(products)
+
+          const productsWithQuantity = summedProducts.map(async(product) => {
+            const prod = await Product.findByPk(product.productId)
+            const productData = {id: prod.id, name: `${prod.brand} ${prod.model}`, quantity: product.quantity}
+            
+            return productData
+          })
+          const productsData = await Promise.all(productsWithQuantity)
+          
+          return res.status(200).json(productsData)
+        }
+      }else{
+        return res.status(400).send(`Debes ingresar por query la fecha de inicio y fin (opcional)`)
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
     module.exports = {
         createProduct,
         getProducts,
@@ -532,5 +698,10 @@ const {PromoProducts} = require('../utils/consts.js')
         getAllProductPromo,
         addProductToUser,
         removeProductToUser,
-        getUserProducts
+        getUserProducts,
+        updateProductClicks,
+        getProductAnalytics,
+        getAllProductAnalytics,
+        getProductAnalyticsByCategory,
+        getProductsSoldPerDay
     }
