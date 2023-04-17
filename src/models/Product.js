@@ -40,6 +40,20 @@ module.exports = (sequelize)=>{
                 }
             }
         },
+        dateCreated:{
+            type: DataTypes.DATEONLY,
+            allowNull:false,
+            defaultValue:sequelize.literal("NOW()"),
+            validate:{
+                isDate:{
+                    args:true,
+                    msg:'No es una cadena de fecha'
+                },
+                notNull:{
+                    msg:'La fecha debe ser requerida'
+                }
+            }
+        },
         stock: {
           type: DataTypes.INTEGER,
           allowNull: false,
