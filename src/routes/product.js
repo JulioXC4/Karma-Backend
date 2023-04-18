@@ -18,7 +18,8 @@ const {
     getAllProductAnalytics,
     getProductAnalyticsByCategory,
     getAnalyticsByCategory,
-    getProductsSoldPerDay 
+    getProductsSoldPerDay,
+    getDetailsFromProductsSoldPerDay 
 } = require('../controllers/products.controllers.js');
 
 const router = Router();
@@ -36,6 +37,7 @@ router.get('/getAllProductAnalytics', getAllProductAnalytics)
 router.get('/getProductAnalyticsByCategory', getProductAnalyticsByCategory)
 router.get('/getAnalyticsByCategory', getAnalyticsByCategory)
 router.get('/getProductsSoldPerDay', getProductsSoldPerDay)
+router.get('/getDetailsFromProductsSoldPerDay', getDetailsFromProductsSoldPerDay)
 
 //POST
 router.post("/createProduct", createProduct)

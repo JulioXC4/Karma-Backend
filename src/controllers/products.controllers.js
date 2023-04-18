@@ -692,7 +692,7 @@ const { sumProductsById } = require('../utils/functions.js')
           }
         }})
         if(!orders || orders.length === 0){
-          return res.status(400).send(`No se encontro ningun registro de compra con la fecha ${startDate}`)
+          return res.status(400).send(`No se encontro ningun registro de compra entre las fechas ${startDate} y ${endDate}`)
         }else{
           const products = orders.map((order) => {
             const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
@@ -720,6 +720,73 @@ const { sumProductsById } = require('../utils/functions.js')
     }
 
   }
+
+  const getDetailsFromProductsSoldPerDay = async (req, res) => {
+
+    try {
+      const {startDate, endDate} = req.query
+      
+      if(!startDate){
+        return res.status(400).send(`Debes ingresar por query la fecha de inicio `)
+      }
+      if(startDate && !endDate){
+       
+        const orders = await Order.findAll({where: {
+          datePurchase : {
+            [Op.eq]: startDate 
+          }
+        }})
+        if(!orders || orders.length === 0){
+          return res.status(400).send(`No se encontro ningun registro de compra con la fecha ${startDate}`)
+        }else{
+          const products = orders.map((order) => {
+            const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
+              return {
+                id: shopCart.ProductId, 
+                name: `${shopCart.Product.brand} ${shopCart.Product.model}`,
+                quantity: shopCart.amount,
+                buyer: order.orderData.id,
+                date: order.datePurchase
+              }
+            })
+            return orderProducts
+          })
+          
+          return res.status(200).json(products)
+        }
+      }if(startDate && endDate){
+      
+        const orders = await Order.findAll({where: {
+          datePurchase : {
+            [Op.between]: [startDate, endDate]
+          }
+        }})
+        if(!orders || orders.length === 0){
+          return res.status(400).send(`No se encontro ningun registro de compra con la fecha ${startDate}`)
+        }else{
+          const products = orders.map((order) => {
+            const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
+              return {
+                id: shopCart.ProductId, 
+                name: `${shopCart.Product.brand} ${shopCart.Product.model}`,
+                quantity: shopCart.amount,
+                buyer: order.orderData.id,
+                date: order.datePurchase
+              }
+            })
+            return orderProducts
+          })
+          
+          return res.status(200).json(products)
+        }
+      }else{
+        return res.status(400).send(`Debes ingresar por query la fecha de inicio y fin (opcional)`)
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
     module.exports = {
         createProduct,
         getProducts,
@@ -738,5 +805,6 @@ const { sumProductsById } = require('../utils/functions.js')
         getAllProductAnalytics,
         getProductAnalyticsByCategory,
         getAnalyticsByCategory,
-        getProductsSoldPerDay
+        getProductsSoldPerDay,
+        getDetailsFromProductsSoldPerDay
     }
