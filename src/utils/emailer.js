@@ -21,7 +21,7 @@ const sendMail = async ({ email, subject, html }) => {
     html: html
   });
 
-  const message = `El correo electrónico se ha enviado a ${email}. El ID del mensaje es ${info.messageId}.`;
+  const message = `El correo electrónico se ha enviado a ${email}. `;
   console.log(message);
   return;
 };
@@ -40,7 +40,7 @@ const sendConfirmationRegistrationEmail = async ({ email }) => {
     templateId: templateId
   });
 
-  const message = `El correo electrónico se ha enviado a ${email}. El ID del mensaje es ${info.messageId}.`;
+  const message = `El correo electrónico se ha enviado a ${email}.`;
   console.log(message);
   return;
 }

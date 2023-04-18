@@ -2,8 +2,6 @@
 
 
     const { Order, User, Product, ShoppingCart,ProductDiscount } = require('../../db.js');
-    const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js');
-    
     const { 
       removeItemsFromProductStock, 
       ChangeOrderStatus, 
@@ -16,6 +14,7 @@
       cancelTimer,
       addSoldProductsToAnalytics
     } = require('../../utils/functions.js')
+    
 
     const {  sendConfirmationEmail } = require('../../utils/emailer.js')
 
@@ -158,11 +157,11 @@
     }
 
     const captureOrderPaypal = async (req, res ) =>{
+      const { token, orderId } = req.query;
       const order = await Order.findOne({ 
         where: { orderStatus: 'Procesando Orden'},
         include:[{ model: User }]
       });
-      const { token, orderId } = req.query
 
       if(!token ){
 
@@ -191,6 +190,9 @@
             //Lo que pasa una vez si el pago esta aprobado
             cancelTimer(orderId)
             await ChangeOrderStatus(orderId, "Orden Pagada")
+            await setPurchaseOrder(orderId)
+            await addSoldProductsToAnalytics(orderId)
+            await deleteUserShoppingCart(orderId)
            
 
              // consulta SELECT para obtener los datos de compra del usuario
@@ -204,7 +206,6 @@
         ]
       });
 
-      // aquí puedes hacer algo con los datos de compra del usuario, por ejemplo, enviarlos por correo electrónico
       console.log(shoppingCartItems);
 
       // enviar correo electrónico de confirmación de pago al usuario
