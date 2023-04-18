@@ -4,7 +4,7 @@ const {Laptop, Product} = require('../../db.js');
 
         try {
 
-        const { model, brand, description, price, images, stock, ramMemory, internalMemory, processor } = req.body
+        const { model, brand, description, price, images, stock, dateCreated, ramMemory, internalMemory, processor } = req.body
 
         const errors = [];
 
@@ -72,7 +72,8 @@ const {Laptop, Product} = require('../../db.js');
                     description: description, 
                     price: price, 
                     images: images,
-                    stock: stock
+                    stock: stock,
+                    dateCreated: dateCreated
 
                 })
 

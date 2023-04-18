@@ -1,12 +1,13 @@
-const {User, Product, Laptop, Tablet, ProductDiscount, conn} = require('../db.js');
+const {User, Product, Laptop, Tablet, ProductDiscount,Order, conn} = require('../db.js');
 const {Op} = require('sequelize')
 const {PromoProducts} = require('../utils/consts.js')
+const { sumProductsById } = require('../utils/functions.js')
 
     const createProduct = async (req, res) => {
 
         try {
 
-        const { model, brand, description, price, images, stock } = req.body
+        const { model, brand, description, price, images, stock, dateCreated } = req.body
 
         const errors = [];
 
@@ -47,7 +48,8 @@ const {PromoProducts} = require('../utils/consts.js')
                 description: description, 
                 price: price, 
                 images: images,
-                stock: stock
+                stock: stock,
+                dateCreated: dateCreated
                 })
     
             if(!newProduct){
@@ -135,16 +137,17 @@ const {PromoProducts} = require('../utils/consts.js')
 
           const productAssociations = await Product.associations;
           const properties = Object.keys(productAssociations);
+          const excludeProperties = properties.filter(elemento => elemento !== "Users");
           const productRelations = {};
     
-          for (let index = 0; index < properties.length; index++) {
-            const modelName = productAssociations[properties[index]].target.name;
+          for (let index = 0; index < excludeProperties.length; index++) {
+            const modelName = productAssociations[excludeProperties[index]].target.name;
             const relation = await conn.models[modelName].findAll({
               where: { ProductId: id },
             });
 
             if (relation.length) {
-              productRelations[properties[index]] = relation;
+              productRelations[excludeProperties[index]] = relation;
             }
           }
 
@@ -329,7 +332,7 @@ const {PromoProducts} = require('../utils/consts.js')
         const productAssociations = await Product.associations
         const productAssociationsKeys = Object.keys(productAssociations)
 
-        const excludedModels = ['ShoppingCarts','CommentsRatings']
+        const excludedModels = ['ShoppingCarts','CommentsRatings','Users']
 
         //Funcion excluir modelos
         excludedModels.map((model) => {
@@ -457,6 +460,266 @@ const {PromoProducts} = require('../utils/consts.js')
           }
   }
 
+  const addProductToUser = async (req, res) => {
+
+    try {
+      const {userId, productId} = req.body
+      const user = await User.findByPk(userId)
+      const product = await Product.findByPk(productId, {include: {
+        model: ProductDiscount
+      }})
+
+      if(!user){
+        return res.status(400).send(`El usuario con el id ${userId} no existe`)
+      }
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await user.addProduct(product)
+
+      return res.status(200).send(`El producto ${product.brand} ${product.model} fue agregado correctamente a la lista de favoritos del usuario ${user.id}`)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const removeProductToUser = async (req, res) => {
+
+    try {
+      const {userId, productId} = req.body
+      const user = await User.findByPk(userId)
+      const product = await Product.findByPk(productId, {include: {
+        model: ProductDiscount
+      }})
+
+      if(!user){
+        return res.status(400).send(`El usuario con el id ${userId} no existe`)
+      }
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await user.removeProduct(product)
+
+      return res.status(200).send(`El producto ${product.brand} ${product.model} fue removido correctamente de la lista de favoritos del usuario ${user.id}`)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const getUserProducts = async(req, res) => {
+    try {
+      const {userId} = req.query
+      const userWithProducts = await User.findByPk(userId, {
+        include: {
+          model: Product,
+          include: { model: ProductDiscount },
+        },
+        attributes: { exclude: ['UserProduct'] } 
+      })  
+      return res.status(200).json(userWithProducts)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const updateProductClicks = async (req, res) => {
+
+    try {
+      const {productId} = req.body
+      const product = await Product.findByPk(productId)
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }
+      await product.update({
+        analytical: { "sold": product.analytical.sold, "clicked": product.analytical.clicked + 1 }
+      })
+      await product.save()
+      return res.status(200).json(product.analytical)
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
+
+  const getProductAnalytics = async (req, res) => {
+
+    try {
+      const{productId} =req.query
+      const product = await Product.findByPk(productId, { attributes: { exclude: ['description','images','price','stock'] }})
+      if(!product){
+        return res.status(400).send(`El producto con el id ${productId} no existe`)
+      }else{
+        return res.status(200).json(product)
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
+
+  const getAllProductAnalytics = async (req, res) => {
+
+    try {
+      const products = await Product.findAll({ attributes: { exclude: ['description','images','price','stock'] }})
+      if(!products){
+        return res.status(400).send(`No existen productos registrados`)
+      }else{
+        return res.status(200).json(products)
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
+
+  const getProductAnalyticsByCategory = async (req, res) => {
+
+    try {
+      const {category} = req.query
+
+      const productAssociations = await Product.associations
+      const properties = Object.keys(productAssociations)
+      console.log(properties)
+      const errors = []
+
+      if (!category || typeof category !== 'string' || category.length < 2) {
+        errors.push('El campo "category" debe tener al menos 2 caracteres, ser un string o debe estar presente en el query.');
+      }
+      if (errors.length > 0) {
+        return res.status(400).json({ message: 'Error al encontrar la categoria.', errors });
+      }
+      else {
+        const categoryFound = properties.filter(element => element.includes(category))
+
+        if(categoryFound.length === 0){
+          return res.status(400).send("Categoria no encontrada")
+        }else{
+
+          const compararSold = (a, b) => {
+            return a.analytical.sold - b.analytical.sold
+          }
+
+          const modelName = productAssociations[categoryFound].target.name
+
+          const products = await conn.models[modelName].findAll({
+            where: { ProductId: { [Op.ne]: null } },
+          })
+          const producstIds = products.map(obj => obj.ProductId)
+          const productsFiltered = await Product.findAll({where: {id: producstIds},  attributes: { exclude: ['description','images','price','stock'] } })
+          const productsSort = productsFiltered.sort(compararSold)
+
+          return res.status(200).json(productsSort)
+        }
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const getAnalyticsByCategory = async (req, res) => {
+
+    try {
+      const productAssociations = await Product.associations
+      const productAssociationsKeys = Object.keys(productAssociations)
+      const excludedModels = ['ShoppingCarts','CommentsRatings','Users','ProductDiscount']
+
+      let array = []
+
+      excludedModels.map((model) => {
+        const index = productAssociationsKeys.indexOf(model)
+        productAssociationsKeys.splice(index, 1); 
+      })
+      for (let i = 0; i < productAssociationsKeys.length; i++) {
+        let analyticalObject = {sold: 0, clicked: 0}
+        const modelName = productAssociationsKeys[i]
+        const products = await conn.models[modelName].findAll({
+          where: { ProductId: { [Op.ne]: null } },
+        })
+        const producstIds = products.map(obj => obj.ProductId)
+        const productsByCurrentModel = await Product.findAll({where: {id: producstIds},  attributes: { exclude: ['description','images','price','stock'] } })
+        productsByCurrentModel.map((product) => {
+          analyticalObject = {sold: analyticalObject.sold + product.analytical.sold, clicked: analyticalObject.clicked + product.analytical.clicked}
+        })
+        array.push({[modelName]:analyticalObject})
+      }
+      return res.status(200).json(array) 
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const getProductsSoldPerDay = async (req, res) => {
+
+    try {
+      const {startDate, endDate} = req.query
+      
+      if(!startDate){
+        return res.status(400).send(`Debes ingresar por query la fecha de inicio `)
+      }
+      if(startDate && !endDate){
+       
+        const orders = await Order.findAll({where: {
+          datePurchase : {
+            [Op.eq]: startDate 
+          }
+        }})
+        if(!orders || orders.length === 0){
+          return res.status(400).send(`No se encontro ningun registro de compra con la fecha ${startDate}`)
+        }else{
+          const products = orders.map((order) => {
+            const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
+              return {productId: shopCart.ProductId, quantity: shopCart.amount}
+            })
+            return orderProducts
+          })
+          const summedProducts = sumProductsById(products)
+
+          const productsWithQuantity = summedProducts.map(async(product) => {
+            const prod = await Product.findByPk(product.productId)
+            const productData = {id: prod.id, name: `${prod.brand} ${prod.model}`, quantity: product.quantity}
+            
+            return productData
+          })
+          const productsData = await Promise.all(productsWithQuantity)
+          
+          return res.status(200).json(productsData)
+        }
+      }if(startDate && endDate){
+      
+        const orders = await Order.findAll({where: {
+          datePurchase : {
+            [Op.between]: [startDate, endDate]
+          }
+        }})
+        if(!orders || orders.length === 0){
+          return res.status(400).send(`No se encontro ningun registro de compra con la fecha ${startDate}`)
+        }else{
+          const products = orders.map((order) => {
+            const orderProducts = order.orderData.ShoppingCarts.map( shopCart => {
+              return {productId: shopCart.ProductId, quantity: shopCart.amount}
+            })
+            return orderProducts
+          })
+          const summedProducts = sumProductsById(products)
+
+          const productsWithQuantity = summedProducts.map(async(product) => {
+            const prod = await Product.findByPk(product.productId)
+            const productData = {id: prod.id, name: `${prod.brand} ${prod.model}`, quantity: product.quantity}
+            
+            return productData
+          })
+          const productsData = await Promise.all(productsWithQuantity)
+          
+          return res.status(200).json(productsData)
+        }
+      }else{
+        return res.status(400).send(`Debes ingresar por query la fecha de inicio y fin (opcional)`)
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+
+  }
     module.exports = {
         createProduct,
         getProducts,
@@ -466,5 +729,14 @@ const {PromoProducts} = require('../utils/consts.js')
         getProductsByCategory,
         getProductsByInput,
         getProductsFromUserShoppingCart,
-        getAllProductPromo
-    };
+        getAllProductPromo,
+        addProductToUser,
+        removeProductToUser,
+        getUserProducts,
+        updateProductClicks,
+        getProductAnalytics,
+        getAllProductAnalytics,
+        getProductAnalyticsByCategory,
+        getAnalyticsByCategory,
+        getProductsSoldPerDay
+    }

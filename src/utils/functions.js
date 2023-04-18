@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const {Order, ShoppingCart, Product, User} = require('../db.js');
+const {Order, ShoppingCart, Product, User, ProductDiscount} = require('../db.js');
 const data = require('../utils/data.json')
 const {HOST_BACK} = process.env
 
@@ -47,11 +47,11 @@ const removeItemsFromProductStock = async (orderId) => {
     
     const shoppingCartOrder = order.ShoppingCarts
 
-    shoppingCartOrder.forEach( async (product) => {
+    shoppingCartOrder.forEach( async (shopCart) => {
 
-        const currentProduct = await Product.findByPk(product.id)
+        const currentProduct = await Product.findByPk(shopCart.ProductId)
         await currentProduct.update({
-            stock: currentProduct.stock - product.amount
+            stock: currentProduct.stock - shopCart.amount
         })
         await currentProduct.save()
 
@@ -62,7 +62,6 @@ const removeItemsFromProductStock = async (orderId) => {
 const ChangeOrderStatus = async (orderId, status) => {
 
     try {
-        
         const order = await Order.findByPk( orderId )
         await order.update({
             orderStatus: status
@@ -98,6 +97,7 @@ const DeleteOrderById = async (orderId) => {
 }
 
 const emptyUserShoppingCart = async (orderId) => {
+
     try {
         const order = await Order.findByPk(orderId)
         const user = await User.findByPk(order.UserId)
@@ -110,6 +110,7 @@ const emptyUserShoppingCart = async (orderId) => {
 }
 
 const deleteUserShoppingCart = async (orderId) => {
+
     try {
         const order = await Order.findByPk(orderId)
         const user = await User.findByPk(order.UserId)
@@ -127,6 +128,7 @@ const deleteUserShoppingCart = async (orderId) => {
 }
 
 const returnProductsToStock = async (orderId) => {
+
     try {
         const order = await Order.findByPk(orderId, {include: {model: ShoppingCart} })
         const shoppingCartOrder = order.ShoppingCarts
@@ -145,4 +147,107 @@ const returnProductsToStock = async (orderId) => {
     }
 }
 
-module.exports= {createInitialData, removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById,deleteUserShoppingCart}
+const setPurchaseOrder = async (orderId) => {
+
+    try {
+        const order = await Order.findByPk(orderId)
+        const userId = order.UserId
+
+        const userShoppingCarts = await User.findByPk(userId,{include: {
+            model: ShoppingCart,
+            include: {
+                model: Product,
+                include: {
+                    model: ProductDiscount
+                }
+            }
+        }})
+
+        await order.update({
+            orderData: userShoppingCarts
+        })
+        await order.save()
+
+        console.log(`La informacion de la orden ${orderId} fue guardada correctamente`)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const stockReserveTimeInterval = async ( minutes, orderId ) => {
+
+    const currentOrder = await Order.findByPk(orderId)
+    console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
+    timeoutId = setTimeout(async() => {
+      console.log("MERCADOPAGO:", currentOrder.orderStatus)
+      if(currentOrder.orderStatus === 'Procesando Orden'){
+        console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
+        await ChangeOrderStatus(orderId, "Orden Rechazada")
+        await returnProductsToStock(orderId)
+        await DeleteOrderById(orderId)
+      }else{
+        console.log(`Para que el temporizador de la orden ${orderId} sea cancelado, la orden debe estar en proceso`)
+      }
+    }, minutes * 60 * 1000)
+
+  }
+
+  const cancelTimer = async (orderId) => {
+      clearTimeout(timeoutId)
+      console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
+  }
+
+  const addSoldProductsToAnalytics = async (orderId) => {
+    
+    const order = await Order.findByPk(orderId)
+    if(!order){
+        throw new Error(`El producto con el id ${orderId} no existe`);
+    }
+    const {orderData} = order
+
+    await orderData.ShoppingCarts.map( async (shopCart) => {
+        const product = await Product.findByPk(shopCart.ProductId)
+        await product.update({
+            analytical: { "sold": product.analytical.sold + shopCart.amount, "clicked": product.analytical.clicked }
+        })
+        await product.save()
+        console.log(`Producto/s comprados. Analiticas del producto ${product.brand} ${product.model}: comprados: ${product.analytical.sold}, clickeados: ${product.analytical.clicked}`)
+    })
+
+  }
+
+
+  const sumProductsById = (arr) => {
+    const result = {}
+  
+    arr.forEach((subArr) => {
+      subArr.forEach((obj) => {
+        const productId = obj.productId
+        const quantity = obj.quantity
+  
+        if (result[productId]) {
+          result[productId].quantity += quantity
+        } else {
+          result[productId] = { productId, quantity }
+        }
+      })
+    })
+  
+    return Object.values(result)
+  }
+  
+
+module.exports= {
+    createInitialData, 
+    removeItemsFromProductStock, 
+    ChangeOrderStatus, 
+    emptyUserShoppingCart, 
+    returnProductsToStock, 
+    DeleteOrderById,
+    deleteUserShoppingCart, 
+    setPurchaseOrder, 
+    stockReserveTimeInterval, 
+    cancelTimer,
+    addSoldProductsToAnalytics,
+    sumProductsById
+}
