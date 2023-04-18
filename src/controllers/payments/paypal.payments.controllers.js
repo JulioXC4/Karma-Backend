@@ -1,6 +1,6 @@
     const axios = require("axios")
 
-    const { Order, User, Product, ShoppingCart } = require('../../db.js');
+    const { Order, User, Product, ShoppingCart,ProductDiscount } = require('../../db.js');
     const { removeItemsFromProductStock, ChangeOrderStatus, emptyUserShoppingCart, returnProductsToStock, DeleteOrderById, deleteUserShoppingCart } = require('../../utils/functions.js');
     const {  sendConfirmationEmail } = require('../../utils/emailer.js')
 
