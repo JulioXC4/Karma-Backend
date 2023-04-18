@@ -619,42 +619,30 @@ const { sumProductsById } = require('../utils/functions.js')
   const getAnalyticsByCategory = async (req, res) => {
 
     try {
-      const {category} = req.query
-
       const productAssociations = await Product.associations
-      const properties = Object.keys(productAssociations)
-      console.log(properties)
-      const errors = []
+      const productAssociationsKeys = Object.keys(productAssociations)
+      const excludedModels = ['ShoppingCarts','CommentsRatings','Users','ProductDiscount']
 
-      if (!category || typeof category !== 'string' || category.length < 2) {
-        errors.push('El campo "category" debe tener al menos 2 caracteres, ser un string o debe estar presente en el query.');
+      let array = []
+
+      excludedModels.map((model) => {
+        const index = productAssociationsKeys.indexOf(model)
+        productAssociationsKeys.splice(index, 1); 
+      })
+      for (let i = 0; i < productAssociationsKeys.length; i++) {
+        let analyticalObject = {sold: 0, clicked: 0}
+        const modelName = productAssociationsKeys[i]
+        const products = await conn.models[modelName].findAll({
+          where: { ProductId: { [Op.ne]: null } },
+        })
+        const producstIds = products.map(obj => obj.ProductId)
+        const productsByCurrentModel = await Product.findAll({where: {id: producstIds},  attributes: { exclude: ['description','images','price','stock'] } })
+        productsByCurrentModel.map((product) => {
+          analyticalObject = {sold: analyticalObject.sold + product.analytical.sold, clicked: analyticalObject.clicked + product.analytical.clicked}
+        })
+        array.push({[modelName]:analyticalObject})
       }
-      if (errors.length > 0) {
-        return res.status(400).json({ message: 'Error al encontrar la categoria.', errors });
-      }
-      else {
-        const categoryFound = properties.filter(element => element.includes(category))
-
-        if(categoryFound.length === 0){
-          return res.status(400).send("Categoria no encontrada")
-        }else{
-
-          const compararSold = (a, b) => {
-            return a.analytical.sold - b.analytical.sold
-          }
-
-          const modelName = productAssociations[categoryFound].target.name
-
-          const products = await conn.models[modelName].findAll({
-            where: { ProductId: { [Op.ne]: null } },
-          })
-          const producstIds = products.map(obj => obj.ProductId)
-          const productsFiltered = await Product.findAll({where: {id: producstIds},  attributes: { exclude: ['description','images','price','stock'] } })
-          const productsSort = productsFiltered.sort(compararClicked)
-
-          return res.status(200).json(productsSort)
-        }
-      }
+      return res.status(200).json(array) 
     } catch (error) {
       return res.status(500).json({message: error.message})
     }
@@ -749,5 +737,6 @@ const { sumProductsById } = require('../utils/functions.js')
         getProductAnalytics,
         getAllProductAnalytics,
         getProductAnalyticsByCategory,
+        getAnalyticsByCategory,
         getProductsSoldPerDay
     }
