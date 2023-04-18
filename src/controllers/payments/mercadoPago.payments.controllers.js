@@ -126,38 +126,81 @@
       }
     }
 
-    const approvedPaymentMercadoPago = async (req, res) => {
 
-      try {
-        const { merchant_order_id, collection_status } = req.query;
-        const merchantData = await getMerchantOrder(merchant_order_id);
-        const order = await Order.findOne({ 
-          where: { orderStatus: 'Procesando Orden'},
-          include:[{ model: User }]
-        })
-        
-        if (merchantData.status === 'closed' && collection_status === 'approved') {
-          const orderId = order.id
-          
-          await cancelTimer(orderId)
-          await ChangeOrderStatus(orderId, 'Orden Pagada')
-          await setPurchaseOrder(orderId)
-          await addSoldProductsToAnalytics(orderId)
-          await deleteUserShoppingCart(orderId)
-          await cancelMerchOrder(merchant_order_id)
-        
-          const email = order.User.email
-          await sendPaymentConfirmationEmail({ email })
-
-          return res.redirect(`${HOST_FRONT}/profile/orders`)
-
-        } else {
-          throw new Error('El pago no ha sido aprobado')
+    const stockReserveTimeInterval = async ( minutes, orderId ) => {
+      const currentOrder = await Order.findByPk(orderId)
+      console.log(`Comienza el temporizador para la reserva de stock de la orden: ${orderId}, tiempo asignado: ${minutes} minutos`)
+      timeoutId = setTimeout(async() => {
+        console.log("MERCADOPAGO:", currentOrder.orderStatus)
+        if(currentOrder.orderStatus === 'Procesando Orden'){
+          console.log(`Tiempo de la orden ${orderId} expirado (${minutes} minutos)`)
+          await ChangeOrderStatus(orderId, "Orden Rechazada")
+          await returnProductsToStock(orderId)
+          await DeleteOrderById(orderId)
+        }else{
+          console.log(`Para que el temporizador de la orden ${orderId} sea cancelado, la orden debe estar en proceso`)
         }
-      } catch (error) {
-        res.status(400).json({ message: error.message })
-      }
+      }, minutes * 60 * 1000)
     }
+
+    const cancelTimer = async (orderId) => {
+        clearTimeout(timeoutId)
+        console.log(`El temporizador de la orden ${orderId} ha sido cancelado`)
+    }
+
+
+
+
+const approvedPaymentMercadoPago = async (req, res) => {
+  try {
+    const { merchant_order_id, collection_status } = req.query;
+    const merchantData = await getMerchantOrder(merchant_order_id);
+    const order = await Order.findOne({
+      where: { orderStatus: 'Procesando Orden' },
+      include: [{ model: User }]
+    });
+
+    if (merchantData.status === 'closed' && collection_status === 'approved') {
+      const orderId = order.id;
+
+      await cancelTimer(orderId);
+      await ChangeOrderStatus(orderId, 'Orden Pagada');
+      await emptyUserShoppingCart(orderId);
+      await cancelMerchOrder(merchant_order_id);
+
+     
+
+      // consulta SELECT para obtener los datos de compra del usuario
+      const shoppingCartItems = await ShoppingCart.findAll({
+        where: {
+          OrderId: orderId
+        },
+        include: [
+          { model: Product },
+          { model: User }
+        ]
+      });
+
+      // aquí puedes hacer algo con los datos de compra del usuario, por ejemplo, enviarlos por correo electrónico
+      console.log(shoppingCartItems);
+
+      // enviar correo electrónico de confirmación de pago al usuario
+      const email = order.User.email;
+      const orderDate = order.createdAt.toLocaleDateString();
+      const orderNumber = order.orderNumber;
+      const productDescription = shoppingCartItems.map(item => item.Product.name).join(", ");
+      const totalPrice = order.totalPrice;
+      await sendPaymentConfirmationEmail({ email, shoppingCartItems, orderDate, orderNumber, productDescription, totalPrice });
+
+      return res.redirect(`${HOST_FRONT}/profile/orders`);
+    } else {
+      throw new Error('El pago no ha sido aprobado');
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 
     const failedPaymentMercadoPago = async (req, res) => {
       
