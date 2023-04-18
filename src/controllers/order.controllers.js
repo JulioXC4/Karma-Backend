@@ -83,6 +83,12 @@ const updateOrder = async(req,res) =>{
                 datePurchase,
                 orderStatus
             })
+            if(orderStatus === "Enviando"){
+                console.log(`Orden ${order.id}, estado de la orden: ${orderStatus}`)
+            }
+            if(orderStatus === "Entregado"){
+                console.log(`Orden ${order.id}, estado de la orden: ${orderStatus}`)
+            }
             return res.status(200).json(order)
         }
     }catch (error) {
