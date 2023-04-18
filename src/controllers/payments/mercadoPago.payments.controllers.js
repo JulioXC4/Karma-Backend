@@ -37,10 +37,17 @@
             await removeItemsFromProductStock(orderId)
             await stockReserveTimeInterval(2, orderId)
             
+            const currentDate = new Date()
+            const year = currentDate.getFullYear()
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+            const day = String(currentDate.getDate()).padStart(2, '0')
+
+            const formattedDate = `${year}-${month}-${day}`
+
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (shopCart) => {
               const productInShoppingCart = await Product.findByPk(shopCart.ProductId, {include: {model: ProductDiscount}})
               
-              if(productInShoppingCart.ProductDiscount !== null){
+              if(productInShoppingCart.ProductDiscount !== null && productInShoppingCart.ProductDiscount.startingDate <= formattedDate && productInShoppingCart.ProductDiscount.endingDate >= formattedDate ){
 
                 const price = productInShoppingCart.price
                 const discountVal = productInShoppingCart.ProductDiscount.discountValue

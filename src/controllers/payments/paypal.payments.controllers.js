@@ -40,13 +40,20 @@
           return res.status(404).send("La orden no se encontro en la base de datos")
         }else{
           try {
+            const currentDate = new Date()
+            const year = currentDate.getFullYear()
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+            const day = String(currentDate.getDate()).padStart(2, '0')
+
+            const formattedDate = `${year}-${month}-${day}`
 
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (shopCart) => {
               const productInShoppingCart = await Product.findByPk(shopCart.ProductId, {include: {model: ProductDiscount}})
               const price = productInShoppingCart.price
               const productQuantity = shopCart.dataValues.amount
               
-              if(productInShoppingCart.ProductDiscount !== null){
+              if(productInShoppingCart.ProductDiscount !== null && productInShoppingCart.ProductDiscount.startingDate <= formattedDate && productInShoppingCart.ProductDiscount.endingDate >= formattedDate ){
+                
                 const discountVal = productInShoppingCart.ProductDiscount.discountValue
                 const discount = (price * discountVal) / 100
 

@@ -9,12 +9,12 @@ module.exports = (sequelize)=>{
             primaryKey:true,
             },
         startingDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull:false,
             defaultValue: sequelize.literal("NOW()"),
         },
         endingDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull:false,
             defaultValue: sequelize.literal(`NOW() + INTERVAL '1 day'`),
         },
