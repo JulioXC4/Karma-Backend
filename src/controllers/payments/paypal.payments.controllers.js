@@ -185,13 +185,36 @@
           )
           if(response.data.status === 'COMPLETED'){
             // Enviar correo electrónico de confirmación de pago
-            const email = order.User.email;
-            await sendConfirmationEmail({ email });
+            //const email = order.User.email;
+            //await sendConfirmationEmail({ email });
 
             //Lo que pasa una vez si el pago esta aprobado
             cancelTimer(orderId)
             await ChangeOrderStatus(orderId, "Orden Pagada")
             await emptyUserShoppingCart(orderId)
+
+             // consulta SELECT para obtener los datos de compra del usuario
+      const shoppingCartItems = await ShoppingCart.findAll({
+        where: {
+          OrderId: orderId
+        },
+        include: [
+          { model: Product },
+          { model: User }
+        ]
+      });
+
+      // aquí puedes hacer algo con los datos de compra del usuario, por ejemplo, enviarlos por correo electrónico
+      console.log(shoppingCartItems);
+
+      // enviar correo electrónico de confirmación de pago al usuario
+      const email = order.User.email;
+      const orderDate = order.createdAt.toLocaleDateString();
+      const orderNumber = order.orderNumber;
+      const productDescription = shoppingCartItems.map(item => item.Product.name).join(", ");
+      const totalPrice = order.totalPrice;
+      await sendConfirmationEmail({ email, shoppingCartItems, orderDate, orderNumber, productDescription, totalPrice });
+
 
             return res.redirect(`${HOST_FRONT}/profile/orders`)
             

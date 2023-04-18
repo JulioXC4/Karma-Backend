@@ -29,16 +29,28 @@ const sendMail = async ({ email, subject, html }) => {
 
 
 const sendConfirmationRegistrationEmail = async ({ email }) => {
+  const subject = 'Bienvenido a Karma';
+  const templateId = 'd-0e8b52137ae34984bce638e224dc8a3b';
 
-  await sendMail({
-    email: email,
-    subject: 'Bienvenido a Karma',
-    templateId: 'd-0e8b52137ae34984bce638e224dc8a3b'
+  const transporter = createTrans();
+  const info = await transporter.sendMail({
+    from: '"Karma" <karma.contact12@gmail.com>',
+    to: email,
+    subject: subject,
+    templateId: templateId
   });
-};
+
+  const message = `El correo electrónico se ha enviado a ${email}. El ID del mensaje es ${info.messageId}.`;
+  console.log(message);
+  return;
+}
 
 const sendPaymentConfirmationEmail = async ({ email, shoppingCartItems, orderDate, orderNumber }) => {
   try {
+    if (!shoppingCartItems) {
+      throw new Error("La lista de productos está vacía");
+    }
+
     let productsList = "";
     let totalPrice = 0;
 
@@ -75,19 +87,50 @@ const sendPaymentConfirmationEmail = async ({ email, shoppingCartItems, orderDat
 
 
 
-const sendConfirmationEmail = async ({email}) => {
-  try {
-    await sendMail({
-      email: email,
-      subject: 'Confirmación de pago en Karma',
-      templateId: 'd-e6d8249d5de4418399f5828a96a362fb'
-    });
+const sendConfirmationEmail = async ({email,
+  
+  shoppingCartItems, orderDate, orderNumber }) => {
 
-  } catch (error) {
-    console.error(`Error al enviar el correo electrónico: ${error}`);
-  }
-}
-
+    try {
+      if (!shoppingCartItems) {
+        throw new Error("La lista de productos está vacía");
+      }
+    
+      
+      let productsList = "";
+      let totalPrice = 0;
+  
+      shoppingCartItems.forEach(item => {
+        const product = item.Product;
+        const amount = item.amount;
+        const itemPrice = product.price * amount;
+        totalPrice += itemPrice;
+  
+        productsList += `<li>$ (Cantidad: ${amount}) - Precio: $${itemPrice}</li>`;
+      });
+  
+      const userName = shoppingCartItems[0].User?.name ?? "Cliente";
+      const userEmail = shoppingCartItems[0].User?.email ?? "";
+      const currentDate = new Date().toLocaleString();
+  
+      const emailData = {
+        email: email,
+        subject: 'Confirmación de pago en Karma',
+        html: htmlTemplate
+          .replace('{userName}', userName)
+          .replace('{totalPrice}', totalPrice)
+          .replace('{orderNumber}', orderNumber)
+          .replace('{orderDate}', orderDate)
+          .replace('{currentDate}', currentDate)
+          .replace('{productsList}', `<ul>${productsList}</ul>`)
+      };
+  
+      await sendMail(emailData);
+    } catch (error) {
+      console.error(`Error al enviar el correo electrónico de confirmación de pago a ${email}: ${error.message}`);
+    }
+  };
+  
 module.exports = {
   sendMail,
   sendConfirmationRegistrationEmail,
@@ -108,7 +151,7 @@ subject: `Hola ${newUser.name}, bienvenido a KARMA`,
          //   user: "81534248d44b04",
           //  pass: "163536d728e867"
         //}
-    //});
+    //});*/
     /*const sendPaymentConfirmationEmail = async ({ email, shoppingCartItems, orderDate, orderNumber }) => {
   try {
     const product = shoppingCartItems[0].Product;
@@ -137,5 +180,5 @@ subject: `Hola ${newUser.name}, bienvenido a KARMA`,
     });
   } catch (error) {
     console.error(`Error al enviar el correo electrónico de confirmación de pago a ${email}: ${error.message}`);
-  }
+  
 };*/

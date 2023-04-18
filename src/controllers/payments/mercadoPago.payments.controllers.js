@@ -175,7 +175,7 @@ const approvedPaymentMercadoPago = async (req, res) => {
       });
 
       // aquí puedes hacer algo con los datos de compra del usuario, por ejemplo, enviarlos por correo electrónico
-      //console.log(shoppingCartItems);
+      console.log(shoppingCartItems);
 
       // enviar correo electrónico de confirmación de pago al usuario
       const email = order.User.email;
