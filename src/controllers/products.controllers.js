@@ -7,7 +7,7 @@ const { sumProductsById } = require('../utils/functions.js')
 
         try {
 
-        const { model, brand, description, price, images, stock } = req.body
+        const { model, brand, description, price, images, stock, dateCreated } = req.body
 
         const errors = [];
 
@@ -48,7 +48,8 @@ const { sumProductsById } = require('../utils/functions.js')
                 description: description, 
                 price: price, 
                 images: images,
-                stock: stock
+                stock: stock,
+                dateCreated: dateCreated
                 })
     
             if(!newProduct){
@@ -578,6 +579,7 @@ const { sumProductsById } = require('../utils/functions.js')
 
       const productAssociations = await Product.associations
       const properties = Object.keys(productAssociations)
+      console.log(properties)
       const errors = []
 
       if (!category || typeof category !== 'string' || category.length < 2) {
