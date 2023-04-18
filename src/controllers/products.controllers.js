@@ -595,8 +595,52 @@ const { sumProductsById } = require('../utils/functions.js')
           return res.status(400).send("Categoria no encontrada")
         }else{
 
-          const compararClicked = (a, b) => {
-            return a.analytical.clicked - b.analytical.clicked
+          const compararSold = (a, b) => {
+            return a.analytical.sold - b.analytical.sold
+          }
+
+          const modelName = productAssociations[categoryFound].target.name
+
+          const products = await conn.models[modelName].findAll({
+            where: { ProductId: { [Op.ne]: null } },
+          })
+          const producstIds = products.map(obj => obj.ProductId)
+          const productsFiltered = await Product.findAll({where: {id: producstIds},  attributes: { exclude: ['description','images','price','stock'] } })
+          const productsSort = productsFiltered.sort(compararSold)
+
+          return res.status(200).json(productsSort)
+        }
+      }
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  }
+
+  const getAnalyticsByCategory = async (req, res) => {
+
+    try {
+      const {category} = req.query
+
+      const productAssociations = await Product.associations
+      const properties = Object.keys(productAssociations)
+      console.log(properties)
+      const errors = []
+
+      if (!category || typeof category !== 'string' || category.length < 2) {
+        errors.push('El campo "category" debe tener al menos 2 caracteres, ser un string o debe estar presente en el query.');
+      }
+      if (errors.length > 0) {
+        return res.status(400).json({ message: 'Error al encontrar la categoria.', errors });
+      }
+      else {
+        const categoryFound = properties.filter(element => element.includes(category))
+
+        if(categoryFound.length === 0){
+          return res.status(400).send("Categoria no encontrada")
+        }else{
+
+          const compararSold = (a, b) => {
+            return a.analytical.sold - b.analytical.sold
           }
 
           const modelName = productAssociations[categoryFound].target.name
