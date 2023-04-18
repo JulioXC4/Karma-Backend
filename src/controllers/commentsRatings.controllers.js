@@ -108,7 +108,8 @@ const getCommentsRatings=  async (req, res) => {
         commentRating.comments = comments;
       }
   
-      if (rating) {
+      if (rating || rating === 0){
+        console.log("Rating: ", rating)
         commentRating.rating = rating;
       }
   
@@ -121,10 +122,17 @@ const getCommentsRatings=  async (req, res) => {
       // Calcular el rating promedio del producto
       const existingCommentRatings = await CommentsRating.findAll({ where: { ProductId: commentRating.ProductId } });
       const totalRating = existingCommentRatings.reduce((sum, { rating }) => sum + rating, 0);
-      const averageRating = totalRating / existingCommentRatings.length;
+      console.log(totalRating)
+      const averageRating = existingCommentRatings.length > 0 ? totalRating / existingCommentRatings.length : (rating === 0 ? 0 : null);
+      console.log(averageRating)
       
       const product = await Product.findByPk(commentRating.ProductId);
-      product.averageRating = averageRating;
+
+      if (averageRating === null ||averageRating === 0) {
+        product.averageRating = 0;
+      } else {
+        product.averageRating = averageRating;
+      }
       await product.save();
   
       return res.status(200).json({
