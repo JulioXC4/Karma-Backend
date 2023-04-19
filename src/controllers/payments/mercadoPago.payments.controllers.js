@@ -133,38 +133,60 @@
       }
     }
 
-    const approvedPaymentMercadoPago = async (req, res) => {
 
-      try {
-        const { merchant_order_id, collection_status } = req.query;
-        const merchantData = await getMerchantOrder(merchant_order_id);
-        const order = await Order.findOne({ 
-          where: { orderStatus: 'Procesando Orden'},
-          include:[{ model: User }]
-        })
-        
-        if (merchantData.status === 'closed' && collection_status === 'approved') {
-          const orderId = order.id
-          
-          await cancelTimer(orderId)
-          await ChangeOrderStatus(orderId, 'Orden Pagada')
-          await setPurchaseOrder(orderId)
-          await addSoldProductsToAnalytics(orderId)
-          await deleteUserShoppingCart(orderId)
-          await cancelMerchOrder(merchant_order_id)
-        
-          const email = order.User.email
-          await sendPaymentConfirmationEmail({ email })
+const approvedPaymentMercadoPago = async (req, res) => {
+  try {
+    const { merchant_order_id, collection_status } = req.query;
+    const merchantData = await getMerchantOrder(merchant_order_id);
+   
+    const order = await Order.findOne({
+      where: { orderStatus: 'Procesando Orden' },
+      include: [{ model: User }]
+    });
 
-          return res.redirect(`${HOST_FRONT}/profile/orders`)
+    if (merchantData.status === 'closed' && collection_status === 'approved') {
+      const orderId = order.id;
 
-        } else {
-          throw new Error('El pago no ha sido aprobado')
-        }
-      } catch (error) {
-        res.status(400).json({ message: error.message })
-      }
+       // consulta SELECT para obtener los datos de compra del usuario
+       const shoppingCartItems = await ShoppingCart.findAll({
+        where: {
+          OrderId: orderId
+        },
+        include: [
+          { model: Product },
+          { model: User }
+        ]
+      });
+
+      // aquí puedes hacer algo con los datos de compra del usuario, por ejemplo, enviarlos por correo electrónico
+      console.log(shoppingCartItems);
+
+      // enviar correo electrónico de confirmación de pago al usuario
+      const email = order.User.email;
+      const orderDate = order.createdAt.toLocaleDateString();
+      const orderNumber = orderId.orderNumber;
+      const productDescription = shoppingCartItems.map(item => item.Product.name).join(", ");
+      const totalPrice = order.totalPrice;
+      await sendPaymentConfirmationEmail({ email, shoppingCartItems, orderDate,  orderNumber, productDescription, totalPrice });
+
+      await cancelTimer(orderId);
+      await ChangeOrderStatus(orderId, 'Orden Pagada');
+      await setPurchaseOrder(orderId);
+      await addSoldProductsToAnalytics (orderId);
+      await deleteUserShoppingCart(orderId);
+      await cancelMerchOrder(merchant_order_id);
+
+     
+
+      return res.redirect(`${HOST_FRONT}/profile/orders`);
+    } else {
+      throw new Error('El pago no ha sido aprobado');
     }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 
     const failedPaymentMercadoPago = async (req, res) => {
       

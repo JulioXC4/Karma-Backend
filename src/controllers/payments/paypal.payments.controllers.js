@@ -1,5 +1,7 @@
     const axios = require("axios")
-    const { Order, User, Product, ShoppingCart, ProductDiscount } = require('../../db.js');
+
+
+    const { Order, User, Product, ShoppingCart,ProductDiscount } = require('../../db.js');
     const { 
       removeItemsFromProductStock, 
       ChangeOrderStatus, 
@@ -12,6 +14,8 @@
       cancelTimer,
       addSoldProductsToAnalytics
     } = require('../../utils/functions.js')
+    
+
     const {  sendConfirmationEmail } = require('../../utils/emailer.js')
 
 
@@ -160,11 +164,11 @@
     }
 
     const captureOrderPaypal = async (req, res ) =>{
+      const { token, orderId } = req.query;
       const order = await Order.findOne({ 
         where: { orderStatus: 'Procesando Orden'},
         include:[{ model: User }]
       });
-      const { token, orderId } = req.query
 
       if(!token ){
 
@@ -185,14 +189,35 @@
             }
           )
           if(response.data.status === 'COMPLETED'){
-  
-            await cancelTimer(orderId)
-            const email = order.User.email;
-            await sendConfirmationEmail({ email });
+
+    // consulta SELECT para obtener los datos de compra del usuario
+      const shoppingCartItems = await ShoppingCart.findAll({
+        where: {
+          OrderId: orderId
+        },
+        include: [
+          { model: Product },
+          { model: User }
+        ]
+      });
+
+      console.log(shoppingCartItems);
+
+      // enviar correo electrónico de confirmación de pago al usuario
+      const email = order.User.email;
+      const orderDate = order.createdAt.toLocaleDateString();
+      const orderNumber = order.orderNumber;
+      const productDescription = shoppingCartItems.map(item => item.Product.name).join(", ");
+      const totalPrice = order.totalPrice;
+      await sendConfirmationEmail({ email, shoppingCartItems, orderDate, orderNumber, productDescription, totalPrice });
+
+            //Lo que pasa una vez si el pago esta aprobado
+            cancelTimer(orderId)
             await ChangeOrderStatus(orderId, "Orden Pagada")
             await setPurchaseOrder(orderId)
             await addSoldProductsToAnalytics(orderId)
             await deleteUserShoppingCart(orderId)
+           
 
             return res.redirect(`${HOST_FRONT}/profile/orders`)
             

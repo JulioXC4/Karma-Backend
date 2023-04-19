@@ -1,4 +1,5 @@
-const {Order, ShoppingCart, User, Product, ProductDiscount} = require('../db.js')
+const {Order, ShoppingCart, User, Product, ProductDiscount} = require('../db.js');
+const { sendingOrder ,orderDelivered}  =  require('../utils/emailer');
 
 const getAllOrder = async(req,res) =>{
     try {
@@ -75,7 +76,8 @@ const createOrder = async(req,res) =>{
 const updateOrder = async(req,res) =>{
     try {
         const {id, datePurchase, orderStatus} = req.body
-        const order = await Order.findByPk(id)
+        const order = await Order.findByPk(id , { include: User })
+
         if(!order){
             return res.status(400).send(`No existe un pedido con la id:${id}`)
         }else{
@@ -85,9 +87,15 @@ const updateOrder = async(req,res) =>{
             })
             if(orderStatus === "Enviando"){
                 console.log(`Orden ${order.id}, estado de la orden: ${orderStatus}`)
+                
+                const email = order.User.email;
+                await sendingOrder({email, id });
             }
             if(orderStatus === "Entregado"){
                 console.log(`Orden ${order.id}, estado de la orden: ${orderStatus}`)
+                const email = order.User.email;
+                await orderDelivered({email, id });
+              
             }
             return res.status(200).json(order)
         }
