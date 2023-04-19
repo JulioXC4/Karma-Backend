@@ -176,7 +176,7 @@ const approvedPaymentMercadoPago = async (req, res) => {
       await deleteUserShoppingCart(orderId);
       await cancelMerchOrder(merchant_order_id);
 
-     
+     //test
 
       return res.redirect(`${HOST_FRONT}/profile/orders`);
     } else {
