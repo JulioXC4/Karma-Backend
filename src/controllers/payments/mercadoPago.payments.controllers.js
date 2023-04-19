@@ -35,7 +35,7 @@
 
             await ChangeOrderStatus(orderId, "Procesando Orden")
             await removeItemsFromProductStock(orderId)
-            await stockReserveTimeInterval(2, orderId)
+            await stockReserveTimeInterval(5, orderId)
             
             const currentDate = new Date()
             const year = currentDate.getFullYear()
@@ -163,8 +163,8 @@ const approvedPaymentMercadoPago = async (req, res) => {
       // enviar correo electrónico de confirmación de pago al usuario
       const email = order.User.email;
       const orderDate = order.createdAt.toLocaleDateString();
-      const orderNumber = orderId.orderNumber;
-      const productDescription = shoppingCartItems.map(item => item.Product.name).join(", ");
+      const orderNumber = order.id;
+      const productDescription = shoppingCartItems.map(item => item.Product).join(", ");
       const totalPrice = order.totalPrice;
       await sendPaymentConfirmationEmail({ email, shoppingCartItems, orderDate,  orderNumber, productDescription, totalPrice });
 

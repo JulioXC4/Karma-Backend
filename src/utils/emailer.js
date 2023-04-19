@@ -106,7 +106,7 @@ const  sendConfirmationEmail= async ({ email, shoppingCartItems, orderDate, orde
       const itemPrice = product.price * amount;
       totalPrice += itemPrice;
 
-      productsList += `<li>${product.name} (Cantidad: ${amount}) - Precio: $${itemPrice}</li>`;
+      productsList += `<li>${product.brand} ${product.model} (Cantidad: ${amount}) - Precio: $${itemPrice}</li>`;
     }
 
     const userName = shoppingCartItems[0].User?.name ?? "Cliente";

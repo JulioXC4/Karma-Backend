@@ -27,7 +27,7 @@
 
       await ChangeOrderStatus(orderId, "Procesando Orden")
       await removeItemsFromProductStock(orderId)
-      await stockReserveTimeInterval(1, orderId)
+      await stockReserveTimeInterval(5, orderId)
 
       let itemsConvertProperties = []
       let orderTotalValue = 0
@@ -202,12 +202,13 @@
       });
 
       console.log(shoppingCartItems);
+      console.log(shoppingCartItems[0].Product)
 
       // enviar correo electrónico de confirmación de pago al usuario
       const email = order.User.email;
       const orderDate = order.createdAt.toLocaleDateString();
-      const orderNumber = order.orderNumber;
-      const productDescription = shoppingCartItems.map(item => item.Product.name).join(", ");
+      const orderNumber = order.id;
+      const productDescription = shoppingCartItems.map(item => item.Product).join(", ");
       const totalPrice = order.totalPrice;
       await sendConfirmationEmail({ email, shoppingCartItems, orderDate, orderNumber, productDescription, totalPrice });
 
