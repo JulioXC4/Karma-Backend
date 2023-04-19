@@ -47,6 +47,11 @@
             itemsConvertProperties = await Promise.all(userOrder.ShoppingCarts.map( async (shopCart) => {
               const productInShoppingCart = await Product.findByPk(shopCart.ProductId, {include: {model: ProductDiscount}})
               
+              if(productInShoppingCart.stock < shopCart.amount ){
+                
+                return res.status(400).send(`Stock agotado en producto: ${productInShoppingCart.brand}  ${productInShoppingCart.model}, stock actual: ${productInShoppingCart.stock}, stock requerido en la orden: ${shopCart.amount} `)
+              }
+
               if(productInShoppingCart.ProductDiscount !== null && productInShoppingCart.ProductDiscount.startingDate <= formattedDate && productInShoppingCart.ProductDiscount.endingDate >= formattedDate ){
 
                 const price = productInShoppingCart.price

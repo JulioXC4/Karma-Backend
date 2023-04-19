@@ -56,6 +56,10 @@
               const price = productInShoppingCart.price
               const productQuantity = shopCart.dataValues.amount
               
+              if(productInShoppingCart.stock < shopCart.amount ){
+                return res.status(400).send(`Stock agotado en producto: ${productInShoppingCart.brand}  ${productInShoppingCart.model}, stock actual: ${productInShoppingCart.stock}, stock requerido en la orden: ${shopCart.amount} `)
+              }
+
               if(productInShoppingCart.ProductDiscount !== null && productInShoppingCart.ProductDiscount.startingDate <= formattedDate && productInShoppingCart.ProductDiscount.endingDate >= formattedDate ){
                 
                 const discountVal = productInShoppingCart.ProductDiscount.discountValue
@@ -200,9 +204,6 @@
           { model: User }
         ]
       });
-
-      console.log(shoppingCartItems);
-      console.log(shoppingCartItems[0].Product)
 
       // enviar correo electrónico de confirmación de pago al usuario
       const email = order.User.email;
