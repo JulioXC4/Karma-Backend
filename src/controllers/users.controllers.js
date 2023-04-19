@@ -1,7 +1,7 @@
 const { default: isEmail } = require('validator/lib/isEmail.js');
 const {User, Order, Product} = require('../db.js');
 const {regexPhoneNumber} = require('../utils/consts.js')
-const {sendMail,sendConfirmationRegistrationEmail} = require ('../utils/emailer');
+const {sendConfirmationRegistrationEmail} = require ('../utils/emailer');
     const createUser = async (req, res) => {
 
         try {

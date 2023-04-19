@@ -63,8 +63,8 @@ CommentsRating.belongsTo(Product)
 User.hasMany(Order)
 Order.belongsTo(User)
 
-Order.hasMany(ShoppingCart)
-ShoppingCart.belongsTo(Order)
+Order.hasMany(ShoppingCart, { foreignKey: 'OrderId' });
+ShoppingCart.belongsTo(Order, { foreignKey: 'OrderId' });
 
 User.hasOne(Comment)
 Comment.belongsTo(User)
@@ -79,3 +79,9 @@ module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
 };
+
+
+
+
+//Order.hasMany(ShoppingCart)
+//ShoppingCart.belongsTo(Order)

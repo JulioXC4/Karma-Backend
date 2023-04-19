@@ -183,19 +183,7 @@
           )
           if(response.data.status === 'COMPLETED'){
 
-            // Enviar correo electrónico de confirmación de pago
-            //const email = order.User.email;
-            //await sendConfirmationEmail({ email });
-
-            //Lo que pasa una vez si el pago esta aprobado
-            cancelTimer(orderId)
-            await ChangeOrderStatus(orderId, "Orden Pagada")
-            await setPurchaseOrder(orderId)
-            await addSoldProductsToAnalytics(orderId)
-            await deleteUserShoppingCart(orderId)
-           
-
-             // consulta SELECT para obtener los datos de compra del usuario
+    // consulta SELECT para obtener los datos de compra del usuario
       const shoppingCartItems = await ShoppingCart.findAll({
         where: {
           OrderId: orderId
@@ -216,6 +204,13 @@
       const totalPrice = order.totalPrice;
       await sendConfirmationEmail({ email, shoppingCartItems, orderDate, orderNumber, productDescription, totalPrice });
 
+            //Lo que pasa una vez si el pago esta aprobado
+            cancelTimer(orderId)
+            await ChangeOrderStatus(orderId, "Orden Pagada")
+            await setPurchaseOrder(orderId)
+            await addSoldProductsToAnalytics(orderId)
+            await deleteUserShoppingCart(orderId)
+           
 
             return res.redirect(`${HOST_FRONT}/profile/orders`)
             
