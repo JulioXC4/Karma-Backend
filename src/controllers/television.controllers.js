@@ -2,7 +2,7 @@ const {Television,Product} = require('../db')
 
 const createTelevision = async(req,res) =>{
     try {
-        const {model,brand,description,price,images,stock,typeResolution,systemOperating,screenSize} = req.body
+        const {model,brand,description,price,images,stock,dateCreated,typeResolution,systemOperating,screenSize} = req.body
         const newTV = await Television.create({
             name:`${brand} ${model}`,
             typeResolution,
@@ -16,7 +16,8 @@ const createTelevision = async(req,res) =>{
             description,
             price,
             images,
-            stock
+            stock, 
+            dateCreated
         })
     
         await newTV.setProduct(newProduct)

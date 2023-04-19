@@ -5,7 +5,7 @@ const {CellPhone, Product} = require('../db.js');
 
     const createCellPhone = async (req, res) => {
         try {
-          const { model, brand, description, price, images, stock, ramMemory, internalMemory, mainCamera, colors } = req.body;
+          const { model, brand, description, price, images, stock, dateCreated, ramMemory, internalMemory, mainCamera, colors } = req.body;
           const newCellPhone = await CellPhone.create({ 
             name: `${brand} ${model}`,
             ramMemory,
@@ -20,7 +20,8 @@ const {CellPhone, Product} = require('../db.js');
             description, 
             price, 
             images,
-            stock
+            stock,
+            dateCreated
           });
           
           await newCellPhone.setProduct(newProduct);

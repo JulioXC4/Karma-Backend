@@ -12,6 +12,7 @@ const CellPhoneRoutes  = require('./cellPhone.js');
 const payments  = require('./payments.js');
 const comments  = require('./comment.js');
 const admin  = require('./admin.js');
+const productDiscount = require("./productDiscount.js")
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/cellPhone',CellPhoneRoutes);
 app.use('/payments',payments);
 app.use('/comments',comments);
 app.use('/admin',admin);
+app.use('/discount',productDiscount);
 
 
 module.exports = app;

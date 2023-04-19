@@ -9,7 +9,7 @@ module.exports = (sequelize) =>{
             primaryKey:true,
         },
         datePurchase:{
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull:false,
             defaultValue:sequelize.literal("NOW()"),
             validate:{
@@ -35,6 +35,10 @@ module.exports = (sequelize) =>{
                     msg:"No esta dentro de las opciones permitidas"
                 }
             }
+        },
+        orderData: {
+            type: DataTypes.JSON,
+            allowNull:true,
         }
     },{
         timestamps:false

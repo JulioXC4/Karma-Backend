@@ -12,6 +12,7 @@ const transport = nodemailer.createTransport(nodemailerSendgrid({
   
 
 const sendMail = async ({ email, subject, templateId }) => {
+
   const transporter = createTrans()
   const info = await transporter.sendMail({
     from: '"Karma" <karma.contact12@gmail.com>',
@@ -24,6 +25,7 @@ const sendMail = async ({ email, subject, templateId }) => {
 };
 
 const sendConfirmationRegistrationEmail = async ({ email }) => {
+
   await sendMail({
     email: email,
     subject: 'Bienvenido a Karma',
@@ -32,19 +34,36 @@ const sendConfirmationRegistrationEmail = async ({ email }) => {
 };
 
 const sendPaymentConfirmationEmail = async ({ email }) => {
+  try {
   await sendMail({
     email: email,
     subject: 'Confirmación de pago en Karma',
-    templateId: 'd-9ac7a421d70a4f94b91d4c4d4e4a0196'
+    templateId: 'd-e6d8249d5de4418399f5828a96a362fb'
   });
+} catch (error) {
+  console.error(`Error al enviar el correo electrónico de confirmación de pago a ${email}: ${error.message}`);
+}
+};
+const sendConfirmationEmail = async ({email}) => {
+  try {
+    await sendMail({
+      email: email,
+      subject: 'Confirmación de pago en Karma',
+      templateId: 'd-e6d8249d5de4418399f5828a96a362fb'
+    });
+
+  } catch (error) {
+    console.error(`Error al enviar el correo electrónico: ${error}`);
+  }
 }
 
 module.exports = {
   sendMail,
   sendConfirmationRegistrationEmail,
-  sendPaymentConfirmationEmail
+  sendPaymentConfirmationEmail,
+  sendConfirmationEmail 
 }
-
+//d-1dc54b4002dd45e19dbe746222fe8186
 
 
 
