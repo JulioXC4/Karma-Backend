@@ -35,7 +35,7 @@
 
             await ChangeOrderStatus(orderId, "Procesando Orden")
             await removeItemsFromProductStock(orderId)
-            await stockReserveTimeInterval(5, orderId)
+            await stockReserveTimeInterval(9, orderId)
             
             const currentDate = new Date()
             const year = currentDate.getFullYear()

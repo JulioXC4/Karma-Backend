@@ -27,7 +27,7 @@
 
       await ChangeOrderStatus(orderId, "Procesando Orden")
       await removeItemsFromProductStock(orderId)
-      await stockReserveTimeInterval(5, orderId)
+      await stockReserveTimeInterval(9, orderId)
 
       let itemsConvertProperties = []
       let orderTotalValue = 0
