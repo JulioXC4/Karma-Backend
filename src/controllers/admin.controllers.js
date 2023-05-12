@@ -72,9 +72,9 @@ const getUserRoleById = async (req, res ) =>{
         return res.status(500).send("Error del servidor")
   
       }else{
-  
+        res.status(200)
         return res.status(400).send("Error")
-  
+        
       } 
     }      
   }
